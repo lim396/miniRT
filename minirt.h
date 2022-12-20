@@ -2,6 +2,7 @@
 #define MINIRT_H
 
 #include "vector_utils.h"
+#include <stdio.h>
 
 typedef struct s_color
 {
@@ -35,6 +36,12 @@ typedef struct s_material
 	t_color	specular_ref;
 	double	shininess;
 } t_material;
+
+typedef enum e_shape_type
+{
+	ST_SPHERE,
+	ST_PLANE
+}
 
 typedef enum e_light_type
 {
