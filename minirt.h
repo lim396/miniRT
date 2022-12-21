@@ -41,12 +41,46 @@ typedef enum e_shape_type
 {
 	ST_SPHERE,
 	ST_PLANE
-}
+} ;
+
+typedef struct s_shape
+{
+	e_shape_type	type;
+	//union
+	//{
+	t_sphere		sphere;
+	t_plane			plane;
+	t_intersection	i_point;
+	//add t_intersection var in t_shape or t_sphere,t_plane?
+	//}
+} t_shape;
 
 typedef enum e_light_type
 {
 	POINT,
 	DIRECTIONAL
 } ;
+
+typedef struct s_light
+{
+	e_light_type	type;
+	t_vec			vec;
+	t_color			illuminace;
+} t_light;
+
+typedef struct s_config
+{
+	t_shape	*shape_list;
+	size_t	num_shapes;
+	t_light	light;
+	t_color	ambient_illuminance;
+} t_config;
+
+typedef struct s_intersection
+{
+	double	distance;
+	t_vec	pos;
+	t_vec	normal;
+} t_intersection;
 
 #endif
