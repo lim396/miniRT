@@ -50,6 +50,7 @@ typedef struct s_shape
 	//{
 	t_sphere		sphere;
 	t_plane			plane;
+	t_intersection	i_point;
 	//add t_intersection var in t_shape or t_sphere,t_plane?
 	//}
 } t_shape;

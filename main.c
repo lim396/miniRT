@@ -3,6 +3,7 @@
 #define HEIGHT 512
 #define WIDTH 512
 
+
 t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
 {
 	t_ray	ray;
@@ -21,6 +22,49 @@ t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
 	ray.direction.x = wp.y - camera_pos.y;
 	ray.direction.x = wp.z - camera_pos.z;
 	return (ray);
+}
+
+
+t_shape	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
+{
+	size_t			i;
+	bool			hit_flag;
+	t_shape			*nearest_shape;
+	t_intersection	i_point;
+	t_intersection	nearest_point;
+
+	nearest_shape = NULL;
+	nearest_point.distance = max_d;
+	i = 0;
+	while (i < config.num_shapes)
+	{
+		hit_flag = is_hittable(config.shapes[i], ray, &i_point);
+		if (hit_flag && i_point.distance < nearest_point.distance)
+		{
+			nearest_shape = &config.shapes[i];
+			nearest_shape.i_point = i_point;
+			if (shadow)
+				break ;
+		}
+		i++;
+	}
+	return (nearest_shape);
+}
+
+t_color	trace(t_cofig config, t_ray ray)
+{
+	bool			hit_flag;
+	t_shape			*shape;
+	t_intersection	i_point; //add bool var is_hit
+	t_color			color;
+	
+	color = {0, 0, 0}; //default color
+	shape = get_nearest(config, ray, DBL_MAX, 0);
+	if (shape)
+	{
+		color = get_luminance();
+	}
+	return (color);
 }
 
 void	ray_trace(t_camera *camera)
