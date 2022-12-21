@@ -8,7 +8,7 @@ t_config	set_ambient(char **split_line)
 	while (split_line[i])
 	{
 //		if (i == 1)
-			split_line[i];
+		split_line[i];
 //		if (i == 2)
 //		{
 //			split(split_line[i]);
@@ -68,17 +68,17 @@ bool	set_config(t_config *config, const char *line)
 	if (split_line[0] != NULL)
 	{
 		if (*split_line[0] == 'A')
-			config = set_ambient(split_line);
+			set_ambient(split_line, config);
 		else if (*split_line[0] == 'L')
-			config = set_light(split_line);
+			set_light(split_line, config);
 		else if (*split_line[0] == 'C')
-			config = set_camera(split_line);
+			set_camera(split_line, config);
 		else if (*split_line[0] == 's' && *split_line[1] == 'p')
-			config = set_sphere(split_line);
+			set_sphere(split_line, config);
 		else if (*split_line[0] == 'p' && *split_line[1] == 'l')
-			config = set_plane(split_line);
+			set_plane(split_line, config);
 		else if (*split_line[0] == 'c' && *split_line[1] == 'y')
-			config = set_cylinder(split_line);
+			set_cylinder(split_line, config);
 		else
 			printf("ERROR\n");
 	}

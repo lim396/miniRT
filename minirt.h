@@ -33,7 +33,7 @@ typedef struct s_plane
 
 typedef struct s_material
 {
-	t_color	ambient_ref;
+	//t_color	ambient_ref;
 	t_color	diffuse_ref;
 	t_color	specular_ref;
 	double	shininess;
@@ -54,6 +54,7 @@ typedef struct s_shape
 	t_sphere		sphere;
 	t_plane			plane;
 	t_intersection	i_point;
+	t_material		material;
 	//add t_intersection var in t_shape or t_sphere,t_plane?
 	//}
 } t_shape;
@@ -76,14 +77,30 @@ typedef struct s_light
 	e_light_type	type;
 	t_vec			vec;
 	t_color			illuminace;
+	double	brightness_ratio; // ?????????????
 } t_light;
+
+typedef struct s_ambient
+{
+	t_color	ambient_illuminance;
+	t_color	ambient_ref;
+} t_ambient;
+
+typedef struct s_camera
+{
+	t_vec	pos;
+	int		fov;
+	t_vec	orientation;
+} t_camera;
 
 typedef struct s_config
 {
-	t_shape	*shape_list;
-	size_t	num_shapes;
-	t_light	light;
-	t_color	ambient_illuminance;
+	t_shape		*shape_list;
+	t_material	*material;
+	size_t		num_shapes;
+	t_light		light;
+	t_ambient	ambient;
+	t_camera	camera;
 } t_config;
 
 typedef struct s_intersection
@@ -93,4 +110,14 @@ typedef struct s_intersection
 	t_vec	normal;
 } t_intersection;
 
+
+/* --------------------------------
+config {
+	t_shape *shape_list;
+	size_t	num_shapes;
+	t_light	light;
+	t_color	ambient_illuminance;
+}
+
+---------------------------------- */
 #endif
