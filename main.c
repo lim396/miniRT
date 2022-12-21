@@ -71,29 +71,52 @@ double	get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, double d)
 bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point)
 {
 	double	d;
-	double	solution;
+	double	t;
 
 	d = discriminant(sph, ray);
-	solution = get_solution_of_quadratic_equation(d);
+	t = get_solution_of_quadratic_equation(d);
 	if (t > 0)
 	{
-		i_point->distance = solution;
-		i_point->pos = add(ray.start, mul(solution, ray.direction));
+		i_point->distance = t;
+		i_point->pos = add(ray.start, mul(t, ray.direction));
 		i_point->normal = normalize(sub(i_point->pos, sph.center));
 		return (true);
 	}
 	return (false);
 }
 
+bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection *i_point)
+{
+	t_vec	pln_to_ray;
+	double	dot_ray_dir_pln_normal;
+	double	t;
+
+	pln_to_ray = sub(ray.start, pln.pos);
+	dot_ray_dir_pln_normal = dot(ray.direction, pln.normal);
+	if (dot_ray_dir_pln_normal != 0)
+	{
+		t = -dot(pln_to_ray, pln.normal) / dot_ray_dir_pln_normal;
+		if (t > 0)
+		{
+			i_point->distance = t;
+			i_point->pos = add(ray.start, mul(t, ray.direction));
+			i_point->normal = pln.normal;
+		}
+		return (true);
+	}
+	return (false);
+
+}
+
 bool	is_hittable(t_shape shape, t_ray ray, t_intersection *i_point)
 {
 	if (shape.type == ST_SPHERE)
-		return (is_hittable_sphere(shape, ray, i_point));
+		return (is_hittable_sphere(shape.sphere, ray, i_point));
 	if (shape.type == ST_PLANE)
-		return (is_hittable_plane(shape, ray, i_point));
+		return (is_hittable_plane(shape.plane, ray, i_point));
 //	if (shape.type == ST_SYLINDER)
 //		return (is_hittable_sylinder());
-
+	return (false);
 }
 
 t_shape	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
