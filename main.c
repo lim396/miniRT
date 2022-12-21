@@ -132,10 +132,10 @@ t_shape	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
 	i = 0;
 	while (i < config.num_shapes)
 	{
-		hit_flag = is_hittable(config.shapes[i], ray, &i_point);
+		hit_flag = is_hittable(config.shapes_list[i], ray, &i_point);
 		if (hit_flag && i_point.distance < nearest_point.distance)
 		{
-			nearest_shape = &config.shapes[i];
+			nearest_shape = &config.shapes_list[i];
 			nearest_shape.i_point = i_point;
 			if (shadow)
 				break ;
@@ -143,6 +143,58 @@ t_shape	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
 		i++;
 	}
 	return (nearest_shape);
+}
+
+void	add_ambient_luminance(t_config config, t_color *color)
+{
+	color->r += config.ambient_illuminance.r * config.shapes_list->material.ambient_ref.r;
+	color->g += config.ambient_illuminance.r * config.shapes_list->material.ambient_ref.r;
+	color->b += config.ambient_illuminance.r * config.shapes_list->material.ambient_ref.r;
+}
+
+void	add_diffuse_luminance(t_shape shape, t_color illuminance, double normal_light_dir_dot, t_color *color)
+{
+	color->r += shape->material.diffuse_ref.r * illuminance.r * normal_light_dir_dot;
+	color->g += shape->material.diffuse_ref.g * illuminance.g * normal_light_dir_dot;
+	color->b += shape->material.diffuse_ref.b * illuminance.b * normal_light_dir_dot;
+}
+
+//void	add_specular_luminance(t_shape shape, t_color illuminance, t_vec light_dir, t_color *color)
+//{
+//	t_vec	specular_dir;
+//	t_vec	rev_camera_to_screen_dir;
+//	float	rev_camera_to_screen_specular_dot;
+//
+//	normal_light_dir_dot = dot(shape.i_point.normal, light_dir);
+//	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
+//	specular_dir = normalize(sub(mul(2 * normal_light_dir_dot, shape.i_point.normal), light_dir));
+//	rev_camera_to_screen_dir = normalize(mul(-1.0, )
+//}
+
+t_color	get_luminance(t_cofig config, t_shape shape)
+{
+	t_color	color;
+	t_vec	light_dir;
+	double	normal_light_dir_dot;
+
+	color = {0, 0, 0};
+	add_ambient_luminance(config, &color);
+	if (config.light == LT_POINT)
+	{
+		light_dir = normalize(sub(config.light.vec, shape.i_point.pos));
+		distance = norm(sub(config.light.vec, shape.i_point.pos)) - (1.0 / 512);
+	}
+	else if (color.light == LT_DIRECTIONAL)
+	{}
+	//get_shadow_ray
+	//if get_nearest
+	//	return color;
+	normal_light_dir_dot = dot(shape.i_point.normal, light_dir);
+	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
+	add_diffuse_luminance(shape, light.illuminance, normal_light_dir_dot, &color);
+//	if (normal_light_dir_dot > 0)
+//		add_specular_luminance(shape, light.illuminance, light_dir, &color);
+	return (color);
 }
 
 t_color	trace(t_cofig config, t_ray ray)
