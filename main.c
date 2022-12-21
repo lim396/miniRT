@@ -177,32 +177,43 @@ void	add_diffuse_luminance(t_shape shape, t_color illuminance, double normal_lig
 //	rev_camera_to_screen_dir = normalize(mul(-1.0, )
 //}
 
+t_nearest	get_shadow_ray()
+{
+	distance = norm(sub(config.light.vec, nearest.i_point.pos)) - (1.0 / 512);
+	shadow_ray.start = add(nearest.i_point, mul(1.0 / 512, light_dir));
+	shadow_ray.direction = light_dir;
+}
+
 t_color	get_luminance(t_cofig config, t_nearest nearest, t_ray ray)
 {
-	t_color	color;
-	t_vec	light_dir;
-	double	normal_light_dir_dot;
-	t_ray	shadow_ray;
+	t_color		color;
+	t_vec		light_dir;
+	double		normal_light_dir_dot;
+	t_ray		shadow_ray;
+	t_nearest	i_point_near;
 
 	color = {0, 0, 0};
 	add_ambient_luminance(config, &color);
 	if (config.light == LT_POINT)
 	{
 		light_dir = normalize(sub(config.light.vec, nearest.i_point.pos));
-		distance = norm(sub(config.light.vec, nearest.i_point.pos)) - (1.0 / 512);
-		shadow_ray.start = add(nearest.i_point, mul(1.0 / 512, light_dir));
-		shadow_ray.direction = light_dir;
 	}
-	else if (color.light == LT_DIRECTIONAL)
+	else if (config.light == LT_DIRECTIONAL)
 	{}
+
+	i_point_near = 	get_shadow_ray();
+//		get_nearest(config, shadow_ray, distance, 1);
+	if (i_point_near.flag)
+		return (color);
+
 	//get_shadow_ray
 	//if get_nearest
 	//	return color;
 	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
 	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
 	add_diffuse_luminance(nearest.shape, light.illuminance, normal_light_dir_dot, &color);
-//	if (normal_light_dir_dot > 0)
-//		add_specular_luminance(shape, light.illuminance, light_dir, &color);
+	if (normal_light_dir_dot > 0)
+		add_specular_luminance(nearest, light.illuminance, light_dir, &color);
 	return (color);
 }
 
@@ -217,7 +228,7 @@ t_color	trace(t_cofig config, t_ray ray)
 	color = {0, 0, 0}; //default color
 	//shape = get_nearest(config, ray, DBL_MAX, 0);
 	nearest = get_nearest(config, ray, DBL_MAX, 0);
-	if (nearest.shape)
+	if (nearest.flag)
 	{
 		color = get_luminance(config, nearest, ray);
 	}
