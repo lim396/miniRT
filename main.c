@@ -177,11 +177,17 @@ void	add_diffuse_luminance(t_shape shape, t_color illuminance, double normal_lig
 //	rev_camera_to_screen_dir = normalize(mul(-1.0, )
 //}
 
-t_nearest	get_shadow_ray()
+t_nearest	get_shadow_ray(t_config config, t_nearest nearest, t_vec light_dir)
 {
+	t_nearest	i_point_near;
+	double		distance;
+	t_ray		shadow_ray;
+
 	distance = norm(sub(config.light.vec, nearest.i_point.pos)) - (1.0 / 512);
 	shadow_ray.start = add(nearest.i_point, mul(1.0 / 512, light_dir));
 	shadow_ray.direction = light_dir;
+	i_point_near = get_nearest(config, shadow_ray, distance, 1);
+	return (t_point);
 }
 
 t_color	get_luminance(t_cofig config, t_nearest nearest, t_ray ray)
@@ -189,7 +195,7 @@ t_color	get_luminance(t_cofig config, t_nearest nearest, t_ray ray)
 	t_color		color;
 	t_vec		light_dir;
 	double		normal_light_dir_dot;
-	t_ray		shadow_ray;
+	//t_ray		shadow_ray;
 	t_nearest	i_point_near;
 
 	color = {0, 0, 0};
@@ -213,7 +219,9 @@ t_color	get_luminance(t_cofig config, t_nearest nearest, t_ray ray)
 	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
 	add_diffuse_luminance(nearest.shape, light.illuminance, normal_light_dir_dot, &color);
 	if (normal_light_dir_dot > 0)
+	{
 		add_specular_luminance(nearest, light.illuminance, light_dir, &color);
+	}
 	return (color);
 }
 

@@ -2,6 +2,8 @@
 #define MINIRT_H
 
 #include "vector_utils.h"
+#include "libft.h"
+#include "get_next_line.h"
 #include <stdio.h>
 
 typedef struct s_color
