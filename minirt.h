@@ -40,7 +40,8 @@ typedef struct s_material
 typedef enum e_shape_type
 {
 	ST_SPHERE,
-	ST_PLANE
+	ST_PLANE,
+	ST_NONE
 } ;
 
 typedef struct s_shape
@@ -54,6 +55,13 @@ typedef struct s_shape
 	//add t_intersection var in t_shape or t_sphere,t_plane?
 	//}
 } t_shape;
+
+typedef struct	s_nearest
+{
+	t_intersection	i_point;
+	t_shape			shape;
+	bool			flag;
+} t_nearest;
 
 typedef enum e_light_type
 {

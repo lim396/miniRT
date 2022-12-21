@@ -119,15 +119,17 @@ bool	is_hittable(t_shape shape, t_ray ray, t_intersection *i_point)
 	return (false);
 }
 
-t_shape	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
+//t_shape	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
+t_nearest	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
 {
 	size_t			i;
 	bool			hit_flag;
-	t_shape			*nearest_shape;
+	//t_shape			*nearest_shape;
+	t_nearest		*nearest;
 	t_intersection	i_point;
 	t_intersection	nearest_point;
 
-	nearest_shape = NULL;
+	nearest.flag = false;
 	nearest_point.distance = max_d;
 	i = 0;
 	while (i < config.num_shapes)
@@ -135,14 +137,18 @@ t_shape	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
 		hit_flag = is_hittable(config.shapes_list[i], ray, &i_point);
 		if (hit_flag && i_point.distance < nearest_point.distance)
 		{
-			nearest_shape = &config.shapes_list[i];
-			nearest_shape.i_point = i_point;
+			//nearest_shape = &config.shapes_list[i];
+			nearest.shape = config.shapes_list[i];
+			//nearest_shape.i_point = i_point;
+			nearest.i_point = i_point;
+			nearest.flag = true;
 			if (shadow)
 				break ;
 		}
 		i++;
 	}
-	return (nearest_shape);
+	//return (nearest_shape);
+	return (nearest);
 }
 
 void	add_ambient_luminance(t_config config, t_color *color)
@@ -171,27 +177,30 @@ void	add_diffuse_luminance(t_shape shape, t_color illuminance, double normal_lig
 //	rev_camera_to_screen_dir = normalize(mul(-1.0, )
 //}
 
-t_color	get_luminance(t_cofig config, t_shape shape)
+t_color	get_luminance(t_cofig config, t_nearest nearest, t_ray ray)
 {
 	t_color	color;
 	t_vec	light_dir;
 	double	normal_light_dir_dot;
+	t_ray	shadow_ray;
 
 	color = {0, 0, 0};
 	add_ambient_luminance(config, &color);
 	if (config.light == LT_POINT)
 	{
-		light_dir = normalize(sub(config.light.vec, shape.i_point.pos));
-		distance = norm(sub(config.light.vec, shape.i_point.pos)) - (1.0 / 512);
+		light_dir = normalize(sub(config.light.vec, nearest.i_point.pos));
+		distance = norm(sub(config.light.vec, nearest.i_point.pos)) - (1.0 / 512);
+		shadow_ray.start = add(nearest.i_point, mul(1.0 / 512, light_dir));
+		shadow_ray.direction = light_dir;
 	}
 	else if (color.light == LT_DIRECTIONAL)
 	{}
 	//get_shadow_ray
 	//if get_nearest
 	//	return color;
-	normal_light_dir_dot = dot(shape.i_point.normal, light_dir);
+	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
 	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
-	add_diffuse_luminance(shape, light.illuminance, normal_light_dir_dot, &color);
+	add_diffuse_luminance(nearest.shape, light.illuminance, normal_light_dir_dot, &color);
 //	if (normal_light_dir_dot > 0)
 //		add_specular_luminance(shape, light.illuminance, light_dir, &color);
 	return (color);
@@ -200,15 +209,17 @@ t_color	get_luminance(t_cofig config, t_shape shape)
 t_color	trace(t_cofig config, t_ray ray)
 {
 	bool			hit_flag;
-	t_shape			*shape;
+	//t_shape			*shape;
+	t_nearest		nearest;
 	t_intersection	i_point; //add bool var is_hit
 	t_color			color;
 	
 	color = {0, 0, 0}; //default color
-	shape = get_nearest(config, ray, DBL_MAX, 0);
-	if (shape)
+	//shape = get_nearest(config, ray, DBL_MAX, 0);
+	nearest = get_nearest(config, ray, DBL_MAX, 0);
+	if (nearest.shape)
 	{
-		color = get_luminance();
+		color = get_luminance(config, nearest, ray);
 	}
 	return (color);
 }
