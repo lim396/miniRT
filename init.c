@@ -283,7 +283,7 @@ t_config	read_map(char *filename)
 	return (config);
 }
 
-t_config	init(char **argv)
+t_config	init_config(char **argv)
 {
 	t_config	config;
 

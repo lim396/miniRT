@@ -118,7 +118,7 @@ bool	is_hittable(t_shape shape, t_ray ray, t_intersection *i_point)
 	return (false);
 }
 
-//t_shape	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
+//t_shape	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 {
 	size_t			i;
@@ -164,9 +164,9 @@ t_color	add_ambient_luminance(t_config config)
 {
 	t_color	color;
 
-	color.r += config.ambient_illuminance.r * config.shape_list->material.ambient_ref.r;
-	color.g += config.ambient_illuminance.r * config.shape_list->material.ambient_ref.r;
-	color.b += config.ambient_illuminance.r * config.shape_list->material.ambient_ref.r;
+	color.r = config.ambient.ambient_illuminance.r * config.ambient.ambient_ref.r;
+	color.g = config.ambient.ambient_illuminance.g * config.ambient.ambient_ref.g;
+	color.b = config.ambient.ambient_illuminance.b * config.ambient.ambient_ref.b;
 	return (color);
 }
 
@@ -213,10 +213,10 @@ t_nearest	get_shadow_ray(t_config config, t_nearest nearest, t_vec light_dir)
 	shadow_ray.start = add(nearest.i_point.pos, mul(1.0 / 512, light_dir));
 	shadow_ray.direction = light_dir;
 	i_point_near = get_nearest(config, shadow_ray, distance, 1);
-	return (t_point);
+	return (i_point_near);
 }
 
-t_color	get_luminance(t_cofig config, t_nearest nearest, t_ray ray)
+t_color	get_luminance(t_config config, t_nearest nearest, t_ray ray)
 {
 	t_color		color;
 	t_vec		light_dir;
@@ -224,36 +224,38 @@ t_color	get_luminance(t_cofig config, t_nearest nearest, t_ray ray)
 	t_nearest	i_point_near;
 
 //	color = {0, 0, 0};
-	color = add_ambient_luminance(config, &color);
-	if (config.light == LT_POINT)
-	{
-		light_dir = normalize(sub(config.light.vec, nearest.i_point.pos));
-	}
-	else if (config.light == LT_DIRECTIONAL)
-	{}
+	color = add_ambient_luminance(config);
+	light_dir = normalize(sub(config.light.vec, nearest.i_point.pos));
+//	if (config.light.type == POINT)
+//	{
+//	}
+//	else if (config.light.type == DIRECTIONAL)
+//	{
+//		light_dir = normalize(sub(config.light.vec, nearest.i_point.pos));
+//	}
 
 	i_point_near = 	get_shadow_ray(config, nearest, light_dir);
 	if (i_point_near.flag)
 		return (color);
 	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
 	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
-	color = add_color(color, add_diffuse_luminance(nearest.shape, light.illuminance, normal_light_dir_dot, &color));
+	color = add_color(color, add_diffuse_luminance(nearest.shape, config.light.illuminance, normal_light_dir_dot));
 	if (normal_light_dir_dot > 0)
 	{
-		color = add_color(color, add_specular_luminance(nearest, light.illuminance, light_dir, ray));
+		color = add_color(color, add_specular_luminance(nearest, config.light.illuminance, light_dir, ray));
 	}
 	return (color);
 }
 
-t_color	trace(t_cofig config, t_ray ray)
+t_color	trace(t_config config, t_ray ray)
 {
-	bool			hit_flag;
+//	bool			hit_flag;
 	//t_shape			*shape;
 	t_nearest		nearest;
-	t_intersection	i_point; //add bool var is_hit
-	t_color			color;
+//	t_intersection	i_point; //add bool var is_hit
+	t_color			color = {0.0, 0.0, 0.0}; //default color;
 	
-	color = {0, 0, 0}; //default color
+//	color = {0.0, 0.0, 0.0}; //default color
 	//shape = get_nearest(config, ray, DBL_MAX, 0);
 	nearest = get_nearest(config, ray, DBL_MAX, 0);
 	if (nearest.flag)
@@ -265,18 +267,20 @@ t_color	trace(t_cofig config, t_ray ray)
 
 void	draw(t_color color)
 {
-	printf("%d %d %d\n", color.r, color.g, color.b);
+	printf("%lf %lf %lf\n", color.r, color.g, color.b);
 }
 
-void	ray_trace(t_cofig config)
+void	ray_trace(t_config config)
 {
 	size_t	x;
 	size_t	y;
 	t_ray	camera_ray;
 	t_color	color;
 
+	y = 0;
 	while (y < HEIGHT)
 	{
+		x = 0;
 		while (x < WIDTH)
 		{
 			camera_ray = get_camera_ray(x, y, config.camera.pos);
@@ -290,6 +294,7 @@ void	ray_trace(t_cofig config)
 
 int	main(int argc, char *argv[])
 {
+	t_config	config;
 	if (argc != 2)
 		return (1);
 
@@ -299,7 +304,7 @@ int	main(int argc, char *argv[])
 	printf("255\n");
 	//////
 
-	config = init(argv);
+	config = init_config(argv);
 	ray_trace(config);
 //	destroy();
 	return (0);

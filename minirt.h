@@ -6,7 +6,8 @@
 #include "get_next_line.h"
 #include <stdlib.h>
 #include <stdio.h>
-#define SHINESS 8.0
+#include <float.h>
+#define SHININESS 8.0
 
 typedef struct s_color
 {
@@ -85,7 +86,7 @@ typedef struct s_light
 {
 	t_light_type	type;
 	t_vec			vec;
-	t_color			illuminace;
+	t_color			illuminance;
 	double	brightness_ratio; // ?????????????
 } t_light;
 
@@ -122,4 +123,9 @@ config {
 }
 
 ---------------------------------- */
+
+
+t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
+t_config	init_config(char **argv);
+
 #endif
