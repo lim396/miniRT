@@ -53,7 +53,7 @@ typedef struct s_shape
 	//{
 	t_sphere		sphere;
 	t_plane			plane;
-	t_intersection	i_point;
+//	t_intersection	i_point;
 	t_material		material;
 	//add t_intersection var in t_shape or t_sphere,t_plane?
 	//}
@@ -95,7 +95,7 @@ typedef struct s_camera
 
 typedef struct s_config
 {
-	t_shape		*shape_list;
+	t_shape		*shape_list; //change from array to list?
 	t_material	*material;
 	size_t		num_shapes;
 	t_light		light;

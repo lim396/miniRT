@@ -1,57 +1,178 @@
 #include "minirt.h"
 
-t_config	set_ambient(char **split_line)
+t_vec	set_vec(char *xyz)
+{
+	char	**split_xyz;
+	t_vec	vec;
+
+	split_xyz = split(xyz, ',');
+	if (split_xyz[0])
+		vec.x = atod(split_xyz[0]); //set color
+	else
+		printf("ERROR\n");
+	if (split_xyz[1])
+		vec.y = atod(split_xyz[1]);
+	else
+		printf("ERROR\n");
+	if (split_xyz[2])
+		vec.z = atod(split_xyz[2]);
+	else
+		printf("ERROR\n");
+	return (vec);
+}
+
+t_color	set_color(char *rgb)
+{
+	char	**split_rgb;
+	t_color	color;
+
+	split_rgb = split(xyz, ',');
+	if (split_rgb[0])
+		color.r = atod(split_rgb[0]); //set color
+	else
+		printf("ERROR\n");
+	if (split_rgb[1])
+		color.g = atod(split_rgb[1]);
+	else
+		printf("ERROR\n");
+	if (split_rgb[2])
+		color.b = atod(split_rgb[2]);
+	else
+		printf("ERROR\n");
+	return (color);
+}
+
+void	set_ambient(char **split_line, t_config *config)
 {
 	size_t	i;
+	char	**split_rgb;
 
 	i = 1;
 	while (split_line[i])
 	{
-//		if (i == 1)
-		split_line[i];
-//		if (i == 2)
-//		{
-//			split(split_line[i]);
-//		}
+		if (i == 1)
+			config->ambient.ambient_ref = atod(split_line[i]);
+		else if (i == 2)
+			config->ambient_illuminance = set_color(split_line[i]);
+		else
+			printf("ERROR\n");
 		i++;
 	}
 	return (config);
 }
 
-t_config	set_light(char **split_line)
+void	set_light(char **split_line, t_config *config)
 {
 	size_t	i;
+	char	**split_xyz;
+	char	**split_rgb;
 	
 	i = 1;
-	while ()
+	while (split_line[i])
+	{
+		if (i == 1)
+			config->light.vec = set_vec(split_line[i]);
+		else if (i == 2)
+			config->light.brightness_ratio = atod(split_line[i]);
+		else if (i == 3)
+			config->light.illuminance = set_color(split_line[i]);
+		else
+			printf("ERROR\n");
+		i++;
+	}
 	return (config);
 }
 
-t_config	set_camera(char **split_line)
+void	set_camera(char **split_line, t_config *config)
 {
+	char	**split_xyz;
+
 	i = 1;
-	while ()
+	while (split_line[i])
+	{
+		if (i == 1)
+			config->camera.pos = set_vec(split_line[i]);
+		else if (i == 2)
+			config->camera.orientation = set_vec(split_line[i]);
+		else if (i == 3)
+			config->camera.fov = atoi(split_line[i]);
+		else
+			printf("ERROR\n");
+		i++;
+	}
 	return (config);
 }
 
-t_config	set_sphere(char **split_line)
+void	set_sphere(char **split_line, t_config *config)
 {
+	char	**split_xyz;
+	char	**split_rgb;
+
+						//tmp index
+	config->shapes_list[1].type = ST_SPHERE;
 	i = 1;
-	while ()
+	while (split_line[i])
+	{
+		if (i == 1)
+			config->shapes_list[1].shpere.center = set_vec(split_line[i]);
+		else if (i == 2)
+			config->shapes_list[1].sphere.radius = atod(split_line[i]) / 2.0;
+		else if (i == 3)
+			config->shapes_list[1].material.diffuse_ref = set_color(split_line[i]);
+		else
+			printf("ERROR\n");
+		i++;
+	}
 	return (config);
 }
 
-t_config	set_plane(char **split_line)
-{
+void	set_plane(char **split_line, t_config *config)
+{	
+	char	**split_xyz;
+	char	**split_rgb;
+
+						//tmp index
+	config->shapes_list[2].type = ST_PLANE;
 	i = 1;
-	while ()
+	while (split_line[i])
+	{
+		if (i == 1)
+			config->shapes_list[2].plane.pos = set_vec(split_line[i]);
+		else if (i == 2)
+			config->shapes_list[2].plane.normal = set_vec(split_line[i]);
+		else if (i == 3)
+			config->shapes_list[2].material.diffuse_ref = set_color(split_line[i]); //set_color
+		else
+			printf("ERROR\n");
+		i++;
+	}
 	return (config);
 }
 
-t_config	set_cylinder(char **split_line)
-{
+void	set_cylinder(char **split_line, t_config *config)
+{	
+	char	**split_xyz;
+	char	**split_rgb;
+
+						//tmp index
+	config->shapes_list[2].type = ST_CYLINDER;
 	i = 1;
-	while ()
+	while (split_line[i])
+	{
+		if (i == 1)
+			config->shapes_list[3].cylinder.pos = set_vec(split_line[i]);
+		else if (i == 2)
+			config->shapes_list[3].cylinder.orientation = set_vec(split_line[i]);
+		else if (i == 3)
+			config->shapes_list[3].cylinder.diameter = atod(split_line[i]);
+		else if (i == 4)
+			config->shapes_list[3].cylinder.height = atod(split_line[i]);
+		else if (i == 5)
+			config->shapes_list[3].material.diffuse_ref = set_color(split_line[i]);
+		else
+			printf("ERROR\n");
+		i++;
+	}
 	return (config);
 }
 
@@ -60,7 +181,8 @@ bool	set_config(t_config *config, const char *line)
 	char	**split_line;
 	size_t	i;
 	char	ident;
-
+	
+	config->shapes_list = malloc(sizeof(shape_t) * 4); // 4 is tmp
 	i = 0;
 	split_line = ft_split(line, ' ');
 	if (split_line == NULL)
