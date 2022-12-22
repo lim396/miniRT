@@ -1,5 +1,24 @@
 #include "minirt.h"
 
+int	count_valid(char *str)
+{
+	int		i;
+	bool	dot_flag;
+
+	dot_flag = 0;
+	i = 0;
+	while (str[i] && ft_isdigit(str[i]))
+	{
+		i++;
+		if (!dot_flag && str[i] == '.')
+		{
+			dot_flag = 1;
+			i++;
+		}
+	}
+	return (i - dot_flag);
+}
+
 double	atod(char *str)
 {
 	//double	minus;
@@ -27,20 +46,27 @@ double	atod(char *str)
 	size_t	cnt;
 	size_t	len;
 	double	ret;
-
+	int		valid_len;
+	
+	valid_len = count_valid(str);
+//	len = ft_strlen(str) - 1;
 	cnt = 0;
-	n1 = atoi(str);
-	while (*str || *str != '.')
+	n1 = ft_atoi(str);
+	while (*str && *str != '.')
 	{
 		cnt++;
 		str++;
 	}
-	len = ft_strlen(str);
-	n2 = atoi(str);
-	ret = n1 + (n2 / pow(10,(len - cnt)));
+//	len = ft_strlen(str);
+	str++;
+	n2 = ft_atoi(str);
+	ret = (double)n1 + ((double)n2 / pow(10,(valid_len - cnt)));
 	return (ret);
 }
 void main () {
+
+	printf("12.34 %lf\n", 12.34001234);
+
 	printf("12.34 %lf\n", atod("12.34"));
 	printf("1.234 %lf\n", atod("1.234"));
 	printf("0.1234 %lf\n", atod("0.1234"));
