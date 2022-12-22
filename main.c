@@ -32,7 +32,7 @@ double	discriminant(t_sphere sph, t_ray ray)
 	double	c;
 	double	d;
 
-	sph_center_to_camera = sub(ray.start - sph.center);
+	sph_center_to_camera = sub(ray.start, sph.center);
 	a = dot(ray.direction, ray.direction);
 	b = 2 * dot(ray.direction, sph_center_to_camera);
 	c = dot(sph_center_to_camera, sph_center_to_camera) - sph.radius * sph.radius;
@@ -48,7 +48,7 @@ double	get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, double d)
 	double	t1;
 	double	t2;
 
-	sph_center_to_camera = sub(ray.start - sph.center);
+	sph_center_to_camera = sub(ray.start, sph.center);
 	a = dot(ray.direction, ray.direction);
 	b = 2 * dot(ray.direction, sph_center_to_camera);
 	if (d == 0)
@@ -62,10 +62,9 @@ double	get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, double d)
 		if (t1 > 0 && t1 < t2)
 			return (t1);
 		if (t2 > 0 && t2 < t1)
-			return (t2)
+			return (t2);
 	}
-	else
-		return (-1.0);
+	return (-1.0);
 }
 
 bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point)
@@ -74,7 +73,7 @@ bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point)
 	double	t;
 
 	d = discriminant(sph, ray);
-	t = get_solution_of_quadratic_equation(d);
+	t = get_solution_of_quadratic_equation(sph, ray, d);
 	if (t > 0)
 	{
 		i_point->distance = t;
@@ -120,12 +119,12 @@ bool	is_hittable(t_shape shape, t_ray ray, t_intersection *i_point)
 }
 
 //t_shape	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
-t_nearest	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
+t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 {
 	size_t			i;
 	bool			hit_flag;
 	//t_shape			*nearest_shape;
-	t_nearest		*nearest;
+	t_nearest		nearest;
 	t_intersection	i_point;
 	t_intersection	nearest_point;
 
@@ -134,11 +133,11 @@ t_nearest	get_nearest(t_cofig config, t_ray ray, double max_d, bool shadow)
 	i = 0;
 	while (i < config.num_shapes)
 	{
-		hit_flag = is_hittable(config.shapes_list[i], ray, &i_point);
+		hit_flag = is_hittable(config.shape_list[i], ray, &i_point);
 		if (hit_flag && i_point.distance < nearest_point.distance)
 		{
-			//nearest_shape = &config.shapes_list[i];
-			nearest.shape = config.shapes_list[i];
+			//nearest_shape = &config.shape_list[i];
+			nearest.shape = config.shape_list[i];
 			//nearest_shape.i_point = i_point;
 			nearest.i_point = i_point;
 			nearest.flag = true;
@@ -165,9 +164,9 @@ t_color	add_ambient_luminance(t_config config)
 {
 	t_color	color;
 
-	color.r += config.ambient_illuminance.r * config.shapes_list->material.ambient_ref.r;
-	color.g += config.ambient_illuminance.r * config.shapes_list->material.ambient_ref.r;
-	color.b += config.ambient_illuminance.r * config.shapes_list->material.ambient_ref.r;
+	color.r += config.ambient_illuminance.r * config.shape_list->material.ambient_ref.r;
+	color.g += config.ambient_illuminance.r * config.shape_list->material.ambient_ref.r;
+	color.b += config.ambient_illuminance.r * config.shape_list->material.ambient_ref.r;
 	return (color);
 }
 
@@ -190,11 +189,12 @@ t_color	add_specular_luminance(t_nearest nearest, t_color illuminance, t_vec lig
 	t_vec	rev_camera_to_screen_dir;
 	float	rev_camera_to_screen_specular_dot;
 	t_color	color;
+	double	normal_light_dir_dot;
 
 	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
 	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
-	specular_dir = normalize(sub(mul(2 * normal_light_dir_dot, shape.i_point.normal), light_dir));
-	rev_camera_to_screen_dir = normalize(mul(-1.0, camera_ray->dir));
+	specular_dir = normalize(sub(mul(2 * normal_light_dir_dot, nearest.i_point.normal), light_dir));
+	rev_camera_to_screen_dir = normalize(mul(-1.0, camera_ray.direction));
 	rev_camera_to_screen_specular_dot = dot(specular_dir, rev_camera_to_screen_dir);
 	rev_camera_to_screen_specular_dot = rounding_num(rev_camera_to_screen_specular_dot, 0, 1);
 	color.r += nearest.shape.material.specular_ref.r * illuminance.r * pow(rev_camera_to_screen_specular_dot, SHININESS);
@@ -210,7 +210,7 @@ t_nearest	get_shadow_ray(t_config config, t_nearest nearest, t_vec light_dir)
 	t_ray		shadow_ray;
 
 	distance = norm(sub(config.light.vec, nearest.i_point.pos)) - (1.0 / 512);
-	shadow_ray.start = add(nearest.i_point, mul(1.0 / 512, light_dir));
+	shadow_ray.start = add(nearest.i_point.pos, mul(1.0 / 512, light_dir));
 	shadow_ray.direction = light_dir;
 	i_point_near = get_nearest(config, shadow_ray, distance, 1);
 	return (t_point);

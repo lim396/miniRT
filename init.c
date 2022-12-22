@@ -21,26 +21,7 @@ int	count_valid(char *str)
 
 double	atod(char *str)
 {
-	//double	minus;
-
-	//minus = 0.0;
-	//while (*str == ' ' || *str == '\t')
-	//	str++;
-	//if (*str == '+')
-	//	str++;
-	//else if (*str == '-')
-	//{
-	//	minus = 1.0;
-	//	str++;
-	//}
-	//int dot_pos = -1;
-	//while ('0' <= *str && *str <= '9')
-	//{
-	//	num = (num * 10) + (*str - '0');
-	//	str++;
-	//	if (dot_pos == -1 && *str == '.')
-	//		dot_pos = str
-	//}
+	// overflow checkしろよ
 	int	n1;
 	int	n2;
 	size_t	cnt;
@@ -49,7 +30,6 @@ double	atod(char *str)
 	int		valid_len;
 	
 	valid_len = count_valid(str);
-//	len = ft_strlen(str) - 1;
 	cnt = 0;
 	n1 = ft_atoi(str);
 	while (*str && *str != '.')
@@ -57,15 +37,19 @@ double	atod(char *str)
 		cnt++;
 		str++;
 	}
-//	len = ft_strlen(str);
 	str++;
 	n2 = ft_atoi(str);
-	ret = (double)n1 + ((double)n2 / pow(10,(valid_len - cnt)));
+	if (valid_len == cnt)
+		ret = (double)n1;
+	else
+		ret = (double)n1 + ((double)n2 / pow(10,(valid_len - cnt)));
 	return (ret);
 }
-void main () {
+/*
+int	main () {
 
 	printf("12.34 %lf\n", 12.34001234);
+	printf("1234 %lf\n", atod("1234"));
 
 	printf("12.34 %lf\n", atod("12.34"));
 	printf("1.234 %lf\n", atod("1.234"));
@@ -73,9 +57,8 @@ void main () {
 	printf("0.01234 %lf\n", atod("0.01234"));
 	printf("1234.0 %lf\n", atod("1234.0"));
 	printf("1.234.0 %lf\n", atod("1.234.0"));
-}
+}*/
 
-/*
 t_vec	set_vec(char *xyz)
 {
 	char	**split_xyz;
@@ -306,4 +289,4 @@ t_config	init(char **argv)
 
 	config = read_map(argv[1]);
 	return (config);
-}*/
+}

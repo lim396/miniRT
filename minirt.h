@@ -6,6 +6,7 @@
 #include "get_next_line.h"
 #include <stdlib.h>
 #include <stdio.h>
+#define SHINESS 8.0
 
 typedef struct s_color
 {
