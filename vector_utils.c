@@ -36,6 +36,18 @@ t_vec mul(double t, t_vec a)
 	return (vec);
 }
 
+double	rounding_num(double num, double min, double max)
+{
+	double	n;
+
+	n = num;
+	if (num < min)
+		n = min;
+	if (num > max)
+		n = max;
+	return (n);
+}
+
 double	dot(t_vec a, t_vec b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);

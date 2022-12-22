@@ -1,5 +1,31 @@
 #include "minirt.h"
 
+double	atod(char *str)
+{
+	double	minus;
+
+	minus = 0.0;
+	while (*str == ' ' || *str == '\t')
+		str++;
+	if (*str == '+')
+		str++;
+	else if (*str == '-')
+	{
+		minus = 1.0;
+		str++;
+	}
+	while ('0' <= *str && *str <= '9')
+	{
+		num = (num * 10) + (*str - '0');
+		str++;
+	}
+
+	
+
+
+	
+}
+
 t_vec	set_vec(char *xyz)
 {
 	char	**split_xyz;
@@ -224,7 +250,10 @@ t_config	read_map(char *filename)
 	return (config);
 }
 
-void	init(char **argv)
+t_config	init(char **argv)
 {
-	read_map(argv[1]);
+	t_config	config;
+
+	config = read_map(argv[1]);
+	return (config);
 }

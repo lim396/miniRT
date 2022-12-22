@@ -178,9 +178,9 @@ t_color	add_diffuse_luminance(t_shape shape, t_color illuminance, double normal_
 
 //	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
 //	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
-	color.r += shape->material.diffuse_ref.r * illuminance.r * normal_light_dir_dot;
-	color.g += shape->material.diffuse_ref.g * illuminance.g * normal_light_dir_dot;
-	color.b += shape->material.diffuse_ref.b * illuminance.b * normal_light_dir_dot;
+	color.r += shape.material.diffuse_ref.r * illuminance.r * normal_light_dir_dot;
+	color.g += shape.material.diffuse_ref.g * illuminance.g * normal_light_dir_dot;
+	color.b += shape.material.diffuse_ref.b * illuminance.b * normal_light_dir_dot;
 	return (color);
 }
 
@@ -191,15 +191,15 @@ t_color	add_specular_luminance(t_nearest nearest, t_color illuminance, t_vec lig
 	float	rev_camera_to_screen_specular_dot;
 	t_color	color;
 
-	normal_light_dir_dot = dot(shape.i_point.normal, light_dir);
+	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
 	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
 	specular_dir = normalize(sub(mul(2 * normal_light_dir_dot, shape.i_point.normal), light_dir));
 	rev_camera_to_screen_dir = normalize(mul(-1.0, camera_ray->dir));
 	rev_camera_to_screen_specular_dot = dot(specular_dir, rev_camera_to_screen_dir);
 	rev_camera_to_screen_specular_dot = rounding_num(rev_camera_to_screen_specular_dot, 0, 1);
-	color.r += shape.material.specular_ref.r * illuminance.r * pow(rev_camera_to_screen_specular_dot, SHININESS);
-	color.g += shape.material.specular_ref.g * illuminance.g * pow(rev_camera_to_screen_specular_dot, SHININESS);
-	color.b += shape.material.specular_ref.b * illuminance.b * pow(rev_camera_to_screen_specular_dot, SHININESS);
+	color.r += nearest.shape.material.specular_ref.r * illuminance.r * pow(rev_camera_to_screen_specular_dot, SHININESS);
+	color.g += nearest.shape.material.specular_ref.g * illuminance.g * pow(rev_camera_to_screen_specular_dot, SHININESS);
+	color.b += nearest.shape.material.specular_ref.b * illuminance.b * pow(rev_camera_to_screen_specular_dot, SHININESS);
 	return (color);
 }
 
@@ -263,7 +263,12 @@ t_color	trace(t_cofig config, t_ray ray)
 	return (color);
 }
 
-void	ray_trace(t_camera *camera)
+void	draw(t_color color)
+{
+	printf("%d %d %d\n", color.r, color.g, color.b);
+}
+
+void	ray_trace(t_cofig config)
 {
 	size_t	x;
 	size_t	y;
@@ -274,8 +279,8 @@ void	ray_trace(t_camera *camera)
 	{
 		while (x < WIDTH)
 		{
-			camera_ray = get_camera_ray(x, y, camera->pos);
-			color = trace();
+			camera_ray = get_camera_ray(x, y, config.camera.pos);
+			color = trace(config, camera_ray);
 			draw(color);
 			x++;
 		}
@@ -283,10 +288,19 @@ void	ray_trace(t_camera *camera)
 	}
 }
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
-	init();
-	ray_trace();
-	destroy();
+	if (argc != 2)
+		return (1);
+
+	//tmp
+	printf("P3\n");
+	printf("%d %d\n", WIDTH, HEIGHT);
+	printf("255\n");
+	//////
+
+	config = init(argv);
+	ray_trace(config);
+//	destroy();
 	return (0);
 }
