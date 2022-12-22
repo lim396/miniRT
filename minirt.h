@@ -1,9 +1,10 @@
-#ifdef MINIRT_H
+#ifndef MINIRT_H
 #define MINIRT_H
 
 #include "vector_utils.h"
 #include "libft.h"
 #include "get_next_line.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 typedef struct s_color
@@ -44,11 +45,18 @@ typedef enum e_shape_type
 	ST_SPHERE,
 	ST_PLANE,
 	ST_NONE
-} ;
+} t_shape_type;
+
+typedef struct s_intersection
+{
+	double	distance;
+	t_vec	pos;
+	t_vec	normal;
+} t_intersection;
 
 typedef struct s_shape
 {
-	e_shape_type	type;
+	t_shape_type	type;
 	//union
 	//{
 	t_sphere		sphere;
@@ -70,11 +78,11 @@ typedef enum e_light_type
 {
 	POINT,
 	DIRECTIONAL
-} ;
+} t_light_type;
 
 typedef struct s_light
 {
-	e_light_type	type;
+	t_light_type	type;
 	t_vec			vec;
 	t_color			illuminace;
 	double	brightness_ratio; // ?????????????
@@ -102,13 +110,6 @@ typedef struct s_config
 	t_ambient	ambient;
 	t_camera	camera;
 } t_config;
-
-typedef struct s_intersection
-{
-	double	distance;
-	t_vec	pos;
-	t_vec	normal;
-} t_intersection;
 
 
 /* --------------------------------

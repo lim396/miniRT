@@ -2,30 +2,54 @@
 
 double	atod(char *str)
 {
-	double	minus;
+	//double	minus;
 
-	minus = 0.0;
-	while (*str == ' ' || *str == '\t')
-		str++;
-	if (*str == '+')
-		str++;
-	else if (*str == '-')
+	//minus = 0.0;
+	//while (*str == ' ' || *str == '\t')
+	//	str++;
+	//if (*str == '+')
+	//	str++;
+	//else if (*str == '-')
+	//{
+	//	minus = 1.0;
+	//	str++;
+	//}
+	//int dot_pos = -1;
+	//while ('0' <= *str && *str <= '9')
+	//{
+	//	num = (num * 10) + (*str - '0');
+	//	str++;
+	//	if (dot_pos == -1 && *str == '.')
+	//		dot_pos = str
+	//}
+	int	n1;
+	int	n2;
+	size_t	cnt;
+	size_t	len;
+	double	ret;
+
+	cnt = 0;
+	n1 = atoi(str);
+	while (*str || *str != '.')
 	{
-		minus = 1.0;
+		cnt++;
 		str++;
 	}
-	while ('0' <= *str && *str <= '9')
-	{
-		num = (num * 10) + (*str - '0');
-		str++;
-	}
-
-	
-
-
-	
+	len = ft_strlen(str);
+	n2 = atoi(str);
+	ret = n1 + (n2 / pow(10,(len - cnt)));
+	return (ret);
+}
+void main () {
+	printf("12.34 %lf\n", atod("12.34"));
+	printf("1.234 %lf\n", atod("1.234"));
+	printf("0.1234 %lf\n", atod("0.1234"));
+	printf("0.01234 %lf\n", atod("0.01234"));
+	printf("1234.0 %lf\n", atod("1234.0"));
+	printf("1.234.0 %lf\n", atod("1.234.0"));
 }
 
+/*
 t_vec	set_vec(char *xyz)
 {
 	char	**split_xyz;
@@ -256,4 +280,4 @@ t_config	init(char **argv)
 
 	config = read_map(argv[1]);
 	return (config);
-}
+}*/
