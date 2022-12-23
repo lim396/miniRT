@@ -125,7 +125,22 @@ config {
 ---------------------------------- */
 
 
-t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
 t_config	init_config(char **argv);
+void	ray_trace(t_config config);
+void	draw(t_color color);
+t_color	trace(t_config config, t_ray ray);
+t_color	get_luminance(t_config config, t_nearest nearest, t_ray ray);
+t_nearest	get_shadow_ray(t_config config, t_nearest nearest, t_vec light_dir);
+t_color	add_specular_luminance(t_nearest nearest, t_color illuminance, t_vec light_dir, t_ray camera_ray);
+t_color	add_diffuse_luminance(t_shape shape, t_color illuminance, double normal_light_dir_dot);
+t_color	add_ambient_luminance(t_config config);
+t_color	add_color(t_color n, t_color m);
+t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow);
+bool	is_hittable(t_shape shape, t_ray ray, t_intersection *i_point);
+bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection *i_point);
+bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point);
+double	get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, double d);
+double	discriminant(t_sphere sph, t_ray ray);
+t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos);
 
 #endif

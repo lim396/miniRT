@@ -1,7 +1,7 @@
 CC = gcc
 NAME = minirt
 
-SRCS = main.c
+SRCS = main.c init.c vector_utils.c
 
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -g -Werror -Wextra -Wall

@@ -21,4 +21,5 @@ double	squred_norm(t_vec a);
 double	norm(t_vec a);
 t_vec	normalize(t_vec a);
 t_vec	cross(t_vec a, t_vec b);
+
 #endif

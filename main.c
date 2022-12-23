@@ -12,8 +12,8 @@ t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
 //	double	wy;
 
 	//Screen from the upper left origin to a rectangle of width and height 2.0 at the center origin
-	wp.x = (2.0 * x) / (WIDTH - 1) - 1.0;
-	wp.y = (-2.0 * y) / (HEIGHT - 1) + 1.0;
+	wp.x = (2.0 * x) / (WIDTH - 1.0) - 1.0;
+	wp.y = (-2.0 * y) / (HEIGHT - 1.0) + 1.0;
 	wp.z = 0;
 	
 	//later change screen_camera_pos to world camera_pos
@@ -34,9 +34,9 @@ double	discriminant(t_sphere sph, t_ray ray)
 
 	sph_center_to_camera = sub(ray.start, sph.center);
 	a = dot(ray.direction, ray.direction);
-	b = 2 * dot(ray.direction, sph_center_to_camera);
+	b = 2.0 * dot(ray.direction, sph_center_to_camera);
 	c = dot(sph_center_to_camera, sph_center_to_camera) - sph.radius * sph.radius;
-	d = (b * b) - 4 * a * c;
+	d = (b * b) - 4.0 * a * c;
 	return (d);	
 }
 
@@ -48,22 +48,34 @@ double	get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, double d)
 	double	t1;
 	double	t2;
 
+//	printf("%lf\n", ray.start.x);
+//	printf("%lf\n", ray.start.y);
+//	printf("%lf\n", ray.start.z);
+//	printf("%lf\n", sph.center.x);
+//	printf("%lf\n", sph.center.y);
+//	printf("%lf\n", sph.center.z);
+//	printf("%lf\n", sph.radius);
 	sph_center_to_camera = sub(ray.start, sph.center);
 	a = dot(ray.direction, ray.direction);
-	b = 2 * dot(ray.direction, sph_center_to_camera);
+	b = 2.0 * dot(ray.direction, sph_center_to_camera);
 	if (d == 0)
 	{
-		return (-b / (2 * a));
+//		printf("ok\n");
+		return (-b / (2.0 * a));
 	}
 	else if (d > 0)
 	{
-		t1 = (-b + sqrt(d)) / (2 * a);
-		t2 = (-b - sqrt(d)) / (2 * a);
-		if (t1 > 0 && t1 < t2)
+//		printf("ok\n");
+		t1 = (-b + sqrt(d)) / (2.0 * a);
+		t2 = (-b - sqrt(d)) / (2.0 * a);
+		if (t1 > 0)
+		{
+			if (t2 > 0 && t2 < t1)
+				return (t2);
 			return (t1);
-		if (t2 > 0 && t2 < t1)
-			return (t2);
+		}
 	}
+//	printf("ko\n");
 	return (-1.0);
 }
 
@@ -131,9 +143,10 @@ t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 	nearest.flag = false;
 	nearest_point.distance = max_d;
 	i = 0;
-	while (i < config.num_shapes)
+	while (i < 1)//config.num_shapes)
 	{
 		hit_flag = is_hittable(config.shape_list[i], ray, &i_point);
+//		printf("%d\n", hit_flag);
 		if (hit_flag && i_point.distance < nearest_point.distance)
 		{
 			//nearest_shape = &config.shape_list[i];
@@ -260,6 +273,7 @@ t_color	trace(t_config config, t_ray ray)
 	nearest = get_nearest(config, ray, DBL_MAX, 0);
 	if (nearest.flag)
 	{
+//		printf("ERROR2\n");
 		color = get_luminance(config, nearest, ray);
 	}
 	return (color);
@@ -267,6 +281,7 @@ t_color	trace(t_config config, t_ray ray)
 
 void	draw(t_color color)
 {
+//	(void)color;
 	printf("%lf %lf %lf\n", color.r, color.g, color.b);
 }
 
@@ -292,7 +307,7 @@ void	ray_trace(t_config config)
 	}
 }
 
-int	main(int argc, char *argv[])
+int	main(int argc, char **argv)
 {
 	t_config	config;
 	if (argc != 2)

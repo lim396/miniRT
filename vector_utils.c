@@ -60,7 +60,7 @@ double	squred_norm(t_vec a)
 
 double	norm(t_vec a)
 {
-	return sqrt(squared_norm(a));
+	return sqrt(squred_norm(a));
 }
 
 t_vec	normalize(t_vec a)
