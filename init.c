@@ -175,31 +175,83 @@ void	set_camera(char **split_line, t_config *config)
 	}
 }
 
+t_shape	*list_last(t_shape *list)
+{
+	if (list == NULL)
+		return (NULL);
+	while (list->next != NULL)
+		list = list->next;
+	return (list);
+}
+
+void	add_list_last(t_shape **shape_list, t_shape *node)
+{
+	t_shape	*last;
+
+	if (shape_list == NULL)
+		return ;
+	if (*shape_list == NULL)
+	{
+		*shape_list = node;
+		return ;
+	}
+	last = list_last(*shape_list);
+	if (last == NULL)
+		return ;
+	last->next = node;
+}
+
 void	set_sphere(char **split_line, t_shape *shape_list)
 {
 //	printf("ok\n");
 	size_t	i;
 
-						//tmp index
-	shape_list->type = ST_SPHERE;
+	t_shape	*shape_node;
+
+	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
+	shape_node->type = ST_SPHERE;
 	i = 1;
 	while (split_line[i])
 	{
 		if (i == 1)
-			shape_list->sphere.center = set_vec(split_line[i]);
+			shape_node->sphere.center = set_vec(split_line[i]);
 		else if (i == 2)
-			shape_list->sphere.radius = atod(split_line[i]) / 2.0;
+			shape_node->sphere.radius = atod(split_line[i]) / 2.0;
 		else if (i == 3)
-			shape_list->material.diffuse_ref = set_color(split_line[i]);
+			shape_node->material.diffuse_ref = set_color(split_line[i]);
 		else
 			printf("ERROR\n");
 		i++;
 	}
+	add_list_last(&shape_list, shape_node);
+
+						//tmp index
+//	shape_list->type = ST_SPHERE;
+//	i = 1;
+//	while (split_line[i])
+//	{
+//		if (i == 1)
+//			shape_list->sphere.center = set_vec(split_line[i]);
+//		else if (i == 2)
+//			shape_list->sphere.radius = atod(split_line[i]) / 2.0;
+//		else if (i == 3)
+//			shape_list->material.diffuse_ref = set_color(split_line[i]);
+//		else
+//			printf("ERROR\n");
+//		i++;
+//	}
 //	printf("sph diffu\n");
 //	printf("%lf\n", shape_list->material.diffuse_ref.r);
 //	printf("%lf\n", shape_list->material.diffuse_ref.g);
 //	printf("%lf\n", shape_list->material.diffuse_ref.b);
 //	printf("\n");
+	t_shape *last;
+
+	last = list_last(shape_list);
+	printf("in set_sph\n");
+	printf("%lf\n", last->sphere.center.x);
+	printf("%lf\n", last->sphere.center.y);
+	printf("%lf\n", last->sphere.center.z);
 //	printf("%lf\n", config->shape_list[0].sphere.center.x);
 //	printf("%lf\n", config->shape_list[0].sphere.center.y);
 //	printf("%lf\n", config->shape_list[0].sphere.center.z);
@@ -233,22 +285,40 @@ void	set_sphere(char **split_line, t_shape *shape_list)
 void	set_plane(char **split_line, t_shape *shape_list)
 {	
 	size_t	i;
+	t_shape	*shape_node;
+
+	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
 
 						//tmp index
-	shape_list->type = ST_PLANE;
+	shape_node->type = ST_PLANE;
 	i = 1;
 	while (split_line[i])
 	{
 		if (i == 1)
-			shape_list->plane.pos = set_vec(split_line[i]);
+			shape_node->plane.pos = set_vec(split_line[i]);
 		else if (i == 2)
-			shape_list->plane.normal = set_vec(split_line[i]);
+			shape_node->plane.normal = set_vec(split_line[i]);
 		else if (i == 3)
-			shape_list->material.diffuse_ref = set_color(split_line[i]); //set_color
+			shape_node->material.diffuse_ref = set_color(split_line[i]); //set_color
 		else
 			printf("ERROR\n");
 		i++;
 	}
+	add_list_last(&shape_list, shape_node);
+//	shape_list->type = ST_PLANE;
+//	i = 1;
+//	while (split_line[i])
+//	{
+//		if (i == 1)
+//			shape_list->plane.pos = set_vec(split_line[i]);
+//		else if (i == 2)
+//			shape_list->plane.normal = set_vec(split_line[i]);
+//		else if (i == 3)
+//			shape_list->material.diffuse_ref = set_color(split_line[i]); //set_color
+//		else
+//			printf("ERROR\n");
+//		i++;
+//	}
 }
 
 //void	set_plane(char **split_line, t_config *config)
@@ -304,7 +374,8 @@ bool	set_config(t_config *config, const char *line)
 	size_t	i;
 //	char	ident;
 	
-	config->shape_list = malloc(sizeof(t_shape) * 4); // 4 is tmp
+	config->shape_list = (t_shape *)malloc(sizeof(t_shape));
+	config->shape_list->next = NULL;
 	i = 0;
 	split_line = ft_split(line, ' ');
 	if (split_line == NULL)
@@ -319,10 +390,10 @@ bool	set_config(t_config *config, const char *line)
 		else if (split_line[0][0] == 'C')
 			set_camera(split_line, config);
 		else if (split_line[0][0] == 's' && split_line[0][1] == 'p')
-			set_sphere(split_line, &config->shape_list[0]);
+			set_sphere(split_line, config->shape_list);
 //			set_sphere(split_line, config);
 		else if (split_line[0][0] == 'p' && split_line[0][1] == 'l')
-			set_plane(split_line, &config->shape_list[1]);
+			set_plane(split_line, config->shape_list);
 //			set_plane(split_line, config);
 //		else if (*split_line[0] == 'c' && *split_line[1] == 'y')
 //			set_cylinder(split_line, config);
@@ -358,9 +429,11 @@ t_config	init_config(char **argv)
 //	printf("%lf\n", config.camera.pos.y);
 //	printf("%lf\n", config.camera.pos.z);
 //	printf("%d\n", config.shape_list[0].type);
-//	printf("%lf\n", config.shape_list[0].sphere.center.x);
-//	printf("%lf\n", config.shape_list[0].sphere.center.y);
-//	printf("%lf\n", config.shape_list[0].sphere.center.z);
+//	printf("in init_config\n");
+//	printf("%lf\n", config.&(shape_list[0])->sphere.center.x);
+//	printf("%lf\n", config.&shape_list[0]->sphere.center.y);
+//	printf("%lf\n", config.&shape_list[0]->sphere.center.z);
+//	printf("\n");
 //	printf("diffuse\n");
 //	printf("%lf\n", config.shape_list[0].material.diffuse_ref.r);
 //	printf("%lf\n", config.shape_list[0].material.diffuse_ref.g);
@@ -368,8 +441,8 @@ t_config	init_config(char **argv)
 //	printf("%lf\n", config.shape_list[1].sphere.center.x);
 //	printf("%lf\n", config.shape_list[1].sphere.center.y);
 //	printf("%lf\n", config.shape_list[1].sphere.center.z);
-//	printf("%lf\n", config.shape_list[1].plane.pos.x);
-//	printf("%lf\n", config.shape_list[1].plane.pos.y);
-//	printf("%lf\n", config.shape_list[1].plane.pos.z);
+//	printf("%lf\n", config.&shape_list[1]->plane.pos.x);
+//	printf("%lf\n", config.&shape_list[1]->plane.pos.y);
+//	printf("%lf\n", config.&shape_list[1]->plane.pos.z);
 	return (config);
 }

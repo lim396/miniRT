@@ -56,7 +56,8 @@ typedef struct s_intersection
 	t_vec	normal;
 } t_intersection;
 
-typedef struct s_shape
+typedef struct s_shape	t_shape;
+struct s_shape
 {
 	t_shape_type	type;
 	//union
@@ -65,9 +66,10 @@ typedef struct s_shape
 	t_plane			plane;
 //	t_intersection	i_point;
 	t_material		material;
+	t_shape			*next;
 	//add t_intersection var in t_shape or t_sphere,t_plane?
 	//}
-} t_shape;
+} ;
 
 typedef struct	s_nearest
 {
