@@ -156,7 +156,7 @@ bool	is_hittable(t_shape shape, t_ray ray, t_intersection *i_point)
 //t_shape	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 {
-	size_t			i;
+	//size_t			i;
 	bool			hit_flag;
 	//t_shape			*nearest_shape;
 	t_nearest		nearest;
@@ -166,24 +166,29 @@ t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 	nearest.flag = false;
 	nearest.i_point.distance = max_d;
 //	nearest_point.distance = max_d;
-	i = 0;
-	while (i < 2)//config.num_shapes)
+	//i = 0;
+	//while (i < 2)//config.num_shapes)
+	config.shape_list = config.shape_list->next;
+	while (config.shape_list != NULL)
 	{
-		hit_flag = is_hittable(config.shape_list[i], ray, &i_point);
+		printf("type: %d\n", config.shape_list->type);
+		//hit_flag = is_hittable(config.shape_list[i], ray, &i_point);
+		hit_flag = is_hittable(*config.shape_list, ray, &i_point);
 //		printf("%d\n", hit_flag);
 //		if (hit_flag && i_point.distance < nearest_point.distance)
 		if (hit_flag && i_point.distance < nearest.i_point.distance)
 		{
 //			printf("ok\n");
 			//nearest_shape = &config.shape_list[i];
-			nearest.shape = config.shape_list[i];
+			nearest.shape = *config.shape_list;
 			//nearest_shape.i_point = i_point;
 			nearest.i_point = i_point;
 			nearest.flag = true;
 			if (shadow)
 				break ;
 		}
-		i++;
+		config.shape_list = config.shape_list->next;
+		//i++;
 	}
 	//return (nearest_shape);
 	return (nearest);
@@ -358,7 +363,7 @@ void	draw(t_color color)
 	r = 255 * rounding_num(color.r, 0, 1);
 	g = 255 * rounding_num(color.g, 0, 1);
 	b = 255 * rounding_num(color.b, 0, 1);
-//	printf("%d %d %d\n", r, g, b);
+	//printf("%d %d %d\n", r, g, b);
 }
 
 void	ray_trace(t_config config)

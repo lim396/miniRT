@@ -210,6 +210,7 @@ void	set_sphere(char **split_line, t_shape *shape_list)
 
 	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
 	shape_node->type = ST_SPHERE;
+	shape_node->next = NULL;
 	i = 1;
 	while (split_line[i])
 	{
@@ -291,6 +292,7 @@ void	set_plane(char **split_line, t_shape *shape_list)
 
 						//tmp index
 	shape_node->type = ST_PLANE;
+	shape_node->next = NULL;
 	i = 1;
 	while (split_line[i])
 	{
@@ -305,6 +307,13 @@ void	set_plane(char **split_line, t_shape *shape_list)
 		i++;
 	}
 	add_list_last(&shape_list, shape_node);
+	t_shape *last;
+
+	last = list_last(shape_list);
+	//printf("set_plane\n");
+	//printf("%lf\n", last->plane.pos.x);
+	//printf("%lf\n", last->plane.pos.y);
+	//printf("%lf\n", last->plane.pos.z);
 //	shape_list->type = ST_PLANE;
 //	i = 1;
 //	while (split_line[i])
@@ -394,6 +403,20 @@ bool	set_config(t_config *config, const char *line)
 //			set_sphere(split_line, config);
 		else if (split_line[0][0] == 'p' && split_line[0][1] == 'l')
 			set_plane(split_line, config->shape_list);
+		/*
+		t_shape *last;
+
+		last = list_last(config->shape_list);
+		printf("set_config(sph)\n");
+		printf("%lf\n", last->sphere.center.x);
+		printf("%lf\n", last->sphere.center.y);
+		printf("%lf\n", last->sphere.center.z);
+
+		printf("set_config(pla)\n");
+		printf("%lf\n", last->plane.center.x);
+		printf("%lf\n", last->plane.center.y);
+		printf("%lf\n", last->plane.center.z);
+		*/
 //			set_plane(split_line, config);
 //		else if (*split_line[0] == 'c' && *split_line[1] == 'y')
 //			set_cylinder(split_line, config);
