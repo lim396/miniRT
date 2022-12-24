@@ -19,8 +19,20 @@ t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
 	//later change screen_camera_pos to world camera_pos
 	ray.start = camera_pos;
 	ray.direction.x = wp.x - camera_pos.x;
-	ray.direction.x = wp.y - camera_pos.y;
-	ray.direction.x = wp.z - camera_pos.z;
+	ray.direction.y = wp.y - camera_pos.y;
+	ray.direction.z = wp.z - camera_pos.z;
+//	printf("%lf\n", wp.x);
+//	printf("%lf\n", wp.y);
+//	printf("%lf\n", wp.z);
+//	printf("\n");
+//	printf("%lf\n", camera_pos.x);
+//	printf("%lf\n", camera_pos.y);
+//	printf("%lf\n", camera_pos.z);
+//	printf("\n");
+//	printf("%lf\n", ray.direction.x);
+//	printf("%lf\n", ray.direction.y);
+//	printf("%lf\n", ray.direction.z);
+//	printf("\n");
 	return (ray);
 }
 
@@ -51,10 +63,19 @@ double	get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, double d)
 //	printf("%lf\n", ray.start.x);
 //	printf("%lf\n", ray.start.y);
 //	printf("%lf\n", ray.start.z);
+//	printf("\n");
 //	printf("%lf\n", sph.center.x);
 //	printf("%lf\n", sph.center.y);
 //	printf("%lf\n", sph.center.z);
+//	printf("\n");
 //	printf("%lf\n", sph.radius);
+//	printf("\n");
+//	printf("%fl\n", ray.direction.x);
+//	printf("%fl\n", ray.direction.y);
+//	printf("%fl\n", ray.direction.z);
+//	printf("\n");
+//	printf("\n");
+//	printf("\n");
 	sph_center_to_camera = sub(ray.start, sph.center);
 	a = dot(ray.direction, ray.direction);
 	b = 2.0 * dot(ray.direction, sph_center_to_camera);
@@ -81,6 +102,7 @@ double	get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, double d)
 
 bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point)
 {
+//	printf("ok\n");
 	double	d;
 	double	t;
 
@@ -88,6 +110,7 @@ bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point)
 	t = get_solution_of_quadratic_equation(sph, ray, d);
 	if (t > 0)
 	{
+//		printf("%lf\n", t);
 		i_point->distance = t;
 		i_point->pos = add(ray.start, mul(t, ray.direction));
 		i_point->normal = normalize(sub(i_point->pos, sph.center));
@@ -138,17 +161,20 @@ t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 	//t_shape			*nearest_shape;
 	t_nearest		nearest;
 	t_intersection	i_point;
-	t_intersection	nearest_point;
+//	t_intersection	nearest_point;
 
 	nearest.flag = false;
-	nearest_point.distance = max_d;
+	nearest.i_point.distance = max_d;
+//	nearest_point.distance = max_d;
 	i = 0;
-	while (i < 1)//config.num_shapes)
+	while (i < 2)//config.num_shapes)
 	{
 		hit_flag = is_hittable(config.shape_list[i], ray, &i_point);
 //		printf("%d\n", hit_flag);
-		if (hit_flag && i_point.distance < nearest_point.distance)
+//		if (hit_flag && i_point.distance < nearest_point.distance)
+		if (hit_flag && i_point.distance < nearest.i_point.distance)
 		{
+//			printf("ok\n");
 			//nearest_shape = &config.shape_list[i];
 			nearest.shape = config.shape_list[i];
 			//nearest_shape.i_point = i_point;
@@ -166,6 +192,11 @@ t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 t_color	add_color(t_color n, t_color m)
 {
 	t_color	color;
+//	printf("diffu\n");
+//	printf("%lf\n", m.r);
+//	printf("%lf\n", m.g);
+//	printf("%lf\n", m.b);
+//	printf("\n");
 
 	color.r = n.r + m.r;
 	color.g = n.g + m.g;
@@ -177,6 +208,15 @@ t_color	add_ambient_luminance(t_config config)
 {
 	t_color	color;
 
+//	printf("add ambi ill\n");
+//	printf("%lf\n", config.ambient.ambient_illuminance.r);
+//	printf("%lf\n", config.ambient.ambient_illuminance.g);
+//	printf("%lf\n", config.ambient.ambient_illuminance.b);
+//	printf("add ambi ref\n");
+//	printf("%lf\n", config.ambient.ambient_ref.r);
+//	printf("%lf\n", config.ambient.ambient_ref.g);
+//	printf("%lf\n", config.ambient.ambient_ref.b);
+//	printf("\n");
 	color.r = config.ambient.ambient_illuminance.r * config.ambient.ambient_ref.r;
 	color.g = config.ambient.ambient_illuminance.g * config.ambient.ambient_ref.g;
 	color.b = config.ambient.ambient_illuminance.b * config.ambient.ambient_ref.b;
@@ -190,9 +230,24 @@ t_color	add_diffuse_luminance(t_shape shape, t_color illuminance, double normal_
 
 //	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
 //	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
-	color.r += shape.material.diffuse_ref.r * illuminance.r * normal_light_dir_dot;
-	color.g += shape.material.diffuse_ref.g * illuminance.g * normal_light_dir_dot;
-	color.b += shape.material.diffuse_ref.b * illuminance.b * normal_light_dir_dot;
+//	printf("shape diffuse\n");
+//	printf("%lf\n", shape.material.diffuse_ref.r);
+//	printf("%lf\n", shape.material.diffuse_ref.b);
+//	printf("%lf\n", shape.material.diffuse_ref.g);
+//	printf("\n");
+//	printf("%lf\n", illuminance.r);
+//	printf("%lf\n", illuminance.g);
+//	printf("%lf\n", illuminance.b);
+//	printf("\n");
+//	printf("%lf\n", normal_light_dir_dot);
+//	printf("col\n");
+//	printf("%lf\n", color.r);
+//	printf("%lf\n", color.g);
+//	printf("%lf\n", color.b);
+//	printf("\n");
+	color.r = shape.material.diffuse_ref.r * illuminance.r * normal_light_dir_dot;
+	color.g = shape.material.diffuse_ref.g * illuminance.g * normal_light_dir_dot;
+	color.b = shape.material.diffuse_ref.b * illuminance.b * normal_light_dir_dot;
 	return (color);
 }
 
@@ -210,9 +265,9 @@ t_color	add_specular_luminance(t_nearest nearest, t_color illuminance, t_vec lig
 	rev_camera_to_screen_dir = normalize(mul(-1.0, camera_ray.direction));
 	rev_camera_to_screen_specular_dot = dot(specular_dir, rev_camera_to_screen_dir);
 	rev_camera_to_screen_specular_dot = rounding_num(rev_camera_to_screen_specular_dot, 0, 1);
-	color.r += nearest.shape.material.specular_ref.r * illuminance.r * pow(rev_camera_to_screen_specular_dot, SHININESS);
-	color.g += nearest.shape.material.specular_ref.g * illuminance.g * pow(rev_camera_to_screen_specular_dot, SHININESS);
-	color.b += nearest.shape.material.specular_ref.b * illuminance.b * pow(rev_camera_to_screen_specular_dot, SHININESS);
+	color.r = nearest.shape.material.specular_ref.r * illuminance.r * pow(rev_camera_to_screen_specular_dot, SHININESS);
+	color.g = nearest.shape.material.specular_ref.g * illuminance.g * pow(rev_camera_to_screen_specular_dot, SHININESS);
+	color.b = nearest.shape.material.specular_ref.b * illuminance.b * pow(rev_camera_to_screen_specular_dot, SHININESS);
 	return (color);
 }
 
@@ -234,10 +289,15 @@ t_color	get_luminance(t_config config, t_nearest nearest, t_ray ray)
 	t_color		color;
 	t_vec		light_dir;
 	double		normal_light_dir_dot;
-	t_nearest	i_point_near;
+//	t_nearest	i_point_near;
 
 //	color = {0, 0, 0};
 	color = add_ambient_luminance(config);
+//	printf("get ambi\n");
+//	printf("%lf\n", color.r);
+//	printf("%lf\n", color.g);
+//	printf("%lf\n", color.b);
+//	printf("\n");
 	light_dir = normalize(sub(config.light.vec, nearest.i_point.pos));
 //	if (config.light.type == POINT)
 //	{
@@ -247,15 +307,21 @@ t_color	get_luminance(t_config config, t_nearest nearest, t_ray ray)
 //		light_dir = normalize(sub(config.light.vec, nearest.i_point.pos));
 //	}
 
-	i_point_near = 	get_shadow_ray(config, nearest, light_dir);
-	if (i_point_near.flag)
-		return (color);
+//	i_point_near = 	get_shadow_ray(config, nearest, light_dir);
+//	if (i_point_near.flag)
+//		return (color);
 	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
 	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
 	color = add_color(color, add_diffuse_luminance(nearest.shape, config.light.illuminance, normal_light_dir_dot));
+//	printf("diffu\n");
+//	printf("%lf\n", color.r);
+//	printf("%lf\n", color.g);
+//	printf("%lf\n", color.b);
+//	printf("\n");
 	if (normal_light_dir_dot > 0)
 	{
-		color = add_color(color, add_specular_luminance(nearest, config.light.illuminance, light_dir, ray));
+		(void)ray;
+//		color = add_color(color, add_specular_luminance(nearest, config.light.illuminance, light_dir, ray));
 	}
 	return (color);
 }
@@ -282,7 +348,17 @@ t_color	trace(t_config config, t_ray ray)
 void	draw(t_color color)
 {
 //	(void)color;
-	printf("%lf %lf %lf\n", color.r, color.g, color.b);
+//	double	r;
+//	double	g;
+//	double	b;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+
+	r = 255 * rounding_num(color.r, 0, 1);
+	g = 255 * rounding_num(color.g, 0, 1);
+	b = 255 * rounding_num(color.b, 0, 1);
+	printf("%d %d %d\n", r, g, b);
 }
 
 void	ray_trace(t_config config)

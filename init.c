@@ -87,15 +87,15 @@ t_color	set_color(char *rgb)
 
 	split_rgb = ft_split(rgb, ',');
 	if (split_rgb[0])
-		color.r = atod(split_rgb[0]); //set color
+		color.r = atod(split_rgb[0]) / 255.0; //set color
 	else
 		printf("ERROR\n");
 	if (split_rgb[1])
-		color.g = atod(split_rgb[1]);
+		color.g = atod(split_rgb[1]) / 255.0;
 	else
 		printf("ERROR\n");
 	if (split_rgb[2])
-		color.b = atod(split_rgb[2]);
+		color.b = atod(split_rgb[2]) / 255.0;
 	else
 		printf("ERROR\n");
 	return (color);
@@ -120,6 +120,16 @@ void	set_ambient(char **split_line, t_config *config)
 			printf("ERROR\n");
 		i++;
 	}
+//	printf("ambi ref\n");
+//	printf("%lf\n", config->ambient.ambient_ref.r);
+//	printf("%lf\n", config->ambient.ambient_ref.g);
+//	printf("%lf\n", config->ambient.ambient_ref.b);
+//	printf("\n");
+//	printf("ambi illu\n");
+//	printf("%lf\n", config->ambient.ambient_illuminance.r);
+//	printf("%lf\n", config->ambient.ambient_illuminance.g);
+//	printf("%lf\n", config->ambient.ambient_illuminance.b);
+//	printf("\n");
 }
 
 void	set_light(char **split_line, t_config *config)
@@ -139,6 +149,11 @@ void	set_light(char **split_line, t_config *config)
 			printf("ERROR\n");
 		i++;
 	}
+//	printf("light ill\n");
+//	printf("%lf\n", config->light.illuminance.r);
+//	printf("%lf\n", config->light.illuminance.g);
+//	printf("%lf\n", config->light.illuminance.b);
+//	printf("\n");
 }
 
 void	set_camera(char **split_line, t_config *config)
@@ -160,47 +175,102 @@ void	set_camera(char **split_line, t_config *config)
 	}
 }
 
-void	set_sphere(char **split_line, t_config *config)
+void	set_sphere(char **split_line, t_shape *shape_list)
 {
+//	printf("ok\n");
 	size_t	i;
 
 						//tmp index
-	config->shape_list[0].type = ST_SPHERE;
+	shape_list->type = ST_SPHERE;
 	i = 1;
 	while (split_line[i])
 	{
 		if (i == 1)
-			config->shape_list[0].sphere.center = set_vec(split_line[i]);
+			shape_list->sphere.center = set_vec(split_line[i]);
 		else if (i == 2)
-			config->shape_list[0].sphere.radius = atod(split_line[i]) / 2.0;
+			shape_list->sphere.radius = atod(split_line[i]) / 2.0;
 		else if (i == 3)
-			config->shape_list[0].material.diffuse_ref = set_color(split_line[i]);
+			shape_list->material.diffuse_ref = set_color(split_line[i]);
 		else
 			printf("ERROR\n");
 		i++;
 	}
+//	printf("sph diffu\n");
+//	printf("%lf\n", shape_list->material.diffuse_ref.r);
+//	printf("%lf\n", shape_list->material.diffuse_ref.g);
+//	printf("%lf\n", shape_list->material.diffuse_ref.b);
+//	printf("\n");
+//	printf("%lf\n", config->shape_list[0].sphere.center.x);
+//	printf("%lf\n", config->shape_list[0].sphere.center.y);
+//	printf("%lf\n", config->shape_list[0].sphere.center.z);
 }
 
-void	set_plane(char **split_line, t_config *config)
+//void	set_sphere(char **split_line, t_config *config)
+//{
+////	printf("ok\n");
+//	size_t	i;
+//
+//						//tmp index
+//	config->shape_list[0].type = ST_SPHERE;
+//	i = 1;
+//	while (split_line[i])
+//	{
+//		if (i == 1)
+//			config->shape_list[0].sphere.center = set_vec(split_line[i]);
+//		else if (i == 2)
+//			config->shape_list[0].sphere.radius = atod(split_line[i]) / 2.0;
+//		else if (i == 3)
+//			config->shape_list[0].material.diffuse_ref = set_color(split_line[i]);
+//		else
+//			printf("ERROR\n");
+//		i++;
+//	}
+////	printf("%lf\n", config->shape_list[0].sphere.center.x);
+////	printf("%lf\n", config->shape_list[0].sphere.center.y);
+////	printf("%lf\n", config->shape_list[0].sphere.center.z);
+//}
+
+void	set_plane(char **split_line, t_shape *shape_list)
 {	
 	size_t	i;
 
 						//tmp index
-	config->shape_list[1].type = ST_PLANE;
+	shape_list->type = ST_PLANE;
 	i = 1;
 	while (split_line[i])
 	{
 		if (i == 1)
-			config->shape_list[1].plane.pos = set_vec(split_line[i]);
+			shape_list->plane.pos = set_vec(split_line[i]);
 		else if (i == 2)
-			config->shape_list[1].plane.normal = set_vec(split_line[i]);
+			shape_list->plane.normal = set_vec(split_line[i]);
 		else if (i == 3)
-			config->shape_list[1].material.diffuse_ref = set_color(split_line[i]); //set_color
+			shape_list->material.diffuse_ref = set_color(split_line[i]); //set_color
 		else
 			printf("ERROR\n");
 		i++;
 	}
 }
+
+//void	set_plane(char **split_line, t_config *config)
+//{	
+//	size_t	i;
+//
+//						//tmp index
+//	config->shape_list[1].type = ST_PLANE;
+//	i = 1;
+//	while (split_line[i])
+//	{
+//		if (i == 1)
+//			config->shape_list[1].plane.pos = set_vec(split_line[i]);
+//		else if (i == 2)
+//			config->shape_list[1].plane.normal = set_vec(split_line[i]);
+//		else if (i == 3)
+//			config->shape_list[1].material.diffuse_ref = set_color(split_line[i]); //set_color
+//		else
+//			printf("ERROR\n");
+//		i++;
+//	}
+//}
 
 //void	set_cylinder(char **split_line, t_config *config)
 //{	
@@ -249,9 +319,11 @@ bool	set_config(t_config *config, const char *line)
 		else if (split_line[0][0] == 'C')
 			set_camera(split_line, config);
 		else if (split_line[0][0] == 's' && split_line[0][1] == 'p')
-			set_sphere(split_line, config);
+			set_sphere(split_line, &config->shape_list[0]);
+//			set_sphere(split_line, config);
 		else if (split_line[0][0] == 'p' && split_line[0][1] == 'l')
-			set_plane(split_line, config);
+			set_plane(split_line, &config->shape_list[1]);
+//			set_plane(split_line, config);
 //		else if (*split_line[0] == 'c' && *split_line[1] == 'y')
 //			set_cylinder(split_line, config);
 //		else
@@ -285,8 +357,19 @@ t_config	init_config(char **argv)
 //	printf("%lf\n", config.camera.pos.x);
 //	printf("%lf\n", config.camera.pos.y);
 //	printf("%lf\n", config.camera.pos.z);
+//	printf("%d\n", config.shape_list[0].type);
 //	printf("%lf\n", config.shape_list[0].sphere.center.x);
 //	printf("%lf\n", config.shape_list[0].sphere.center.y);
 //	printf("%lf\n", config.shape_list[0].sphere.center.z);
+//	printf("diffuse\n");
+//	printf("%lf\n", config.shape_list[0].material.diffuse_ref.r);
+//	printf("%lf\n", config.shape_list[0].material.diffuse_ref.g);
+//	printf("%lf\n", config.shape_list[0].material.diffuse_ref.b);
+//	printf("%lf\n", config.shape_list[1].sphere.center.x);
+//	printf("%lf\n", config.shape_list[1].sphere.center.y);
+//	printf("%lf\n", config.shape_list[1].sphere.center.z);
+//	printf("%lf\n", config.shape_list[1].plane.pos.x);
+//	printf("%lf\n", config.shape_list[1].plane.pos.y);
+//	printf("%lf\n", config.shape_list[1].plane.pos.z);
 	return (config);
 }
