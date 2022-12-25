@@ -148,6 +148,30 @@ bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection **i_point)
 
 }
 
+double	cy_discriminant()
+{
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+
+	a = pow(norm(cross(ray.direction, cyl.normal)), 2);
+	b = 2 * dot(cross(ray.direction, cyl.normal), cross(sub(ray.start, cyl.pos), cyl.normal));
+	c = pow(norm(cross(sub(ray.start, cyl.pos), cyl.normal)), 2) - pow(cyl.radius, 2);
+	d = (b * b) - 4 * a * c;
+	return (d);
+}
+
+bool	is_hittable_cylinder(t_cylinder cyl, t_ray ray, t_intersection **i_point)
+{
+	double	d;
+	double	t;
+
+	d = cy_discriminant(sph, ray);
+	t = cy_get_solution_of_quadratic_equation(sph, ray, d);
+	
+}
+
 bool	is_hittable(t_shape shape, t_ray ray, t_intersection *i_point)
 {
 	if (shape.type == ST_SPHERE)
@@ -155,7 +179,7 @@ bool	is_hittable(t_shape shape, t_ray ray, t_intersection *i_point)
 	if (shape.type == ST_PLANE)
 		return (is_hittable_plane(shape.plane, ray, &i_point));
 //	if (shape.type == ST_SYLINDER)
-//		return (is_hittable_sylinder());
+//		return (is_hittable_cylinder());
 	return (false);
 }
 
