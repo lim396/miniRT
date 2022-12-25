@@ -34,6 +34,15 @@ typedef struct s_plane
 	t_vec	pos;
 } t_plane;
 
+typedef struct s_cylinder	t_cylinder;
+struct s_cylinder
+{
+	t_vec	normal;
+	t_vec	pos;
+	double	radius;
+	double	height;
+};
+
 typedef struct s_material
 {
 	//t_color	ambient_ref;
@@ -46,6 +55,7 @@ typedef enum e_shape_type
 {
 	ST_SPHERE,
 	ST_PLANE,
+	ST_CYLINDER,
 	ST_NONE
 } t_shape_type;
 
@@ -64,6 +74,7 @@ struct s_shape
 	//{
 	t_sphere		sphere;
 	t_plane			plane;
+	t_cylinder		cylinder;
 //	t_intersection	i_point;
 	t_material		material;
 	t_shape			*next;
@@ -115,7 +126,7 @@ typedef struct s_config
 	t_camera	camera;
 } t_config;
 
-typedef struct s_quadratic t_quadratic
+typedef struct s_quadratic t_quadratic;
 struct s_quadratic
 {
 	double	a;

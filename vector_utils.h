@@ -15,6 +15,7 @@ t_vec	init(double x, double y, double z);
 t_vec	add(t_vec a, t_vec b);
 t_vec	sub(t_vec a, t_vec b);
 t_vec	mul(double t, t_vec a);
+t_vec	div_vec(t_vec a, double t);
 double	rounding_num(double num, double min, double max);
 double	dot(t_vec a, t_vec b);
 double	squred_norm(t_vec a);

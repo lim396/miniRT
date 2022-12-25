@@ -36,6 +36,15 @@ t_vec mul(double t, t_vec a)
 	return (vec);
 }
 
+t_vec div_vec(t_vec a, double t)
+{
+	t_vec	vec;
+	vec.x = a.x / t;
+	vec.y = a.y / t;
+	vec.z = a.z / t;
+	return (vec);
+}
+
 double	rounding_num(double num, double min, double max)
 {
 	double	n;

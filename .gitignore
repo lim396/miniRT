@@ -3,3 +3,5 @@ a.out
 *.o
 libft/libft.a
 minirt
+*.ppm
+*.txt

@@ -161,12 +161,12 @@ double	cy_discriminant(t_cylinder cyl, t_ray ray, t_quadratic *quad)
 	d = (quad->b * quad->b) - 4 * quad->a * quad->c;
 	return (d);
 }
-double	cy_get_solution_of_quadratic_equation(t_cylinder cyl, t_ray ray, double d, t_quadratic *quad)
+double	cy_get_solution_of_quadratic_equation(double d, t_quadratic *quad)
 {
 //	double	a;
 //	double	b;
-	double	t1;
-	double	t2;
+	//double	t1;
+	//double	t2;
 
 //	a = pow(norm(cross(ray.direction, cyl.normal)), 2);
 //	b = 2 * dot(cross(ray.direction, cyl.normal), cross(sub(ray.start, cyl.pos), cyl.normal));
@@ -186,11 +186,10 @@ double	cy_get_solution_of_quadratic_equation(t_cylinder cyl, t_ray ray, double d
 		{
 			if (quad->sol2 > 0 && quad->sol2 < quad->sol1)
 			{
-				*flag = false;
 				quad->sol = quad->sol2;
 				return (quad->sol);
 			}
-			quad->sol = quad->sol1
+			quad->sol = quad->sol1;
 			return (quad->sol);
 		}
 	}
@@ -201,22 +200,24 @@ bool	is_hittable_cylinder(t_cylinder cyl, t_ray ray, t_intersection **i_point)
 {
 	double	d;
 	double	t;
-	bool	flag;
 	double	cy_pos_to_inter_cy_n_dot;
+	t_quadratic	quad;
 
-	d = cy_discriminant(cyl, ray);
-	flag = true;
-	t = cy_get_solution_of_quadratic_equation(cyl, ray, d, &flag);
+	d = cy_discriminant(cyl, ray, &quad);
+	t = cy_get_solution_of_quadratic_equation(d, &quad);
 	if (t >0)
 	{
 		(*i_point)->distance = t;
 		(*i_point)->pos = add(ray.start, mul(t, ray.direction));
 		cy_pos_to_inter_cy_n_dot = dot(sub((*i_point)->pos, cyl.pos), cyl.normal);
-		if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == sol1)
+		if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == quad.sol1)
 			(*i_point)->normal = sub(sub((*i_point)->pos, cyl.pos), 
-					mul(cy_pos_to_inter_cy_n_dot, cyl.normal)) /;
-		else if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == sol2)
-		(*i_point)->normal = sub(mul(cy_pos_to_inter_cy_n_dot, cyl.normal), sub((*i_point)->pos, cyl.pos)) /;
+					mul(cy_pos_to_inter_cy_n_dot, cyl.normal));
+		else if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == quad.sol2)
+			(*i_point)->normal = sub(mul(cy_pos_to_inter_cy_n_dot, cyl.normal), sub((*i_point)->pos, cyl.pos));
+		(*i_point)->normal = div_vec((*i_point)->normal, norm(sub(mul(cy_pos_to_inter_cy_n_dot, cyl.normal), sub((*i_point)->pos, cyl.pos))));
+		return (true);
+
 	}
 	return (false);
 }
@@ -227,8 +228,8 @@ bool	is_hittable(t_shape shape, t_ray ray, t_intersection *i_point)
 		return (is_hittable_sphere(shape.sphere, ray, &i_point));
 	if (shape.type == ST_PLANE)
 		return (is_hittable_plane(shape.plane, ray, &i_point));
-//	if (shape.type == ST_SYLINDER)
-//		return (is_hittable_cylinder());
+	if (shape.type == ST_CYLINDER)
+		return (is_hittable_cylinder(shape.cylinder, ray, &i_point));
 	return (false);
 }
 
@@ -520,7 +521,6 @@ int	main(int argc, char **argv)
 	printf("%d %d\n", WIDTH, HEIGHT);
 	printf("255\n");
 	//////
-
 	config = init_config(argv);
 	ray_trace(config);
 //	destroy();
