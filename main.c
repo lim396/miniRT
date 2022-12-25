@@ -182,7 +182,7 @@ double	cy_get_solution_of_quadratic_equation(double d, t_quadratic *quad)
 		quad->sol1 = (-(quad->b) - sqrt(d)) / (2.0 * quad->a);
 		quad->sol2 = (-(quad->b) + sqrt(d)) / (2.0 * quad->a);
 		quad->sol = -1.0;
-		if (quad->sol > 0)
+		if (quad->sol1 > 0)
 		{
 			if (quad->sol2 > 0 && quad->sol2 < quad->sol1)
 			{
@@ -214,8 +214,12 @@ bool	is_hittable_cylinder(t_cylinder cyl, t_ray ray, t_intersection **i_point)
 			(*i_point)->normal = sub(sub((*i_point)->pos, cyl.pos), 
 					mul(cy_pos_to_inter_cy_n_dot, cyl.normal));
 		else if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == quad.sol2)
+		{
 			(*i_point)->normal = sub(mul(cy_pos_to_inter_cy_n_dot, cyl.normal), sub((*i_point)->pos, cyl.pos));
 		(*i_point)->normal = div_vec((*i_point)->normal, norm(sub(mul(cy_pos_to_inter_cy_n_dot, cyl.normal), sub((*i_point)->pos, cyl.pos))));
+		}
+		else
+			return (false);
 		return (true);
 
 	}
