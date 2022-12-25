@@ -115,6 +115,17 @@ typedef struct s_config
 	t_camera	camera;
 } t_config;
 
+typedef struct s_quadratic t_quadratic
+struct s_quadratic
+{
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	double	sol1;
+	double	sol2;
+	double	sol;
+} ;
 
 /* --------------------------------
 config {

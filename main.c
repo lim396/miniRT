@@ -148,50 +148,53 @@ bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection **i_point)
 
 }
 
-double	cy_discriminant(t_cylinder cyl, t_ray ray)
+double	cy_discriminant(t_cylinder cyl, t_ray ray, t_quadratic *quad)
 {
-	double	a;
-	double	b;
-	double	c;
+//	double	a;
+//	double	b;
+//	double	c;
 	double	d;
 
-	a = pow(norm(cross(ray.direction, cyl.normal)), 2);
-	b = 2 * dot(cross(ray.direction, cyl.normal), cross(sub(ray.start, cyl.pos), cyl.normal));
-	c = pow(norm(cross(sub(ray.start, cyl.pos), cyl.normal)), 2) - pow(cyl.radius, 2);
-	d = (b * b) - 4 * a * c;
+	quad->a = pow(norm(cross(ray.direction, cyl.normal)), 2);
+	quad->b = 2 * dot(cross(ray.direction, cyl.normal), cross(sub(ray.start, cyl.pos), cyl.normal));
+	quad->c = pow(norm(cross(sub(ray.start, cyl.pos), cyl.normal)), 2) - pow(cyl.radius, 2);
+	d = (quad->b * quad->b) - 4 * quad->a * quad->c;
 	return (d);
 }
-double	cy_get_solution_of_quadratic_equation(t_cylinder cyl, t_ray ray, double d, bool *flag)
+double	cy_get_solution_of_quadratic_equation(t_cylinder cyl, t_ray ray, double d, t_quadratic *quad)
 {
-	double	a;
-	double	b;
+//	double	a;
+//	double	b;
 	double	t1;
 	double	t2;
 
-	a = pow(norm(cross(ray.direction, cyl.normal)), 2);
-	b = 2 * dot(cross(ray.direction, cyl.normal), cross(sub(ray.start, cyl.pos), cyl.normal));
+//	a = pow(norm(cross(ray.direction, cyl.normal)), 2);
+//	b = 2 * dot(cross(ray.direction, cyl.normal), cross(sub(ray.start, cyl.pos), cyl.normal));
 
-	if (a == 0)
+	if (quad->a == 0)
 		return (-1.0);
 	if (d == 0)
 	{
-		return (-b / (2.0 * a));
+		return (-(quad->b) / (2.0 * quad->a));
 	}
 	else if (d > 0)
 	{
-		t1 = (-b + sqrt(d)) / (2.0 * a);
-		t2 = (-b + sqrt(d)) / (2.0 * a);
-		if (t1 > 0)
+		quad->sol1 = (-(quad->b) - sqrt(d)) / (2.0 * quad->a);
+		quad->sol2 = (-(quad->b) + sqrt(d)) / (2.0 * quad->a);
+		quad->sol = -1.0;
+		if (quad->sol > 0)
 		{
-			if (t2 > 0 && t2 < t1)
+			if (quad->sol2 > 0 && quad->sol2 < quad->sol1)
 			{
 				*flag = false;
-				return (t2);
+				quad->sol = quad->sol2;
+				return (quad->sol);
 			}
-			return (t1);
+			quad->sol = quad->sol1
+			return (quad->sol);
 		}
 	}
-	return (-1.0);
+	return (quad->sol);
 }
 
 bool	is_hittable_cylinder(t_cylinder cyl, t_ray ray, t_intersection **i_point)
@@ -199,6 +202,7 @@ bool	is_hittable_cylinder(t_cylinder cyl, t_ray ray, t_intersection **i_point)
 	double	d;
 	double	t;
 	bool	flag;
+	double	cy_pos_to_inter_cy_n_dot;
 
 	d = cy_discriminant(cyl, ray);
 	flag = true;
@@ -207,9 +211,12 @@ bool	is_hittable_cylinder(t_cylinder cyl, t_ray ray, t_intersection **i_point)
 	{
 		(*i_point)->distance = t;
 		(*i_point)->pos = add(ray.start, mul(t, ray.direction));
-		if (0 <= && <= cyl.height)
-		else if (0 <= && <= cyl.height)
-		(*i_point)->normal = ;
+		cy_pos_to_inter_cy_n_dot = dot(sub((*i_point)->pos, cyl.pos), cyl.normal);
+		if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == sol1)
+			(*i_point)->normal = sub(sub((*i_point)->pos, cyl.pos), 
+					mul(cy_pos_to_inter_cy_n_dot, cyl.normal)) /;
+		else if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == sol2)
+		(*i_point)->normal = sub(mul(cy_pos_to_inter_cy_n_dot, cyl.normal), sub((*i_point)->pos, cyl.pos)) /;
 	}
 	return (false);
 }
