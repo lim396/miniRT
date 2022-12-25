@@ -100,7 +100,7 @@ double	get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, double d)
 	return (-1.0);
 }
 
-bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point)
+bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection **i_point)
 {
 //	printf("ok\n");
 	double	d;
@@ -111,15 +111,15 @@ bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point)
 	if (t > 0)
 	{
 //		printf("%lf\n", t);
-		i_point->distance = t;
-		i_point->pos = add(ray.start, mul(t, ray.direction));
-		i_point->normal = normalize(sub(i_point->pos, sph.center));
+		(*i_point)->distance = t;
+		(*i_point)->pos = add(ray.start, mul(t, ray.direction));
+		(*i_point)->normal = normalize(sub((*i_point)->pos, sph.center));
 		return (true);
 	}
 	return (false);
 }
 
-bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection *i_point)
+bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection **i_point)
 {
 	t_vec	pln_to_ray;
 	double	dot_ray_dir_pln_normal;
@@ -132,11 +132,17 @@ bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection *i_point)
 		t = -dot(pln_to_ray, pln.normal) / dot_ray_dir_pln_normal;
 		if (t > 0)
 		{
-			i_point->distance = t;
-			i_point->pos = add(ray.start, mul(t, ray.direction));
-			i_point->normal = pln.normal;
+			(*i_point)->distance = t;
+//			printf("%lf\n", ray.direction.x);
+//			printf("%lf\n", ray.direction.y);
+//			printf("%lf\n", ray.direction.z);
+			(*i_point)->pos = add(ray.start, mul(t, ray.direction));
+//			printf("%lf\n", i_point->pos.x);
+//			printf("%lf\n", i_point->pos.y);
+//			printf("%lf\n", i_point->pos.z);
+			(*i_point)->normal = pln.normal;
+			return (true);
 		}
-		return (true);
 	}
 	return (false);
 
@@ -145,9 +151,9 @@ bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection *i_point)
 bool	is_hittable(t_shape shape, t_ray ray, t_intersection *i_point)
 {
 	if (shape.type == ST_SPHERE)
-		return (is_hittable_sphere(shape.sphere, ray, i_point));
+		return (is_hittable_sphere(shape.sphere, ray, &i_point));
 	if (shape.type == ST_PLANE)
-		return (is_hittable_plane(shape.plane, ray, i_point));
+		return (is_hittable_plane(shape.plane, ray, &i_point));
 //	if (shape.type == ST_SYLINDER)
 //		return (is_hittable_sylinder());
 	return (false);
@@ -173,9 +179,18 @@ t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 	list = list->next;
 	while (list != NULL)
 	{
+//		ft_memset(&i_point, 0, sizeof(t_intersection));
 //		printf("type: %d\n", list->type);
 		//hit_flag = is_hittable(config.shape_list[i], ray, &i_point);
+//		t_intersection	i_point;
 		hit_flag = is_hittable(*list, ray, &i_point);
+//		if (hit_flag && list->type == ST_SPHERE)
+//		if (hit_flag)
+//		{
+//			printf("%lf\n", i_point.pos.x);
+//			printf("%lf\n", i_point.pos.y);
+//			printf("%lf\n", i_point.pos.z);
+//		}
 //		printf("%d\n", hit_flag);
 //		if (hit_flag && i_point.distance < nearest_point.distance)
 		if (hit_flag && i_point.distance < nearest.i_point.distance)
@@ -307,6 +322,7 @@ t_nearest	get_shadow_ray(t_config config, t_nearest nearest, t_vec light_dir)
 	t_ray		shadow_ray;
 
 	distance = norm(sub(config.light.vec, nearest.i_point.pos)) - (1.0 / 512);
+//	printf("distance %lf\n", distance);
 	shadow_ray.start = add(nearest.i_point.pos, mul(1.0 / 512, light_dir));
 	shadow_ray.direction = light_dir;
 	i_point_near = get_nearest(config, shadow_ray, distance, 1);
@@ -327,6 +343,13 @@ t_color	get_luminance(t_config config, t_nearest nearest, t_ray ray)
 //	printf("%lf\n", color.g);
 //	printf("%lf\n", color.b);
 //	printf("\n");
+//	printf("%lf\n", config.light.vec.x);
+//	printf("%lf\n", config.light.vec.y);
+//	printf("%lf\n", config.light.vec.z);
+//	printf("%lf\n", nearest.i_point.pos.x);
+//	printf("%lf\n", nearest.i_point.pos.y);
+//	printf("%lf\n", nearest.i_point.pos.z);
+//	printf("%lf\n", nearest.shape.sphere.center.z);
 	light_dir = normalize(sub(config.light.vec, nearest.i_point.pos));
 //	if (config.light.type == POINT)
 //	{
@@ -338,8 +361,8 @@ t_color	get_luminance(t_config config, t_nearest nearest, t_ray ray)
 
 	i_point_near = 	get_shadow_ray(config, nearest, light_dir);
 //	printf("%d\n", i_point_near.flag);
-//	if (i_point_near.flag)
-//		return (color);
+	if (i_point_near.flag)
+		return (color);
 	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
 	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
 	color = add_color(color, add_diffuse_luminance(nearest.shape, config.light.illuminance, normal_light_dir_dot));
