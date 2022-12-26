@@ -28,7 +28,13 @@ double	atod(char *str)
 //	size_t	len;
 	double	ret;
 	size_t		valid_len;
-	
+	int	sign;
+
+	sign = 1;
+	if (*str == '-') {
+		str++;
+		sign = -1;
+	}
 	valid_len = count_valid(str);
 	cnt = 0;
 	n1 = ft_atoi(str);
@@ -40,9 +46,9 @@ double	atod(char *str)
 	str++;
 	n2 = ft_atoi(str);
 	if (valid_len == cnt)
-		ret = (double)n1;
+		ret = sign * (double)n1;
 	else
-		ret = (double)n1 + ((double)n2 / pow(10,(valid_len - cnt)));
+		ret = sign * (double)n1 + sign * ((double)n2 / pow(10,(valid_len - cnt)));
 	return (ret);
 }
 /*
@@ -52,19 +58,28 @@ int	main () {
 	printf("1234 %lf\n", atod("1234"));
 
 	printf("12.34 %lf\n", atod("12.34"));
+	printf("0.3 %lf\n", atod("0.3"));
+	printf("-0.3 %lf\n", atod("-0.3"));
+	printf("0.5 %lf\n", atod("0.5"));
+	printf("-0.5 %lf\n", atod("-0.5"));
+	printf("0.12 %lf\n", atod("0.12"));
+	printf("-0.12 %lf\n", atod("-0.12"));
+	printf("12.3 %lf\n", atod("12.3"));
+	printf("-12.3 %lf\n", atod("-12.3"));
 	printf("1.234 %lf\n", atod("1.234"));
 	printf("0.1234 %lf\n", atod("0.1234"));
 	printf("0.01234 %lf\n", atod("0.01234"));
 	printf("1234.0 %lf\n", atod("1234.0"));
 	printf("1.234.0 %lf\n", atod("1.234.0"));
-}*/
-
+}
+*/
 t_vec	set_vec(char *xyz)
 {
 	char	**split_xyz;
 	t_vec	vec;
 
 	split_xyz = ft_split(xyz, ',');
+//	printf("set_vec: %s\n", xyz);
 	if (split_xyz[0])
 		vec.x = atod(split_xyz[0]); //set color
 	else
@@ -77,6 +92,7 @@ t_vec	set_vec(char *xyz)
 		vec.z = atod(split_xyz[2]);
 	else
 		printf("ERROR\n");
+//	printf("x: %lf, y: %lf, z: %lf\n", vec.x, vec.y, vec.z);
 	return (vec);
 }
 
@@ -219,12 +235,14 @@ void	set_sphere(char **split_line, t_shape **shape_list)
 
 	t_shape	*shape_node;
 
+	//printf("set sph\n");
 	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
 	shape_node->type = ST_SPHERE;
 	shape_node->next = NULL;
 	i = 1;
 	while (split_line[i])
 	{
+	//	printf("str: %s\n", split_line[i]);
 		if (i == 1)
 			shape_node->sphere.center = set_vec(split_line[i]);
 		else if (i == 2)
@@ -235,6 +253,7 @@ void	set_sphere(char **split_line, t_shape **shape_list)
 			printf("ERROR\n");
 		i++;
 	}
+	//printf("shp: x: %lf y: %lf z: %lf\n", shape_node->sphere.center.x, shape_node->sphere.center.y, shape_node->sphere.center.z);
 	add_list_last(shape_list, shape_node);
 
 						//tmp index
@@ -475,6 +494,7 @@ t_config	init_config(char **argv)
 	t_config	config;
 
 	config = read_map(argv[1]);
+//	printf("x: %lf, y: %lf, z: %lf\n", config.shape_list->next->next->sphere.center.x, config.shape_list->next->next->sphere.center.y, config.shape_list->next->next->sphere.center.z);
 //	printf("%lf\n", config.camera.pos.x);
 //	printf("%lf\n", config.camera.pos.y);
 //	printf("%lf\n", config.camera.pos.z);
