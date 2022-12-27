@@ -3,24 +3,75 @@
 #define HEIGHT 512
 #define WIDTH 512
 
+void	get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir)
+//void	get_basis_vector(t_vec *esx, t_vec *esy, t_camera cam, t_vec camera_to_screen_center)
+{
+//	esx->z = -(cam.pos.x) / sqrt(pow(cam.pos.z, 2) + pow(cam.pos.x, 2));
+//	esx->x = cam.pos.z / sqrt(pow(cam.pos.z, 2) + pow(cam.pos.x, 2));
+//	esx->y = 0.0;
+//	*esy =  normalize(cross(*esx, mul(-1, camera_to_screen_center)));
+//	esx->y = cam_dir.x / sqrt(pow(cam_dir.x, 2) + pow(cam_dir.y, 2));
+//	esx->x = -cam_dir.y / sqrt(pow(cam_dir.x, 2) + pow(cam_dir.y, 2));
+//	esx->z = 0.0;
+//	*esy =  normalize(cross(*esx, mul(-1, cam_dir)));
+	esx->z = -(cam_dir.x) / sqrt(pow(cam_dir.z, 2) + pow(cam_dir.x, 2));
+	esx->x = cam_dir.z / sqrt(pow(cam_dir.z, 2) + pow(cam_dir.x, 2));
+	esx->y = 0.0;
+	*esy =  cross(cam_dir, *esx);
+//	*esy =  normalize(cross(cam_dir, *esx));
+//	*esx = normalize(*esx);
+}
 
-t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
+//t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
+t_ray	get_camera_ray(size_t x, size_t y, t_camera camera)
 {
 	t_ray	ray;
 	t_vec	wp; //world_pos
 //	double	wx;
 //	double	wy;
+//	t_vec	screen_pos;
+//	t_vec	esx;
+//	t_vec	esy;
+//	double	distance;
+//	t_vec	camera_to_screen_center;
+//
+//	distance = (WIDTH / 2.0) / tan(camera.fov / 2 * M_PI / 180.0);
+////
+//	camera_to_screen_center = mul(distance, camera.orientation);
+////
+////	get_basis_vector(&esx, &esy, camera, camera_to_screen_center);
+//	get_basis_vector(&esx, &esy, camera_to_screen_center);
+////	printf("esx %lf\n", esx.x);
+////	printf("esx %lf\n", esx.y);
+////	printf("esx %lf\n", esx.z);
+////	printf("esy %lf\n", esy.x);
+////	printf("esy %lf\n", esy.y);
+////	printf("esy %lf\n", esy.z);
+////	screen_pos = sub(mul((x - WIDTH / 2), esx), mul((y - HEIGHT / 2), esy));
+//	screen_pos = add(mul(x - (WIDTH / 2), esx), mul((HEIGHT / 2 - y), esy));
+//	ray.start = camera.pos;
+////	ray.direction = normalize(add(screen_pos, camera_to_screen_center));
+////	ray.direction = add(screen_pos, camera_to_screen_center);
+//	ray.direction = normalize(add(screen_pos, camera_to_screen_center));
+//	ray.direction = normalize(add(camera_to_screen_center, ray.start));
+//	ray.direction = div_vec(add(camera_to_screen_center, ray.start), norm(add(camera_to_screen_center, ray.start)));
+
+
 
 	//Screen from the upper left origin to a rectangle of width and height 2.0 at the center origin
 	wp.x = (2.0 * x) / (WIDTH - 1.0) - 1.0;
 	wp.y = (-2.0 * y) / (HEIGHT - 1.0) + 1.0;
 	wp.z = 0;
-	
-	//later change screen_camera_pos to world camera_pos
-	ray.start = camera_pos;
-	ray.direction.x = wp.x - camera_pos.x;
-	ray.direction.y = wp.y - camera_pos.y;
-	ray.direction.z = wp.z - camera_pos.z;
+//	
+//	//later change screen_camera_pos to world camera_pos
+	ray.start = camera.pos;
+	ray.direction.x = wp.x - camera.pos.x;
+	ray.direction.y = wp.y - camera.pos.y;
+	ray.direction.z = wp.z - camera.pos.z;
+//	ray.start = camera_pos;
+//	ray.direction.x = wp.x - camera_pos.x;
+//	ray.direction.y = wp.y - camera_pos.y;
+//	ray.direction.z = wp.z - camera_pos.z;
 //	printf("%lf\n", wp.x);
 //	printf("%lf\n", wp.y);
 //	printf("%lf\n", wp.z);
@@ -44,6 +95,9 @@ double	discriminant(t_sphere sph, t_ray ray)
 	double	c;
 	double	d;
 
+//	printf("%lf\n", sph.center.x);
+//	printf("%lf\n", sph.center.y);
+//	printf("%lf\n", sph.center.z);
 	sph_center_to_camera = sub(ray.start, sph.center);
 	a = dot(ray.direction, ray.direction);
 	b = 2.0 * dot(ray.direction, sph_center_to_camera);
@@ -188,20 +242,23 @@ double	cy_get_solution_of_quadratic_equation(double d, t_quadratic *quad)
 	}
 	else if (d > 0)
 	{
-		quad->sol1 = (-(quad->b) + sqrt(d)) / (2.0 * quad->a);
-		quad->sol2 = (-(quad->b) - sqrt(d)) / (2.0 * quad->a);
+		quad->sol1 = (-(quad->b) - sqrt(d)) / (2.0 * quad->a);
+		quad->sol2 = (-(quad->b) + sqrt(d)) / (2.0 * quad->a);
 //		if (quad->sol1 > 0)
 		if (quad->sol1 > 0 && (quad->sol2 < 0 || quad->sol1 < quad->sol2))
+//		if (quad->sol1 > 0)
 		{
 			quad->sol = quad->sol1;
-			return (quad->sol);
+//			return (quad->sol);
 		}
 		if (quad->sol2 > 0 && (quad->sol1 < 0 || quad->sol2 < quad->sol1))
+//		if (quad->sol2 > 0)
 //			if (quad->sol2 > 0 && quad->sol2 < quad->sol1)
 		{
 			quad->sol = quad->sol2;
-			return (quad->sol);
+//			return (quad->sol);
 		}
+		return (1.0);
 	}
 	return (quad->sol);
 }
@@ -210,27 +267,45 @@ bool	is_hittable_cylinder(t_cylinder cyl, t_ray ray, t_intersection **i_point)
 {
 	double	d;
 	double	t;
-	double	cy_pos_to_inter_cy_n_dot;
+	double	cy_pos_to_inter_cy_n_dot1;
+	double	cy_pos_to_inter_cy_n_dot2;
 	t_quadratic	quad;
 
 //	printf("%lf\n", cyl.height);
 	d = cy_discriminant(cyl, ray, &quad);
 	t = cy_get_solution_of_quadratic_equation(d, &quad);
-	if (t >0)
+	if (t > 0)
 	{
-		(*i_point)->distance = t;
-		(*i_point)->pos = add(ray.start, mul(t, ray.direction));
-		cy_pos_to_inter_cy_n_dot = dot(sub((*i_point)->pos, cyl.pos), cyl.normal);
-		if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == quad.sol2)
+//		(*i_point)->distance = t;
+//		(*i_point)->pos = add(ray.start, mul(t, ray.direction));
+		cy_pos_to_inter_cy_n_dot1 = dot(sub(add(ray.start, mul(quad.sol1, ray.direction)), cyl.pos), cyl.normal);
+		cy_pos_to_inter_cy_n_dot2 = dot(sub(add(ray.start, mul(quad.sol2, ray.direction)), cyl.pos), cyl.normal);
+//		cy_pos_to_inter_cy_n_dot1 = dot(sub(add(ray.start, mul(t, ray.direction)), cyl.pos), cyl.normal);
+//		cy_pos_to_inter_cy_n_dot2 = dot(sub(add(ray.start, mul(t, ray.direction)), cyl.pos), cyl.normal);
+//		cy_pos_to_inter_cy_n_dot = dot(sub((*i_point)->pos, cyl.pos), cyl.normal);
+//		if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == quad.sol2)
+		if (0 <= cy_pos_to_inter_cy_n_dot1 && cy_pos_to_inter_cy_n_dot1 <= cyl.height)
 		{
-			(*i_point)->normal = sub(sub((*i_point)->pos, cyl.pos), 
-					mul(cy_pos_to_inter_cy_n_dot, cyl.normal));
-			(*i_point)->normal = div_vec((*i_point)->normal, norm(sub(sub((*i_point)->pos, cyl.pos), mul(cy_pos_to_inter_cy_n_dot, cyl.normal))));
+//			(*i_point)->normal = sub(sub(add(ray.start, mul(quad.sol1, ray.direction)), cyl.pos), 
+//					mul(cy_pos_to_inter_cy_n_dot1, cyl.normal));
+//			(*i_point)->normal = div_vec((*i_point)->normal, norm(sub(sub(add(ray.start, mul(t, ray.direction)), cyl.pos), mul(cy_pos_to_inter_cy_n_dot1, cyl.normal))));
+			(*i_point)->distance = quad.sol1;
+			(*i_point)->pos = add(ray.start, mul(quad.sol1, ray.direction));
+			(*i_point)->normal = normalize(sub(sub((*i_point)->pos, cyl.pos), 
+					mul(cy_pos_to_inter_cy_n_dot1, cyl.normal)));
+//			(*i_point)->normal = div_vec((*i_point)->normal, norm(sub(sub((*i_point)->pos, cyl.pos), mul(cy_pos_to_inter_cy_n_dot1, cyl.normal))));
 		}
-		else if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == quad.sol1)
+//		else if (0 <= cy_pos_to_inter_cy_n_dot && cy_pos_to_inter_cy_n_dot <= cyl.height && t == quad.sol1)
+		else if (0 <= cy_pos_to_inter_cy_n_dot2 && cy_pos_to_inter_cy_n_dot2 <= cyl.height)
 		{
-			(*i_point)->normal = sub(mul(cy_pos_to_inter_cy_n_dot, cyl.normal), sub((*i_point)->pos, cyl.pos));
-			(*i_point)->normal = div_vec((*i_point)->normal, norm(sub(mul(cy_pos_to_inter_cy_n_dot, cyl.normal), sub((*i_point)->pos, cyl.pos))));
+//			(*i_point)->normal = sub(mul(cy_pos_to_inter_cy_n_dot2, cyl.normal), sub(add(ray.start, mul(quad.sol2, ray.direction)), cyl.pos));
+//			(*i_point)->normal = div_vec((*i_point)->normal, norm(sub(mul(cy_pos_to_inter_cy_n_dot2, cyl.normal), sub(add(ray.start, mul(quad.sol2, ray.direction)), cyl.pos))));
+//		}
+			(*i_point)->distance = quad.sol2;
+			(*i_point)->pos = add(ray.start, mul(quad.sol2, ray.direction));
+			(*i_point)->normal = normalize(sub(mul(cy_pos_to_inter_cy_n_dot2, cyl.normal), sub((*i_point)->pos, cyl.pos)));
+//			(*i_point)->normal = div_vec((*i_point)->normal, norm(sub(mul(cy_pos_to_inter_cy_n_dot2, cyl.normal), sub((*i_point)->pos, cyl.pos))));
+//		}
 		}
 		else
 			return (false);
@@ -259,23 +334,26 @@ t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 	//t_shape			*nearest_shape;
 	t_nearest		nearest;
 	t_intersection	i_point;
-	t_shape	*list;
+//	t_shape	*list;
 //	t_intersection	nearest_point;
 
-	list = config.shape_list;
+//	list = config.shape_list;
 	nearest.flag = false;
 	nearest.i_point.distance = max_d;
 //	nearest_point.distance = max_d;
 	//i = 0;
 	//while (i < 2)//config.num_shapes)
-	list = list->next;
-	while (list != NULL)
+//	list = list->next;
+	config.shape_list = config.shape_list->next;
+//	while (list != NULL)
+	while (config.shape_list != NULL)
 	{
 //		ft_memset(&i_point, 0, sizeof(t_intersection));
 //		printf("type: %d\n", list->type);
 		//hit_flag = is_hittable(config.shape_list[i], ray, &i_point);
 //		t_intersection	i_point;
-		hit_flag = is_hittable(*list, ray, &i_point);
+		hit_flag = is_hittable(*(config.shape_list), ray, &i_point);
+//		hit_flag = is_hittable(*list, ray, &i_point);
 //		if (hit_flag && list->type == ST_SPHERE)
 //		if (hit_flag)
 //		{
@@ -285,18 +363,32 @@ t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow)
 //		}
 //		printf("%d\n", hit_flag);
 //		if (hit_flag && i_point.distance < nearest_point.distance)
-		if (hit_flag && i_point.distance < nearest.i_point.distance)
+		if (hit_flag && i_point.distance > 0 && i_point.distance < nearest.i_point.distance)
 		{
 //			printf("ok\n");
 			//nearest_shape = &config.shape_list[i];
-			nearest.shape = *list;
+//			if ((*list).type == ST_SPHERE)
+//			if (config.shape_list->type == ST_SPHERE)
+//			{
+//				
+//			
+//				printf("x %lf\n", config.shape_list->sphere.center.x);
+//				printf("y %lf\n", config.shape_list->sphere.center.y);
+//				printf("z %lf\n", config.shape_list->sphere.center.z);
+//				printf("y %lf\n", (*list).sphere.center.y);
+//				printf("z %lf\n", (*list).sphere.center.z);
+//			}
+			nearest.shape = *(config.shape_list);
+//			nearest.shape = *list;
 			//nearest_shape.i_point = i_point;
 			nearest.i_point = i_point;
 			nearest.flag = true;
 			if (shadow)
 				break ;
 		}
-		list = list->next;
+//		list = list->next;
+		config.shape_list = config.shape_list->next;
+//		list = list->next;
 		//i++;
 	}
 	return (nearest);
@@ -452,7 +544,8 @@ t_color	get_luminance(t_config config, t_nearest nearest, t_ray ray)
 //	}
 
 	i_point_near = 	get_shadow_ray(config, nearest, light_dir);
-//	printf("%d\n", i_point_near.flag);
+//	if (i_point_near.flag)
+//		printf("%d\n", i_point_near.shape.type);
 	if (i_point_near.flag)
 		return (color);
 	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
@@ -519,7 +612,8 @@ void	ray_trace(t_config config)
 		x = 0;
 		while (x < WIDTH)
 		{
-			camera_ray = get_camera_ray(x, y, config.camera.pos);
+//			camera_ray = get_camera_ray(x, y, config.camera.pos);
+			camera_ray = get_camera_ray(x, y, config.camera);
 			color = trace(config, camera_ray);
 			draw(color);
 			x++;
