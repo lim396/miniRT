@@ -6,68 +6,70 @@
 void	get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir)
 //void	get_basis_vector(t_vec *esx, t_vec *esy, t_camera cam, t_vec camera_to_screen_center)
 {
-//	esx->z = -(cam.pos.x) / sqrt(pow(cam.pos.z, 2) + pow(cam.pos.x, 2));
 //	esx->x = cam.pos.z / sqrt(pow(cam.pos.z, 2) + pow(cam.pos.x, 2));
 //	esx->y = 0.0;
+//	esx->z = -(cam.pos.x) / sqrt(pow(cam.pos.z, 2) + pow(cam.pos.x, 2));
 //	*esy =  normalize(cross(*esx, mul(-1, camera_to_screen_center)));
-//	esx->y = cam_dir.x / sqrt(pow(cam_dir.x, 2) + pow(cam_dir.y, 2));
-//	esx->x = -cam_dir.y / sqrt(pow(cam_dir.x, 2) + pow(cam_dir.y, 2));
+//	esx->y = -cam_dir.x / sqrt(pow(cam_dir.x, 2) + pow(cam_dir.y, 2));
+//	esx->x = cam_dir.y / sqrt(pow(cam_dir.x, 2) + pow(cam_dir.y, 2));
 //	esx->z = 0.0;
+//	*esy =  normalize(cross(cam_dir, *esx));
 //	*esy =  normalize(cross(*esx, mul(-1, cam_dir)));
-	esx->z = -(cam_dir.x) / sqrt(pow(cam_dir.z, 2) + pow(cam_dir.x, 2));
 	esx->x = cam_dir.z / sqrt(pow(cam_dir.z, 2) + pow(cam_dir.x, 2));
 	esx->y = 0.0;
-	*esy =  cross(cam_dir, *esx);
+	esx->z = -(cam_dir.x) / sqrt(pow(cam_dir.z, 2) + pow(cam_dir.x, 2));
+	*esx = normalize(*esx);
+//	*esy = normalize(cross(*esx, cam_dir));
+	*esy = normalize(cross(cam_dir, *esx));
 //	*esy =  normalize(cross(cam_dir, *esx));
-//	*esx = normalize(*esx);
 }
 
 //t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
 t_ray	get_camera_ray(size_t x, size_t y, t_camera camera)
 {
 	t_ray	ray;
-	t_vec	wp; //world_pos
+//	t_vec	wp; //world_pos
 //	double	wx;
 //	double	wy;
-//	t_vec	screen_pos;
-//	t_vec	esx;
-//	t_vec	esy;
-//	double	distance;
-//	t_vec	camera_to_screen_center;
+	t_vec	screen_pos;
+	t_vec	esx;
+	t_vec	esy;
+	double	distance;
+	t_vec	camera_to_screen_center;
+
+	distance = (WIDTH / 2.0) / tan(camera.fov / 2 * M_PI / 180.0);
 //
-//	distance = (WIDTH / 2.0) / tan(camera.fov / 2 * M_PI / 180.0);
-////
-//	camera_to_screen_center = mul(distance, camera.orientation);
-////
-////	get_basis_vector(&esx, &esy, camera, camera_to_screen_center);
-//	get_basis_vector(&esx, &esy, camera_to_screen_center);
+	camera_to_screen_center = mul(distance, camera.orientation);
+//
+//	get_basis_vector(&esx, &esy, camera, camera_to_screen_center);
+	get_basis_vector(&esx, &esy, camera_to_screen_center);
 ////	printf("esx %lf\n", esx.x);
 ////	printf("esx %lf\n", esx.y);
 ////	printf("esx %lf\n", esx.z);
 ////	printf("esy %lf\n", esy.x);
 ////	printf("esy %lf\n", esy.y);
 ////	printf("esy %lf\n", esy.z);
-////	screen_pos = sub(mul((x - WIDTH / 2), esx), mul((y - HEIGHT / 2), esy));
-//	screen_pos = add(mul(x - (WIDTH / 2), esx), mul((HEIGHT / 2 - y), esy));
-//	ray.start = camera.pos;
+//	screen_pos = sub(mul((x - WIDTH / 2), esx), mul((y - HEIGHT / 2), esy));
+	screen_pos = add(mul(x - (WIDTH / 2), esx), mul((HEIGHT / 2 - y), esy));
+	ray.start = camera.pos;
 ////	ray.direction = normalize(add(screen_pos, camera_to_screen_center));
 ////	ray.direction = add(screen_pos, camera_to_screen_center);
-//	ray.direction = normalize(add(screen_pos, camera_to_screen_center));
+	ray.direction = normalize(add(screen_pos, camera_to_screen_center));
 //	ray.direction = normalize(add(camera_to_screen_center, ray.start));
 //	ray.direction = div_vec(add(camera_to_screen_center, ray.start), norm(add(camera_to_screen_center, ray.start)));
 
 
 
 	//Screen from the upper left origin to a rectangle of width and height 2.0 at the center origin
-	wp.x = (2.0 * x) / (WIDTH - 1.0) - 1.0;
-	wp.y = (-2.0 * y) / (HEIGHT - 1.0) + 1.0;
-	wp.z = 0;
+//	wp.x = (2.0 * x) / (WIDTH - 1.0) - 1.0;
+//	wp.y = (-2.0 * y) / (HEIGHT - 1.0) + 1.0;
+//	wp.z = 0;
 //	
 //	//later change screen_camera_pos to world camera_pos
-	ray.start = camera.pos;
-	ray.direction.x = wp.x - camera.pos.x;
-	ray.direction.y = wp.y - camera.pos.y;
-	ray.direction.z = wp.z - camera.pos.z;
+//	ray.start = camera.pos;
+//	ray.direction.x = wp.x - camera.pos.x;
+//	ray.direction.y = wp.y - camera.pos.y;
+//	ray.direction.z = wp.z - camera.pos.z;
 //	ray.start = camera_pos;
 //	ray.direction.x = wp.x - camera_pos.x;
 //	ray.direction.y = wp.y - camera_pos.y;
