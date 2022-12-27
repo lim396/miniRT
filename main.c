@@ -3,6 +3,14 @@
 #define HEIGHT 512
 #define WIDTH 512
 
+void	print_vector(t_vec vec, char *msg)
+{
+	printf("%s\n", msg);
+	printf("x: %lf\n", vec.x);
+	printf("y: %lf\n", vec.y);
+	printf("z: %lf\n", vec.z);
+}
+
 void	get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir)
 //void	get_basis_vector(t_vec *esx, t_vec *esy, t_camera cam, t_vec camera_to_screen_center)
 {
@@ -25,7 +33,7 @@ void	get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir)
 }
 
 //t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
-t_ray	get_camera_ray(size_t x, size_t y, t_camera camera)
+t_ray	get_camera_ray(int x, int y, t_camera camera)
 {
 	t_ray	ray;
 //	t_vec	wp; //world_pos
@@ -42,7 +50,8 @@ t_ray	get_camera_ray(size_t x, size_t y, t_camera camera)
 	camera_to_screen_center = mul(distance, camera.orientation);
 //
 //	get_basis_vector(&esx, &esy, camera, camera_to_screen_center);
-	get_basis_vector(&esx, &esy, camera_to_screen_center);
+	//get_basis_vector(&esx, &esy, camera_to_screen_center);
+	get_basis_vector(&esx, &esy, camera.orientation);
 ////	printf("esx %lf\n", esx.x);
 ////	printf("esx %lf\n", esx.y);
 ////	printf("esx %lf\n", esx.z);
@@ -50,7 +59,13 @@ t_ray	get_camera_ray(size_t x, size_t y, t_camera camera)
 ////	printf("esy %lf\n", esy.y);
 ////	printf("esy %lf\n", esy.z);
 //	screen_pos = sub(mul((x - WIDTH / 2), esx), mul((y - HEIGHT / 2), esy));
+	//print_vector(esx, "esx");
+	//print_vector(esy, "esy");
+	//printf("%d\n", x - (WIDTH / 2));
+	//print_vector(mul(x - (WIDTH / 2), esx), "mul");
+	//print_vector(mul((HEIGHT / 2 - y), esy), "mul2");
 	screen_pos = add(mul(x - (WIDTH / 2), esx), mul((HEIGHT / 2 - y), esy));
+	//print_vector(screen_pos, "screen_pos");
 	ray.start = camera.pos;
 ////	ray.direction = normalize(add(screen_pos, camera_to_screen_center));
 ////	ray.direction = add(screen_pos, camera_to_screen_center);
@@ -616,6 +631,7 @@ void	ray_trace(t_config config)
 		{
 //			camera_ray = get_camera_ray(x, y, config.camera.pos);
 			camera_ray = get_camera_ray(x, y, config.camera);
+			//break;
 			color = trace(config, camera_ray);
 			draw(color);
 			x++;

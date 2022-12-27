@@ -165,7 +165,8 @@ bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection **i_point);
 bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection **i_point);
 double	get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, double d);
 double	discriminant(t_sphere sph, t_ray ray);
-t_ray	get_camera_ray(size_t x, size_t y, t_camera camera);
+t_ray	get_camera_ray(int x, int y, t_camera camera);
+//t_ray	get_camera_ray(size_t x, size_t y, t_camera camera);
 //t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos);
 
 #endif
