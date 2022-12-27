@@ -23,6 +23,26 @@ void	get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir)
 //	esx->z = 0.0;
 //	*esy =  normalize(cross(cam_dir, *esx));
 //	*esy =  normalize(cross(*esx, mul(-1, cam_dir)));
+	if (cam_dir.x == 0 && cam_dir.z == 0 && cam_dir.y)
+	{
+//		if (cam_dir.y < 0)
+//		{
+		esx->x = 1.0;
+		esx->y = 0.0;
+		esx->z = 0.0;
+		esy->x = 0.0;
+		esy->y = 0.0;
+		esy->z = 1.0;
+//		}
+//		else
+//			esx->x = 1.0;
+//			esx->y = 0.0;
+//			esx->z = 0.0;
+//			esy->x = 0.0;
+//			esy->y = 0.0;
+//			esy->z = 1.0;
+		return ;
+	}
 	esx->x = cam_dir.z / sqrt(pow(cam_dir.z, 2) + pow(cam_dir.x, 2));
 	esx->y = 0.0;
 	esx->z = -(cam_dir.x) / sqrt(pow(cam_dir.z, 2) + pow(cam_dir.x, 2));
@@ -33,7 +53,7 @@ void	get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir)
 }
 
 //t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos)
-t_ray	get_camera_ray(int x, int y, t_camera camera)
+t_ray	get_camera_ray(double x, double y, t_camera camera)
 {
 	t_ray	ray;
 //	t_vec	wp; //world_pos
@@ -618,8 +638,10 @@ void	draw(t_color color)
 
 void	ray_trace(t_config config)
 {
-	size_t	x;
-	size_t	y;
+	double	x;
+	double	y;
+//	size_t	x;
+//	size_t	y;
 	t_ray	camera_ray;
 	t_color	color;
 

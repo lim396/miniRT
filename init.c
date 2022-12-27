@@ -184,7 +184,8 @@ void	set_camera(char **split_line, t_config *config)
 		else if (i == 2)
 			config->camera.orientation = set_vec(split_line[i]);
 		else if (i == 3)
-			config->camera.fov = atoi(split_line[i]);
+			config->camera.fov = atod(split_line[i]);
+//			config->camera.fov = atoi(split_line[i]);
 		else
 			printf("ERROR\n");
 		i++;
