@@ -79,9 +79,8 @@ t_vec	set_vec(char *xyz)
 	t_vec	vec;
 
 	split_xyz = ft_split(xyz, ',');
-//	printf("set_vec: %s\n", xyz);
 	if (split_xyz[0])
-		vec.x = atod(split_xyz[0]); //set color
+		vec.x = atod(split_xyz[0]);
 	else
 		printf("ERROR\n");
 	if (split_xyz[1])
@@ -92,7 +91,6 @@ t_vec	set_vec(char *xyz)
 		vec.z = atod(split_xyz[2]);
 	else
 		printf("ERROR\n");
-//	printf("x: %lf, y: %lf, z: %lf\n", vec.x, vec.y, vec.z);
 	return (vec);
 }
 
@@ -103,7 +101,7 @@ t_color	set_color(char *rgb)
 
 	split_rgb = ft_split(rgb, ',');
 	if (split_rgb[0])
-		color.r = atod(split_rgb[0]) / 255.0; //set color
+		color.r = atod(split_rgb[0]) / 255.0;
 	else
 		printf("ERROR\n");
 	if (split_rgb[1])
@@ -136,16 +134,6 @@ void	set_ambient(char **split_line, t_config *config)
 			printf("ERROR\n");
 		i++;
 	}
-//	printf("ambi ref\n");
-//	printf("%lf\n", config->ambient.ambient_ref.r);
-//	printf("%lf\n", config->ambient.ambient_ref.g);
-//	printf("%lf\n", config->ambient.ambient_ref.b);
-//	printf("\n");
-//	printf("ambi illu\n");
-//	printf("%lf\n", config->ambient.ambient_illuminance.r);
-//	printf("%lf\n", config->ambient.ambient_illuminance.g);
-//	printf("%lf\n", config->ambient.ambient_illuminance.b);
-//	printf("\n");
 }
 
 void	set_light(char **split_line, t_config *config)
@@ -165,11 +153,6 @@ void	set_light(char **split_line, t_config *config)
 			printf("ERROR\n");
 		i++;
 	}
-//	printf("light ill\n");
-//	printf("%lf\n", config->light.illuminance.r);
-//	printf("%lf\n", config->light.illuminance.g);
-//	printf("%lf\n", config->light.illuminance.b);
-//	printf("\n");
 }
 
 void	set_camera(char **split_line, t_config *config)
@@ -185,7 +168,6 @@ void	set_camera(char **split_line, t_config *config)
 			config->camera.orientation = set_vec(split_line[i]);
 		else if (i == 3)
 			config->camera.fov = atod(split_line[i]);
-//			config->camera.fov = atoi(split_line[i]);
 		else
 			printf("ERROR\n");
 		i++;
@@ -194,13 +176,10 @@ void	set_camera(char **split_line, t_config *config)
 
 t_shape	*list_last(t_shape *list)
 {		
-//	printf("list %d\n", list->type);
 	if (list == NULL)
 		return (NULL);
 	while (list->next != NULL)
 	{
-//		printf("next %d\n", list->type);
-//		printf("%d\n", list->type);
 		list = list->next;
 	}
 	return (list);
@@ -215,35 +194,28 @@ void	add_list_last(t_shape **shape_list, t_shape *node)
 		return ;
 	if (*shape_list == NULL)
 	{
-//		printf("ko\n");
 		*shape_list = node;
 		return ;
 	}
-//	printf("ok\n");
 	head = *shape_list;
 	last = list_last(*shape_list);
 	*shape_list = head;
 	if (last == NULL)
 		return ;
 	last->next = node;
-//	node->next = NULL;
 }
 
 void	set_sphere(char **split_line, t_shape **shape_list)
 {
-//	printf("ok\n");
 	size_t	i;
-
 	t_shape	*shape_node;
 
-	//printf("set sph\n");
 	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
 	shape_node->type = ST_SPHERE;
 	shape_node->next = NULL;
 	i = 1;
 	while (split_line[i])
 	{
-	//	printf("str: %s\n", split_line[i]);
 		if (i == 1)
 			shape_node->sphere.center = set_vec(split_line[i]);
 		else if (i == 2)
@@ -254,9 +226,8 @@ void	set_sphere(char **split_line, t_shape **shape_list)
 			printf("ERROR\n");
 		i++;
 	}
-	//printf("shp: x: %lf y: %lf z: %lf\n", shape_node->sphere.center.x, shape_node->sphere.center.y, shape_node->sphere.center.z);
 	add_list_last(shape_list, shape_node);
-
+}
 						//tmp index
 //	shape_list->type = ST_SPHERE;
 //	i = 1;
@@ -287,7 +258,7 @@ void	set_sphere(char **split_line, t_shape **shape_list)
 //	printf("%lf\n", config->shape_list[0].sphere.center.x);
 //	printf("%lf\n", config->shape_list[0].sphere.center.y);
 //	printf("%lf\n", config->shape_list[0].sphere.center.z);
-}
+//}
 
 //void	set_sphere(char **split_line, t_config *config)
 //{
@@ -349,7 +320,6 @@ void	set_plane(char **split_line, t_shape **shape_list)
 
 	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
 
-						//tmp index
 	shape_node->type = ST_PLANE;
 	shape_node->next = NULL;
 	i = 1;
@@ -360,7 +330,7 @@ void	set_plane(char **split_line, t_shape **shape_list)
 		else if (i == 2)
 			shape_node->plane.normal = set_vec(split_line[i]);
 		else if (i == 3)
-			shape_node->material.diffuse_ref = set_color(split_line[i]); //set_color
+			shape_node->material.diffuse_ref = set_color(split_line[i]);
 		else
 			printf("ERROR\n");
 		i++;
@@ -368,66 +338,15 @@ void	set_plane(char **split_line, t_shape **shape_list)
 	add_list_last(shape_list, shape_node);
 }
 
-//void	set_plane(char **split_line, t_config *config)
-//{	
-//	size_t	i;
-//
-//						//tmp index
-//	config->shape_list[1].type = ST_PLANE;
-//	i = 1;
-//	while (split_line[i])
-//	{
-//		if (i == 1)
-//			config->shape_list[1].plane.pos = set_vec(split_line[i]);
-//		else if (i == 2)
-//			config->shape_list[1].plane.normal = set_vec(split_line[i]);
-//		else if (i == 3)
-//			config->shape_list[1].material.diffuse_ref = set_color(split_line[i]); //set_color
-//		else
-//			printf("ERROR\n");
-//		i++;
-//	}
-//}
-
-//void	set_cylinder(char **split_line, t_config *config)
-//{	
-//	size_t	i;
-//
-//						//tmp index
-//	config->shape_list[2].type = ST_CYLINDER;
-//	i = 1;
-//	while (split_line[i])
-//	{
-//		if (i == 1)
-//			config->shape_list[2].cylinder.pos = set_vec(split_line[i]);
-//		else if (i == 2)
-//			config->shape_list[2].cylinder.orientation = set_vec(split_line[i]);
-//		else if (i == 3)
-//			config->shape_list[2].cylinder.diameter = atod(split_line[i]);
-//		else if (i == 4)
-//			config->shape_list[2].cylinder.height = atod(split_line[i]);
-//		else if (i == 5)
-//			config->shape_list[2].material.diffuse_ref = set_color(split_line[i]);
-//		else
-//			printf("ERROR\n");
-//		i++;
-//	}
-//	return (config);
-//}
-
 bool	set_config(t_config *config, const char *line)
 {
 	char	**split_line;
-//	size_t	i;
-//	char	ident;
 	
-//	i = 0;
 	split_line = ft_split(line, ' ');
 	if (split_line == NULL)
 		return (false);
 	if (split_line[0] != NULL)
 	{
-//		printf("%c\n", *split_line[0]);
 		if (split_line[0][0] == 'A')
 			set_ambient(split_line, config);
 		else if (split_line[0][0] == 'L')
@@ -435,33 +354,9 @@ bool	set_config(t_config *config, const char *line)
 		else if (split_line[0][0] == 'C')
 			set_camera(split_line, config);
 		else if (split_line[0][0] == 's' && split_line[0][1] == 'p')
-		{
 			set_sphere(split_line, &config->shape_list);
-//			printf("%d\n", config->shape_list->type);
-//			printf("%d\n", config->shape_list->next->type);
-		}
-//			set_sphere(split_line, config);
 		else if (split_line[0][0] == 'p' && split_line[0][1] == 'l')
-		{
 			set_plane(split_line, &config->shape_list);
-//			printf("%d\n", config->shape_list->type);
-//			printf("%d\n", config->shape_list->next->type);
-		}
-		/*
-		t_shape *last;
-
-		last = list_last(config->shape_list);
-		printf("set_config(sph)\n");
-		printf("%lf\n", last->sphere.center.x);
-		printf("%lf\n", last->sphere.center.y);
-		printf("%lf\n", last->sphere.center.z);
-
-		printf("set_config(pla)\n");
-		printf("%lf\n", last->plane.center.x);
-		printf("%lf\n", last->plane.center.y);
-		printf("%lf\n", last->plane.center.z);
-		*/
-//			set_plane(split_line, config);
 		else if (split_line[0][0] == 'c' && split_line[0][1] == 'y')
 			set_cylinder(split_line, &config->shape_list);
 //		else

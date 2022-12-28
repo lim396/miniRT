@@ -20,6 +20,7 @@ $(LIBFT):
 	$(MAKE) -C ./libft
 
 clean:
+	$(RM) $(OBJS)
 	$(MAKE) -C ./libft
 
 fclean:
