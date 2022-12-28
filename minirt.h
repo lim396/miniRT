@@ -7,10 +7,18 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <float.h>
+# include "mlx_int.h"
+# include "mlx.h"
 # define SHININESS 8.0
 
 #define HEIGHT 512
 #define WIDTH 512
+
+typedef struct	s_status	t_status;
+struct s_status {
+	void	*mlx;
+	void	*mlx_win;
+};
 
 typedef struct s_color
 {
@@ -154,6 +162,9 @@ t_color		trace(t_config config, t_ray ray);
 
 // draw.c
 void		draw(t_color color);
+
+// window_utils.c
+t_status	*mlx_run();
 
 // get_shadow_ray.c
 t_nearest	get_shadow_ray(t_config config, t_nearest nearest, \

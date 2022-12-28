@@ -11,4 +11,3 @@ void	draw(t_color color)
 	b = 255 * rounding_num(color.b, 0, 1);
 	printf("%d %d %d\n", r, g, b);
 }
-

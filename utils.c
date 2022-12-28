@@ -11,7 +11,7 @@ double	rounding_num(double num, double min, double max)
 		n = max;
 	return (n);
 }
-
+/*
 bool	is_overflow(double ret, int n, double base, bool dot_flag)
 {
 	if (dot_flag)
@@ -50,8 +50,8 @@ double atod(char *str)
 		}
 	}
 	return (ret);
-}
-/*
+}*/
+
 size_t	count_valid(char *str)
 {
 	int		i;
@@ -102,7 +102,7 @@ double	atod(char *str)
 	else
 		ret = sign * (double)n1 + sign * ((double)n2 / pow(10,(valid_len - cnt)));
 	return (ret);
-}*/
+}
 
 
 

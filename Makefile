@@ -17,17 +17,29 @@ SRCS = main.c \
 		set_scene.c \
 		set_shapes.c \
 		vec_operator.c \
-		dot_cross_vec.c
+		dot_cross_vec.c \
+		window_utils.c
 
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -g -Werror -Wextra -Wall
 INCLUDE = -I includes -I ./libft/includes
 LIBFT = libft/libft.a
+COPTS = -I /opt/X11/include -L /usr/X11/include/../lib -I minilibx-linux -L minilibx-linux -lm -l Xext -l X11 
+
+UNAME = $(shell uname)
+ifeq ($(UNAME), Darwin)
+	MLX = minilibx-linux/libmlx_Darwin.a
+else ifeq ($(UNAME), Linux)
+	MLX = minilibx-linux/libmlx.a
+endif
 
 all: $(NAME)
 
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX) $(COPTS) $(INCLUDE)
+
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ -I minilibx-linux -I /opt/X11/include
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJS) $(LIBFT)
