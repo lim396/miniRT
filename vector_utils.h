@@ -1,5 +1,5 @@
-#ifndef VEC_UTIL
-#define VEC_UTIL
+#ifndef VECTOR_UTILS_H
+# define VECTOR_UTILS_H
 
 #include <math.h>
 //#include "minirt.h"

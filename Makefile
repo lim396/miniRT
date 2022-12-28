@@ -32,7 +32,7 @@ $(LIBFT):
 
 clean:
 	$(RM) $(OBJS)
-	$(MAKE) -C ./libft
+	$(MAKE) clean -C ./libft
 
 fclean:
 	$(MAKE) fclean -C ./libft
