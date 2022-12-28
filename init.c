@@ -22,16 +22,16 @@ size_t	count_valid(char *str)
 double	atod(char *str)
 {
 	// overflow checkしろよ
-	int	n1;
-	int	n2;
+	int		n1;
+	int		n2;
 	size_t	cnt;
-//	size_t	len;
 	double	ret;
-	size_t		valid_len;
-	int	sign;
+	size_t	valid_len;
+	int		sign;
 
 	sign = 1;
-	if (*str == '-') {
+	if (*str == '-')
+	{
 		str++;
 		sign = -1;
 	}
@@ -228,62 +228,6 @@ void	set_sphere(char **split_line, t_shape **shape_list)
 	}
 	add_list_last(shape_list, shape_node);
 }
-						//tmp index
-//	shape_list->type = ST_SPHERE;
-//	i = 1;
-//	while (split_line[i])
-//	{
-//		if (i == 1)
-//			shape_list->sphere.center = set_vec(split_line[i]);
-//		else if (i == 2)
-//			shape_list->sphere.radius = atod(split_line[i]) / 2.0;
-//		else if (i == 3)
-//			shape_list->material.diffuse_ref = set_color(split_line[i]);
-//		else
-//			printf("ERROR\n");
-//		i++;
-//	}
-//	printf("sph diffu\n");
-//	printf("%lf\n", shape_list->material.diffuse_ref.r);
-//	printf("%lf\n", shape_list->material.diffuse_ref.g);
-//	printf("%lf\n", shape_list->material.diffuse_ref.b);
-//	printf("\n");
-//	t_shape *last;
-//
-//	last = list_last(shape_list);
-//	printf("in set_sph\n");
-//	printf("%lf\n", last->sphere.center.x);
-//	printf("%lf\n", last->sphere.center.y);
-//	printf("%lf\n", last->sphere.center.z);
-//	printf("%lf\n", config->shape_list[0].sphere.center.x);
-//	printf("%lf\n", config->shape_list[0].sphere.center.y);
-//	printf("%lf\n", config->shape_list[0].sphere.center.z);
-//}
-
-//void	set_sphere(char **split_line, t_config *config)
-//{
-////	printf("ok\n");
-//	size_t	i;
-//
-//						//tmp index
-//	config->shape_list[0].type = ST_SPHERE;
-//	i = 1;
-//	while (split_line[i])
-//	{
-//		if (i == 1)
-//			config->shape_list[0].sphere.center = set_vec(split_line[i]);
-//		else if (i == 2)
-//			config->shape_list[0].sphere.radius = atod(split_line[i]) / 2.0;
-//		else if (i == 3)
-//			config->shape_list[0].material.diffuse_ref = set_color(split_line[i]);
-//		else
-//			printf("ERROR\n");
-//		i++;
-//	}
-////	printf("%lf\n", config->shape_list[0].sphere.center.x);
-////	printf("%lf\n", config->shape_list[0].sphere.center.y);
-////	printf("%lf\n", config->shape_list[0].sphere.center.z);
-//}
 
 void	set_cylinder(char **split_line, t_shape **shape_list)
 {	
@@ -341,7 +285,7 @@ void	set_plane(char **split_line, t_shape **shape_list)
 bool	set_config(t_config *config, const char *line)
 {
 	char	**split_line;
-	
+
 	split_line = ft_split(line, ' ');
 	if (split_line == NULL)
 		return (false);
@@ -371,7 +315,7 @@ t_config	read_map(char *filename)
 	t_config	config;
 	int			fd;
 
-	fd = open(filename,0644);
+	fd = open(filename, 0644);
 	config.shape_list = (t_shape *)malloc(sizeof(t_shape));
 	config.shape_list->next = NULL;
 	config.shape_list->type = ST_NONE;
@@ -379,7 +323,7 @@ t_config	read_map(char *filename)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
-			break;
+			break ;
 		set_config(&config, line);
 	}
 	return (config);
