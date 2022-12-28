@@ -1,7 +1,8 @@
 CC = gcc
 NAME = minirt
 
-SRCS = main.c init.c \
+SRCS = main.c \
+		init.c \
 		vector_utils.c \
 		camera_ray.c \
 		equation.c \
@@ -12,7 +13,11 @@ SRCS = main.c init.c \
 		color_utils.c \
 		utils.c \
 		get_nearest.c \
-		get_shadow_ray.c
+		get_shadow_ray.c \
+		set_scene.c \
+		set_shapes.c \
+		vec_operator.c \
+		dot_cross_vec.c
 
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -g -Werror -Wextra -Wall

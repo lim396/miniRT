@@ -12,6 +12,46 @@ double	rounding_num(double num, double min, double max)
 	return (n);
 }
 
+bool	is_overflow(double ret, int n, double base, bool dot_flag)
+{
+	if (dot_flag)
+	{
+		if (DBL_MAX
+	}
+	else {
+	}
+}
+
+double atod(char *str)
+{
+	double	ret;
+	double	base;
+	bool	dot_flag;
+	int		sign;
+
+	base = 10;
+	sign = 1;
+	if (*str == '+' || *str == '-')
+		sign = 44 - *str++;
+	while (*str && is_digit(*str))
+	{
+		if (is_overflow(ret, *str - '0', base, dot_flag))
+			return (sign * DBL_MAX);
+		if (dot_flag)
+			ret += sign * base * (*str - '0');
+		else
+			ret = ret * base + sign * (*str - '0');
+		str++;
+		if (*str == '.' && !dot_flag)
+		{
+			str++;
+			dot_flag = true;
+			base = 0.1;
+		}
+	}
+	return (ret);
+}
+/*
 size_t	count_valid(char *str)
 {
 	int		i;
@@ -62,7 +102,9 @@ double	atod(char *str)
 	else
 		ret = sign * (double)n1 + sign * ((double)n2 / pow(10,(valid_len - cnt)));
 	return (ret);
-}
+}*/
+
+
 
 t_shape	*list_last(t_shape *list)
 {		

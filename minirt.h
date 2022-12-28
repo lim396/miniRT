@@ -161,6 +161,8 @@ t_nearest	get_shadow_ray(t_config config, t_nearest nearest, \
 
 // utils.c
 void	print_vector(t_vec vec, char *msg);
+double	atod(char *str);
+void	add_list_last(t_shape **shape_list, t_shape *node);
 
 // luminance.c
 t_color		add_specular_luminance(t_nearest nearest, t_color illuminance, \
@@ -172,6 +174,7 @@ t_color		get_luminance(t_config config, t_nearest nearest, t_ray ray);
 
 // color_utils.c
 t_color		add_color(t_color n, t_color m);
+t_color	set_color(char *rgb);
 
 // get_nearest.c
 t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow);
@@ -195,4 +198,13 @@ double	cy_discriminant(t_cylinder cyl, t_ray ray, t_quadratic *quad);
 t_ray		get_camera_ray(double x, double y, t_camera camera);
 void		get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir);
 
+// set_scene.c
+void	set_ambient(char **split_line, t_config *config);
+void	set_light(char **split_line, t_config *config);
+void	set_camera(char **split_line, t_config *config);
+
+// set_shapes.c
+void	set_sphere(char **split_line, t_shape **shape_list);
+void	set_cylinder(char **split_line, t_shape **shape_list);
+void	set_plane(char **split_line, t_shape **shape_list);
 #endif
