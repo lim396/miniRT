@@ -9,6 +9,9 @@
 # include <float.h>
 # define SHININESS 8.0
 
+#define HEIGHT 512
+#define WIDTH 512
+
 typedef struct s_color
 {
 	double	r;
@@ -141,30 +144,55 @@ config {
 }
 
 ---------------------------------- */
-
+// init.c
 t_config	init_config(char **argv);
+
+
+// ray_trace.c
 void		ray_trace(t_config config);
-void		draw(t_color color);
 t_color		trace(t_config config, t_ray ray);
-t_color		get_luminance(t_config config, t_nearest nearest, t_ray ray);
+
+// draw.c
+void		draw(t_color color);
+
+// get_shadow_ray.c
 t_nearest	get_shadow_ray(t_config config, t_nearest nearest, \
 		t_vec light_dir);
+
+// utils.c
+void	print_vector(t_vec vec, char *msg);
+
+// luminance.c
 t_color		add_specular_luminance(t_nearest nearest, t_color illuminance, \
 		t_vec light_dir, t_ray camera_ray);
 t_color		add_diffuse_luminance(t_shape shape, t_color illuminance, \
 		double normal_light_dir_dot);
 t_color		add_ambient_luminance(t_config config);
+t_color		get_luminance(t_config config, t_nearest nearest, t_ray ray);
+
+// color_utils.c
 t_color		add_color(t_color n, t_color m);
+
+// get_nearest.c
 t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow);
+
+// is_hittable.c
+bool	get_intersection(t_cylinder cyl, t_ray ray, t_quadratic quad, t_intersection *i_point);
 bool		is_hittable(t_shape shape, t_ray ray, t_intersection *i_point);
 bool		is_hittable_plane(t_plane pln, t_ray ray, t_intersection *i_point);
 bool		is_hittable_sphere(t_sphere sph, t_ray ray, \
 		t_intersection *i_point);
+bool	is_hittable_cylinder(t_cylinder cyl, t_ray ray, t_intersection *i_point);
+
+// equation.c
 double		get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, \
 		double d);
 double		discriminant(t_sphere sph, t_ray ray);
+double	cy_get_solution_of_quadratic_equation(double d, t_quadratic *quad);
+double	cy_discriminant(t_cylinder cyl, t_ray ray, t_quadratic *quad);
+
+// camera_ray.c
 t_ray		get_camera_ray(double x, double y, t_camera camera);
-//t_ray	get_camera_ray(size_t x, size_t y, t_camera camera);
-//t_ray	get_camera_ray(size_t x, size_t y, t_vec camera_pos);
+void		get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir);
 
 #endif
