@@ -54,7 +54,26 @@ int	set_config(t_config *config, const char *line)
 	return (err_flag);
 //	return (true);
 }
+char	*remove_nl(char *str)
+{
+	char	*s;
+	size_t	len;
 
+	if (str == NULL)
+		return (NULL);
+	len = ft_strlen(str);
+	if (str[len - 1] == '\n')
+		len -= 1;
+	s = (char *)malloc(sizeof(char) * (len + 1));
+	if (s == NULL)
+	{
+		free(str);
+		return (NULL);
+	}
+	ft_strlcpy(s, str, len + 1);
+	free(str);
+	return (s);
+}
 t_config	read_map(char *filename)
 {
 	char		*line;
@@ -70,7 +89,8 @@ t_config	read_map(char *filename)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		line[ft_strlen(line) - 1] = '\0';
+		//line[ft_strlen(line) - 1] = '\0';
+		line = remove_nl(line);
 		if (set_config(&config, line))
 			exit(1);
 //		if (set_config(&config, line))
