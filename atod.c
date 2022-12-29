@@ -1,14 +1,13 @@
-#include <stdio.h>
-#include <float.h>
-#include <stdbool.h>
-#include <limits.h>
-#include "libft.h"
-#include <math.h>
-#define __GNU_SOURCE 1
-#define	INF 1e400
-#define NEG_INF (-INF)
-#define NEG_ZERO (-1.0/INF)
-double atod(char *str)
+//#include <stdio.h>
+//#include <float.h>
+//#include <stdbool.h>
+//#include <limits.h>
+//#include "libft.h"
+//#include <math.h>
+//#define __GNU_SOURCE 1
+#include "minirt.h"
+
+double my_atod(char *str)
 {
 	double	ret;
 	double	base;
@@ -34,11 +33,6 @@ double atod(char *str)
 	return (ret);
 }
 
-typedef union	s_my_double {
-	unsigned long long	ulnum;
-	double	dnum;
-} t_my_double;
-/*
 void printb(unsigned long long v) {
 	unsigned long long mask = (long long) 1 << (sizeof(v) * CHAR_BIT - 1);
 	size_t	cnt;
@@ -50,7 +44,7 @@ void printb(unsigned long long v) {
 	printf("\n");
 	printf("put %zu\n", cnt);
 }
-*/
+
 double	is_number(double num)
 {
 	unsigned long long	valid_bit1;
@@ -59,23 +53,19 @@ double	is_number(double num)
 
 	my_dbl.dnum = num;
 	valid_bit1 = ((1ull << 11) - 1ull) << 52;
-	//printf("valid_bit1: %llu\n", valid_bit1);
-	printb(valid_bit1);
-	//printf("valid_bit1: %llu\n", ULONG_MAX & (1ull << 50));
 	valid_bit2 = (ULONG_MAX - 1)  >> 12;
-	printb(valid_bit2);
 	if ((valid_bit1 & my_dbl.ulnum) == valid_bit1)
 	{
-		printf("valid2: %llu\n", valid_bit2);
-		printf("valid2: %llu\n", 1ull << 51);
-		if ((valid_bit2 | my_dbl.ulnum) != 0)
+		printb(valid_bit2);
+		printb(my_dbl.ulnum);
+		if ((valid_bit2 & my_dbl.ulnum) != 0)
 			return (NAN);
 		return (INFINITY);
 	}
 	return (num);
 }
 
-double	ft_atod(char *str)
+double	atod(char *str)
 {
 	double	num;
 	int		sign;
@@ -83,7 +73,7 @@ double	ft_atod(char *str)
 	sign = 1;
 	if (*str == '-' || *str == '+')
 		sign = 44 - *str++;
-	num = sign * atod(str);
+	num = sign * my_atod(str);
 	num = is_number(num);
 	return (num);
 }
@@ -94,16 +84,32 @@ int main()
 	char *str;
 
 	str = "0";
-	printf("%s: %lf\n",str, ft_atod(str));
+	printf("%s: %lf\n",str, atod(str));
 	str = "0.0";
-	printf("%s: %lf\n",str, ft_atod(str));
+	printf("%s: %lf\n",str, atod(str));
 	str = "1234";
-	printf("%s: %lf\n",str, ft_atod(str));
+	printf("%s: %lf\n",str, atod(str));
 	str = "-1234";
-	printf("%s: %lf\n",str, ft_atod(str));
+	printf("%s: %lf\n",str, atod(str));
 	str = "1234.23";
-	printf("%s: %lf\n",str, ft_atod(str));
+	printf("%s: %lf\n",str, atod(str));
 	str = "-1234.23";
-	printf("%s: %lf\n",str, ft_atod(str));
-}
-*/
+	printf("%s: %lf\n",str, atod(str));
+	double nan;
+	nan = NAN;
+	//printf("%lf\n", nan - is_number(nan));
+	//printf("%lf\n", INFINITY - is_number(INFINITY));
+	//printf("%lf\n", -INFINITY - is_number(-INFINITY));
+	//printf("%lf\n", DBL_MAX - is_number(DBL_MAX));
+	//printf("%lf\n", -DBL_MAX - is_number(-DBL_MAX));
+	//printf("%lf\n", DBL_MAX + 1- is_number(DBL_MAX + 1));
+	//printf("%lf\n", -DBL_MAX - 1- is_number(-DBL_MAX - 1));
+	printf("==================\n\n");
+	printf("nan\n%lf\n%lf\n\n", nan, is_number(nan));
+	printf("INFINITY\n%lf\n%lf\n\n", INFINITY, is_number(INFINITY));
+	printf("-INFINITY\n%lf\n%lf\n\n", -INFINITY, is_number(-INFINITY));
+	printf("DBL_MAX\n%lf\n%lf\n\n", DBL_MAX, is_number(DBL_MAX));
+	printf("-DBL_MAX\n%lf\n%lf\n\n", -DBL_MAX, is_number(-DBL_MAX));
+	printf("DBL_MAX+1\n%lf\n%lf\n\n", DBL_MAX + 1, is_number(DBL_MAX + 1));
+	printf("-DBL_MAX-1\n%lf\n%lf\n\n", -DBL_MAX - 1, is_number(-DBL_MAX - 1));
+}*/
