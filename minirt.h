@@ -1,18 +1,27 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+#include <limits.h>
+#include <math.h>
+#include <stdbool.h>
 # include "vector_utils.h"
 # include "libft.h"
 # include "get_next_line.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <float.h>
-# include "mlx_int.h"
-# include "mlx.h"
+//# include "mlx_int.h"
+//# include "mlx.h"
 # define SHININESS 8.0
+#define __GNU_SOURCE 1
 
 #define HEIGHT 512
 #define WIDTH 512
+
+typedef union	s_my_double {
+	unsigned long long	ulnum;
+	double	dnum;
+} t_my_double;
 
 typedef struct	s_status	t_status;
 struct s_status {
@@ -172,9 +181,10 @@ t_nearest	get_shadow_ray(t_config config, t_nearest nearest, \
 
 // utils.c
 void	print_vector(t_vec vec, char *msg);
-double	atod(char *str);
 void	add_list_last(t_shape **shape_list, t_shape *node);
 
+// atod.c
+double	atod(char *str);
 // luminance.c
 t_color		add_specular_luminance(t_nearest nearest, t_color illuminance, \
 		t_vec light_dir, t_ray camera_ray);

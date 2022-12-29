@@ -18,7 +18,8 @@ SRCS = main.c \
 		set_shapes.c \
 		vec_operator.c \
 		dot_cross_vec.c \
-		window_utils.c
+		atod.c
+		#window_utils.c \
 
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -g -Werror -Wextra -Wall
@@ -36,7 +37,7 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX) $(COPTS) $(INCLUDE)
+	$(CC) $(CFLAGS)  $(INCLUDE) -o $(NAME) $(OBJS) $(LIBFT) $(MLX) $(COPTS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ -I minilibx-linux -I /opt/X11/include
@@ -46,6 +47,8 @@ $(NAME): $(OBJS) $(LIBFT)
 
 $(LIBFT):
 	$(MAKE) -C ./libft
+$(MLX):
+	make -C minilibx-linux
 
 clean:
 	$(RM) $(OBJS)
