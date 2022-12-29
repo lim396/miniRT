@@ -70,7 +70,9 @@ t_config	read_map(char *filename)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		set_config(&config, line);
+		if (set_config(&config, line))
+			return (error_handler);
+
 	}
 	return (config);
 }

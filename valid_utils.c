@@ -38,6 +38,7 @@ bool	valid_vector(char *str)
 			return (false);
 		i++;
 	}
+	free_split(split_str);
 	return (true);
 }
 
@@ -65,5 +66,6 @@ bool	valid_color(char *str)
 				return (false);
 		i++;
 	}
+	free_split(split_str);
 	return (true);
 }
