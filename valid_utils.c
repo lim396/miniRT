@@ -9,6 +9,8 @@ bool	valid_float(char *str)
 		return (false);
 	dot_flag = false;
 	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
 	while (str[i] && ft_isdigit(str[i]))
 	{
 		i++;
@@ -52,11 +54,14 @@ bool	valid_digit(char *str)
 	size_t	i;
 
 	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
 	while(str[i] && ft_isdigit(str[i]))
 	{
-		printf("%c\n", str[i]);
+//		printf("%c\n", str[i]);
 		i++;
 	}
+//	printf("%c\n", str[i]);
 	if (str[i] == '\0')
 		return (true);
 	return (false);

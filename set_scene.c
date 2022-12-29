@@ -9,9 +9,9 @@ void	set_ambient(char **split_line, t_config *config, int *err_flag)
 	{
 		if (i == 1)
 		{
-//			if (!valid_color(split_line[i]))
-//				return (false);
-			config->ambient.ambient_ref = set_rgb(split_line[i], err_flag);
+			config->ambient.ambient_ref.r = set_ratio(split_line[i], err_flag);
+			config->ambient.ambient_ref.g = set_ratio(split_line[i], err_flag);
+			config->ambient.ambient_ref.b = set_ratio(split_line[i], err_flag);
 		}
 		else if (i == 2)
 			config->ambient.ambient_illuminance = set_rgb(split_line[i], err_flag);
@@ -19,7 +19,6 @@ void	set_ambient(char **split_line, t_config *config, int *err_flag)
 			printf("ERROR\n");
 		i++;
 	}
-//	return (true);
 }
 
 void	set_light(char **split_line, t_config *config, int *err_flag)
