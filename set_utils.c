@@ -44,6 +44,18 @@ t_vec	set_orientation(char *str)
 	return (vec);
 }
 
+double	set_fov(char *str)
+{
+	double	fov;
+
+	if (!valid_digit(str))
+		return ();
+	fov = atod(str);
+	if (0.0 <= fov && fov <= 180.0)
+		return (fov);
+	return ();
+}
+
 double	set_ratio(char *str)
 {
 	double	ratio;
