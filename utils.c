@@ -52,57 +52,57 @@ double atod(char *str)
 	return (ret);
 }*/
 
-size_t	count_valid(char *str)
-{
-	int		i;
-	bool	dot_flag;
+//size_t	count_valid(char *str)
+//{
+//	int		i;
+//	bool	dot_flag;
+//
+//	dot_flag = 0;
+//	i = 0;
+//	while (str[i] && ft_isdigit(str[i]))
+//	{
+//		i++;
+//		if (!dot_flag && str[i] == '.')
+//		{
+//			dot_flag = 1;
+//			i++;
+//		}
+//	}
+//	return (i - dot_flag);
+//}
 
-	dot_flag = 0;
-	i = 0;
-	while (str[i] && ft_isdigit(str[i]))
-	{
-		i++;
-		if (!dot_flag && str[i] == '.')
-		{
-			dot_flag = 1;
-			i++;
-		}
-	}
-	return (i - dot_flag);
-}
-
-double	atod(char *str)
-{
-	// overflow checkしろよ
-	int		n1;
-	int		n2;
-	size_t	cnt;
-	double	ret;
-	size_t	valid_len;
-	int		sign;
-
-	sign = 1;
-	if (*str == '-')
-	{
-		str++;
-		sign = -1;
-	}
-	valid_len = count_valid(str);
-	cnt = 0;
-	n1 = ft_atoi(str);
-	while (*str && *str != '.')
-	{
-		cnt++;
-		str++;
-	}
-	str++;
-	n2 = ft_atoi(str);
-	if (valid_len == cnt)
-		ret = sign * (double)n1;
-	else
-		ret = sign * (double)n1 + sign * ((double)n2 / pow(10,(valid_len - cnt)));
-	return (ret);
-}
+//double	atod(char *str)
+//{
+//	// overflow checkしろよ
+//	int		n1;
+//	int		n2;
+//	size_t	cnt;
+//	double	ret;
+//	size_t	valid_len;
+//	int		sign;
+//
+//	sign = 1;
+//	if (*str == '-')
+//	{
+//		str++;
+//		sign = -1;
+//	}
+//	valid_len = count_valid(str);
+//	cnt = 0;
+//	n1 = ft_atoi(str);
+//	while (*str && *str != '.')
+//	{
+//		cnt++;
+//		str++;
+//	}
+//	str++;
+//	n2 = ft_atoi(str);
+//	if (valid_len == cnt)
+//		ret = sign * (double)n1;
+//	else
+//		ret = sign * (double)n1 + sign * ((double)n2 / pow(10,(valid_len - cnt)));
+//	return (ret);
+//}
 
 
 

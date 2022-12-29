@@ -18,7 +18,9 @@ SRCS = main.c \
 		set_shapes.c \
 		vec_operator.c \
 		dot_cross_vec.c \
-		atod.c
+		atod.c \
+		set_utils.c \
+		valid_utils.c
 		#window_utils.c \
 
 OBJS = $(SRCS:.c=.o)

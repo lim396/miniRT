@@ -5,7 +5,7 @@
 int	main(int argc, char **argv)
 {
 	t_config	config;
-	t_status	*status;
+//	t_status	*status;
 
 	if (argc != 2)
 		return (1);
@@ -15,7 +15,7 @@ int	main(int argc, char **argv)
 	printf("255\n");
 	//////
 	config = init_config(argv);
-	status = mlx_run();
+//	status = mlx_run();
 	ray_trace(config);
 //	destroy();
 	return (0);

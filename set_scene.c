@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-void	set_ambient(char **split_line, t_config config, int *err_flag)
+void	set_ambient(char **split_line, t_config *config, int *err_flag)
 {
 	size_t	i;
 
@@ -22,7 +22,7 @@ void	set_ambient(char **split_line, t_config config, int *err_flag)
 //	return (true);
 }
 
-void	set_light(char **split_line, t_config config, int *err_flag)
+void	set_light(char **split_line, t_config *config, int *err_flag)
 {
 	size_t	i;
 	
@@ -41,7 +41,7 @@ void	set_light(char **split_line, t_config config, int *err_flag)
 	}
 }
 
-void	set_camera(char **split_line, t_config config, int *err_flag)
+void	set_camera(char **split_line, t_config *config, int *err_flag)
 {
 	size_t	i;
 

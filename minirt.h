@@ -220,12 +220,29 @@ t_ray		get_camera_ray(double x, double y, t_camera camera);
 void		get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir);
 
 // set_scene.c
-void	set_ambient(char **split_line, t_config *config);
-void	set_light(char **split_line, t_config *config);
-void	set_camera(char **split_line, t_config *config);
+void	set_ambient(char **split_line, t_config *config, int *err_flag);
+void	set_light(char **split_line, t_config *config, int *err_flag);
+void	set_camera(char **split_line, t_config *config, int *err_flag);
 
 // set_shapes.c
-void	set_sphere(char **split_line, t_shape **shape_list);
-void	set_cylinder(char **split_line, t_shape **shape_list);
-void	set_plane(char **split_line, t_shape **shape_list);
+void	set_sphere(char **split_line, t_config *config, int *err_flag);
+void	set_cylinder(char **split_line, t_config *config, int *err_flag);
+void	set_plane(char **split_line, t_config *config, int *err_flag);
+//void	set_sphere(char **split_line, t_shape **shape_list, int *err_flag);
+//void	set_cylinder(char **split_line, t_shape **shape_list, int *err_flag);
+//void	set_plane(char **split_line, t_shape **shape_list, int *err_flag);
+
+//set_utils.c
+double	set_size(char *str, int *err_flag);
+double	set_ratio(char *str, int *err_flag);
+double	set_fov(char *str, int *err_flag);
+t_vec	set_orientation(char *str, int *err_flag);
+t_vec	set_coordinates(char *str, int *err_flag);
+t_color	set_rgb(char *str, int *err_flag);
+
+//valid_utils.c
+bool	valid_color(char *str);
+bool	valid_digit(char *str);
+bool	valid_vector(char *str);
+bool	valid_float(char *str);
 #endif

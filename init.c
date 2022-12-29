@@ -50,7 +50,7 @@ int	set_config(t_config *config, const char *line)
 //		else
 //			printf("ERROR1\n");
 //	}
-	free_split(split_line);
+//	free_split(split_line);
 	return (err_flag);
 //	return (true);
 }
@@ -70,8 +70,9 @@ t_config	read_map(char *filename)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		if (set_config(&config, line))
-			return (error_handler);
+		set_config(&config, line);
+//		if (set_config(&config, line))
+//			return (error_handler);
 
 	}
 	return (config);

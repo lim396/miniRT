@@ -9,6 +9,7 @@ t_color	set_rgb(char *str, int *err_flag)
 	color.b = 0;
 	if (!valid_color(str))
 	{
+//		printf("ko\n");
 		*err_flag = 1;
 		return (color);
 	}
@@ -81,7 +82,7 @@ double	set_ratio(char *str, int *err_flag)
 {
 	double	ratio;
 
-	if (!valid_float)
+	if (!valid_float(str))
 	{
 		*err_flag = 1;
 		return (0);
@@ -96,7 +97,7 @@ double	set_size(char *str, int *err_flag)
 {
 	double	size;
 
-	if (!valid_float)
+	if (!valid_float(str))
 	{
 		*err_flag = 1;
 		return (0);

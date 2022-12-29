@@ -26,7 +26,7 @@ bool	valid_float(char *str)
 bool	valid_vector(char *str)
 {
 	size_t	i;
-	char	split_str;
+	char	**split_str;
 
 	split_str = ft_split(str, ',');
 	if (!split_str || !(*split_str))
@@ -36,12 +36,12 @@ bool	valid_vector(char *str)
 	{
 		if (!valid_float(split_str[i]))
 		{
-			free_split(split_str);
+//			free_split(split_str);
 			return (false);
 		}
 		i++;
 	}
-	free_split(split_str);
+//	free_split(split_str);
 	if (i == 3)
 		return (true);
 	return (false);
@@ -49,8 +49,14 @@ bool	valid_vector(char *str)
 
 bool	valid_digit(char *str)
 {
+	size_t	i;
+
+	i = 0;
 	while(str[i] && ft_isdigit(str[i]))
+	{
+		printf("%c\n", str[i]);
 		i++;
+	}
 	if (str[i] == '\0')
 		return (true);
 	return (false);
@@ -59,7 +65,7 @@ bool	valid_digit(char *str)
 bool	valid_color(char *str)
 {
 	size_t	i;
-	char	split_str;
+	char	**split_str;
 
 	split_str = ft_split(str, ',');
 	if (!split_str || !(*split_str))
@@ -69,12 +75,13 @@ bool	valid_color(char *str)
 	{
 		if (!valid_digit(split_str[i]))
 		{
-			free_split(split_str);
+//			free_split(split_str);
 			return (false);
 		}
 		i++;
 	}
-	free_split(split_str);
+//	i--;
+//	free_split(split_str);
 	if (i == 3)
 		return (true);
 	return (false);
