@@ -23,31 +23,36 @@ int	main () {
 }
 */
 
-bool	set_config(t_config *config, const char *line)
+//bool	set_config(t_config *config, const char *line)
+int	set_config(t_config *config, const char *line)
 {
 	char	**split_line;
+	int		err_flag;
 
+	err_flag = 0;
 	split_line = ft_split(line, ' ');
-	if (split_line == NULL)
+	if (split_line == NULL || split_line[0] == NULL)
 		return (false);
-	if (split_line[0] != NULL)
-	{
+//	if (split_line[0] != NULL)
+//	{
 		if (split_line[0][0] == 'A')
-			set_ambient(split_line, config);
+			set_ambient(split_line, config, &err_flag);
 		else if (split_line[0][0] == 'L')
-			set_light(split_line, config);
+			set_light(split_line, config, &err_flag);
 		else if (split_line[0][0] == 'C')
-			set_camera(split_line, config);
+			set_camera(split_line, config, &err_flag);
 		else if (split_line[0][0] == 's' && split_line[0][1] == 'p')
-			set_sphere(split_line, &config->shape_list);
+			set_sphere(split_line, config, &err_flag);//&config->shape_list);
 		else if (split_line[0][0] == 'p' && split_line[0][1] == 'l')
-			set_plane(split_line, &config->shape_list);
+			set_plane(split_line, config, &err_flag);//&config->shape_list);
 		else if (split_line[0][0] == 'c' && split_line[0][1] == 'y')
-			set_cylinder(split_line, &config->shape_list);
+			set_cylinder(split_line, config, &err_flag);//&config->shape_list);
 //		else
 //			printf("ERROR1\n");
-	}
-	return (true);
+//	}
+	free_split(split_line);
+	return (err_flag);
+//	return (true);
 }
 
 t_config	read_map(char *filename)

@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-t_color	set_rgb(char *str)
+t_color	set_rgb(char *str, int *err_flag)
 {
 	t_color	color;
 
@@ -16,7 +16,7 @@ t_color	set_rgb(char *str)
 	return (color);
 }
 
-t_vec	set_coordinates(char *str)
+t_vec	set_coordinates(char *str, int *err_flag)
 {
 	t_vec	vec;
 
@@ -26,7 +26,7 @@ t_vec	set_coordinates(char *str)
 	return (vec);
 }
 
-t_vec	set_orientation(char *str)
+t_vec	set_orientation(char *str, int *err_flag)
 {
 	t_vec	vec;
 
@@ -44,7 +44,7 @@ t_vec	set_orientation(char *str)
 	return (vec);
 }
 
-double	set_fov(char *str)
+double	set_fov(char *str, int *err_flag)
 {
 	double	fov;
 
@@ -56,7 +56,7 @@ double	set_fov(char *str)
 	return ();
 }
 
-double	set_ratio(char *str)
+double	set_ratio(char *str, int *err_flag)
 {
 	double	ratio;
 
@@ -68,7 +68,7 @@ double	set_ratio(char *str)
 	return ();
 }
 
-double	set_size(char *str)
+double	set_size(char *str, int *err_flag)
 {
 	double	size;
 
