@@ -32,14 +32,19 @@ bool	valid_vector(char *str)
 	if (!split_str || !(*split_str))
 		return (false);
 	i = 0;
-	while (i < 3)
+	while (split_str[i])
 	{
 		if (!valid_float(split_str[i]))
+		{
+			free_split(split_str);
 			return (false);
+		}
 		i++;
 	}
 	free_split(split_str);
-	return (true);
+	if (i == 3)
+		return (true);
+	return (false);
 }
 
 bool	valid_digit(char *str)
@@ -60,12 +65,17 @@ bool	valid_color(char *str)
 	if (!split_str || !(*split_str))
 		return (false);
 	i = 0;
-	while (i < 3)
+	while (split_str[i])
 	{
 		if (!valid_digit(split_str[i]))
-				return (false);
+		{
+			free_split(split_str);
+			return (false);
+		}
 		i++;
 	}
 	free_split(split_str);
-	return (true);
+	if (i == 3)
+		return (true);
+	return (false);
 }

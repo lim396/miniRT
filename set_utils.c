@@ -14,11 +14,11 @@ t_color	set_rgb(char *str, int *err_flag)
 	}
 	color = set_color(str);
 	if (0 > color.r || 255 < color.r)
-		return ();
+		*err_flag = 1;
 	if (0 > color.g || 255 < color.g)
-		return ();
+		*err_flag = 1;
 	if (0 > color.b || 255 < color.b)
-		return ();
+		*err_flag = 1;
 	return (color);
 }
 
@@ -52,13 +52,13 @@ t_vec	set_orientation(char *str, int *err_flag)
 	}
 	vec = set_vec(str);
 	if (vec.x < -1.0 || 1.0 < vec.x)
-		return ();
+		*err_flag = 1;
 	if (vec.y < -1.0 || 1.0 < vec.y)
-		return ();
+		*err_flag = 1;
 	if (vec.z < -1.0 || 1.0 < vec.z)
-		return ();
+		*err_flag = 1;
 	if (vec.x == 0.0 && vec.y == 0.0 && vec.z == 0.0)
-		return ();
+		*err_flag = 1;
 	return (vec);
 }
 
@@ -72,9 +72,9 @@ double	set_fov(char *str, int *err_flag)
 		return (0);
 	}
 	fov = atod(str);
-	if (0.0 <= fov && fov <= 180.0)
-		return (fov);
-	return ();
+	if (fov < 0.0 && 180.0 < fov)
+		*err_flag = 1;
+	return (fov);
 }
 
 double	set_ratio(char *str, int *err_flag)
@@ -87,9 +87,9 @@ double	set_ratio(char *str, int *err_flag)
 		return (0);
 	}
 	ratio = atod(str);
-	if (0.0 <= ratio && ratio <= 1.0)
-		return (ratio);
-	return ();
+	if (ratio < 0.0 && 1.0 < ratio)
+		*err_flag = 1;
+	return (ratio);
 }
 
 double	set_size(char *str, int *err_flag)
@@ -102,7 +102,7 @@ double	set_size(char *str, int *err_flag)
 		return (0);
 	}
 	size = atod(str);
-	if (size > 0.0)
-		return (size);
-	return ();
+	if (size < 0.0)
+		*err_flag = 1;
+	return (size);
 }
