@@ -14,6 +14,8 @@ double my_atod(char *str)
 	bool	dot_flag;
 
 	base = 10;
+	ret = 0;
+	dot_flag = false;
 	while (*str && ft_isdigit(*str))
 	{
 		if (dot_flag)
@@ -32,7 +34,7 @@ double my_atod(char *str)
 	}
 	return (ret);
 }
-
+/*
 void printb(unsigned long long v) {
 	unsigned long long mask = (long long) 1 << (sizeof(v) * CHAR_BIT - 1);
 	size_t	cnt;
@@ -43,9 +45,9 @@ void printb(unsigned long long v) {
 	}while (mask >>=1);
 	printf("\n");
 	printf("put %zu\n", cnt);
-}
+}*/
 
-double	is_number(double num)
+double	is_number(double num, int sign)
 {
 	unsigned long long	valid_bit1;
 	unsigned long long	valid_bit2;
@@ -56,13 +58,13 @@ double	is_number(double num)
 	valid_bit2 = (ULONG_MAX - 1)  >> 12;
 	if ((valid_bit1 & my_dbl.ulnum) == valid_bit1)
 	{
-		printb(valid_bit2);
-		printb(my_dbl.ulnum);
+		//printb(valid_bit2);
+		//printb(my_dbl.ulnum);
 		if ((valid_bit2 & my_dbl.ulnum) != 0)
 			return (NAN);
-		return (INFINITY);
+		return (sign * INFINITY);
 	}
-	return (num);
+	return (sign * num);
 }
 
 double	atod(char *str)
@@ -73,8 +75,9 @@ double	atod(char *str)
 	sign = 1;
 	if (*str == '-' || *str == '+')
 		sign = 44 - *str++;
-	num = sign * my_atod(str);
-	num = is_number(num);
+	num = my_atod(str);
+	num = is_number(num, sign);
+	//printf("atod\n%s: %lf(sign %d)\n",str, num, sign);
 	return (num);
 }
 
@@ -95,8 +98,19 @@ int main()
 	printf("%s: %lf\n",str, atod(str));
 	str = "-1234.23";
 	printf("%s: %lf\n",str, atod(str));
+	str = "-1234.23.0";
+	printf("%s: %lf\n",str, atod(str));
+	str = "-1234.23str";
+	printf("%s: %lf\n",str, atod(str));
 	double nan;
 	nan = NAN;
+	printf("%lf: %lf\n", nan, is_number(nan, -1));
+	printf("%lf:%lf\n", INFINITY, is_number(INFINITY, 1));
+	printf("%lf:%lf\n", -INFINITY, is_number(INFINITY, -1));
+	printf("%lf:%lf\n", DBL_MAX, is_number(DBL_MAX, 1));
+	printf("%lf:%lf\n", -DBL_MAX, is_number(DBL_MAX, -1));
+	printf("%lf:%lf\n", DBL_MAX + 1, is_number(DBL_MAX + 1, 1));
+	printf("%lf:%lf\n", -DBL_MAX - 1, is_number(DBL_MAX + 1, -1));
 	//printf("%lf\n", nan - is_number(nan));
 	//printf("%lf\n", INFINITY - is_number(INFINITY));
 	//printf("%lf\n", -INFINITY - is_number(-INFINITY));
@@ -104,12 +118,12 @@ int main()
 	//printf("%lf\n", -DBL_MAX - is_number(-DBL_MAX));
 	//printf("%lf\n", DBL_MAX + 1- is_number(DBL_MAX + 1));
 	//printf("%lf\n", -DBL_MAX - 1- is_number(-DBL_MAX - 1));
-	printf("==================\n\n");
-	printf("nan\n%lf\n%lf\n\n", nan, is_number(nan));
-	printf("INFINITY\n%lf\n%lf\n\n", INFINITY, is_number(INFINITY));
-	printf("-INFINITY\n%lf\n%lf\n\n", -INFINITY, is_number(-INFINITY));
-	printf("DBL_MAX\n%lf\n%lf\n\n", DBL_MAX, is_number(DBL_MAX));
-	printf("-DBL_MAX\n%lf\n%lf\n\n", -DBL_MAX, is_number(-DBL_MAX));
-	printf("DBL_MAX+1\n%lf\n%lf\n\n", DBL_MAX + 1, is_number(DBL_MAX + 1));
-	printf("-DBL_MAX-1\n%lf\n%lf\n\n", -DBL_MAX - 1, is_number(-DBL_MAX - 1));
+	//printf("==================\n\n");
+	//printf("nan\n%lf\n%lf\n\n", nan, is_number(nan));
+	//printf("INFINITY\n%lf\n%lf\n\n", INFINITY, is_number(INFINITY));
+	//printf("-INFINITY\n%lf\n%lf\n\n", -INFINITY, is_number(-INFINITY));
+	//printf("DBL_MAX\n%lf\n%lf\n\n", DBL_MAX, is_number(DBL_MAX));
+	//printf("-DBL_MAX\n%lf\n%lf\n\n", -DBL_MAX, is_number(-DBL_MAX));
+	//printf("DBL_MAX+1\n%lf\n%lf\n\n", DBL_MAX + 1, is_number(DBL_MAX + 1));
+	//printf("-DBL_MAX-1\n%lf\n%lf\n\n", -DBL_MAX - 1, is_number(-DBL_MAX - 1));
 }*/
