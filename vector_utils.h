@@ -1,15 +1,14 @@
 #ifndef VECTOR_UTILS_H
 # define VECTOR_UTILS_H
 
-#include <math.h>
-//#include "minirt.h"
+# include <math.h>
 
-typedef struct	s_vec
+typedef struct s_vec
 {
 	double	x;
 	double	y;
 	double	z;
-} t_vec;
+}	t_vec;
 
 t_vec	set_vec(char *xyz);
 t_vec	init(double x, double y, double z);

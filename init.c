@@ -33,27 +33,25 @@ int	set_config(t_config *config, const char *line)
 	split_line = ft_split(line, ' ');
 	if (split_line == NULL || split_line[0] == NULL)
 		return (false);
-//	if (split_line[0] != NULL)
-//	{
-		if (split_line[0][0] == 'A')
-			set_ambient(split_line, config, &err_flag);
-		else if (split_line[0][0] == 'L')
-			set_light(split_line, config, &err_flag);
-		else if (split_line[0][0] == 'C')
-			set_camera(split_line, config, &err_flag);
-		else if (split_line[0][0] == 's' && split_line[0][1] == 'p')
-			set_sphere(split_line, config, &err_flag);//&config->shape_list);
-		else if (split_line[0][0] == 'p' && split_line[0][1] == 'l')
-			set_plane(split_line, config, &err_flag);//&config->shape_list);
-		else if (split_line[0][0] == 'c' && split_line[0][1] == 'y')
-			set_cylinder(split_line, config, &err_flag);//&config->shape_list);
+	if (split_line[0][0] == 'A')
+		set_ambient(split_line, config, &err_flag);
+	else if (split_line[0][0] == 'L')
+		set_light(split_line, config, &err_flag);
+	else if (split_line[0][0] == 'C')
+		set_camera(split_line, config, &err_flag);
+	else if (split_line[0][0] == 's' && split_line[0][1] == 'p')
+		set_sphere(split_line, config, &err_flag);
+	else if (split_line[0][0] == 'p' && split_line[0][1] == 'l')
+		set_plane(split_line, config, &err_flag);
+	else if (split_line[0][0] == 'c' && split_line[0][1] == 'y')
+		set_cylinder(split_line, config, &err_flag);
 //		else
 //			printf("ERROR1\n");
 //	}
 //	free_split(split_line);
 	return (err_flag);
-//	return (true);
 }
+
 char	*remove_nl(char *str)
 {
 	char	*s;
@@ -74,6 +72,7 @@ char	*remove_nl(char *str)
 	free(str);
 	return (s);
 }
+
 t_config	read_map(char *filename)
 {
 	char		*line;
@@ -89,13 +88,11 @@ t_config	read_map(char *filename)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		//line[ft_strlen(line) - 1] = '\0';
 		line = remove_nl(line);
 		if (set_config(&config, line))
 			exit(1);
 //		if (set_config(&config, line))
 //			return (error_handler);
-
 	}
 	return (config);
 }

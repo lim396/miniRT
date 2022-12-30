@@ -9,7 +9,6 @@ t_color	set_rgb(char *str, int *err_flag)
 	color.b = 0;
 	if (!valid_color(str))
 	{
-//		printf("ko\n");
 		*err_flag = 1;
 		return (color);
 	}

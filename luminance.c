@@ -41,7 +41,8 @@ t_color	add_specular_luminance(t_nearest nearest, t_color illuminance, \
 	specular_dir = normalize(sub(mul(2 * normal_light_dir_dot, \
 					nearest.i_point.normal), light_dir));
 	rev_camera_to_screen_dir = normalize(mul(-1.0, camera_ray.direction));
-	rev_camera_to_screen_specular_dot = dot(specular_dir, rev_camera_to_screen_dir);
+	rev_camera_to_screen_specular_dot \
+		= dot(specular_dir, rev_camera_to_screen_dir);
 	rev_camera_to_screen_specular_dot \
 		= rounding_num(rev_camera_to_screen_specular_dot, 0, 1);
 	color.r = nearest.shape.material.specular_ref.r * illuminance.r \

@@ -36,4 +36,3 @@ t_ray	get_camera_ray(double x, double y, t_camera camera)
 	ray.direction = normalize(add(screen_pos, camera_to_screen_center));
 	return (ray);
 }
-

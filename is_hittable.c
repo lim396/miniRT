@@ -1,15 +1,17 @@
 #include "minirt.h"
 
-bool	get_intersection(t_cylinder cyl, t_ray ray, t_quadratic quad, t_intersection *i_point)
+bool	get_intersection(t_cylinder cyl, t_ray ray, t_quadratic quad, \
+		t_intersection *i_point)
 {
 	double	pos_to_i_n_dot1;
 	double	pos_to_i_n_dot2;
 
-	pos_to_i_n_dot1 = dot(sub(add(ray.start, mul(quad.sol1, ray.direction)), cyl.pos), cyl.normal);
-	pos_to_i_n_dot2 = dot(sub(add(ray.start, mul(quad.sol2, ray.direction)), cyl.pos), cyl.normal);
+	pos_to_i_n_dot1 = dot(sub(add(ray.start, mul(quad.sol1, ray.direction)), \
+				cyl.pos), cyl.normal);
+	pos_to_i_n_dot2 = dot(sub(add(ray.start, mul(quad.sol2, ray.direction)), \
+				cyl.pos), cyl.normal);
 	if (0 <= pos_to_i_n_dot1 && pos_to_i_n_dot1 <= cyl.height)
 	{
-//		i_point = get_outside_inter(cyl, ray, quad.sol1, cy_pos_to_inter_cy_n_dot1);
 		(*i_point).distance = quad.sol1;
 		(*i_point).pos = add(ray.start, mul(quad.sol1, ray.direction));
 		(*i_point).normal = normalize(sub(sub((*i_point).pos, cyl.pos), \
@@ -17,10 +19,10 @@ bool	get_intersection(t_cylinder cyl, t_ray ray, t_quadratic quad, t_intersectio
 	}
 	else if (0 <= pos_to_i_n_dot2 && pos_to_i_n_dot2 <= cyl.height)
 	{
-//		i_point = get_outside_inter(cyl, ray, quad.sol2, cy_pos_to_inter_cy_n_dot2);
 		(*i_point).distance = quad.sol2;
 		(*i_point).pos = add(ray.start, mul(quad.sol2, ray.direction));
-		(*i_point).normal = normalize(sub(mul(pos_to_i_n_dot2, cyl.normal), sub((*i_point).pos, cyl.pos)));
+		(*i_point).normal = normalize(sub(mul(pos_to_i_n_dot2, cyl.normal), \
+					sub((*i_point).pos, cyl.pos)));
 	}
 	else
 		return (false);
