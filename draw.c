@@ -10,9 +10,6 @@ void	ft_mlx_put_pixel(t_image img, int x, int y, int rgb)
 
 void	draw(t_color color, int x, int y, t_image img)
 {
-//	unsigned char	r;
-//	unsigned char	g;
-//	unsigned char	b;
 	int	r;
 	int	g;
 	int	b;

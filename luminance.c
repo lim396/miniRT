@@ -1,4 +1,5 @@
 #include "minirt.h"
+#define SPECULAR_REF 0.3
 
 t_color	add_ambient_luminance(t_config config)
 {
@@ -13,21 +14,25 @@ t_color	add_ambient_luminance(t_config config)
 	return (color);
 }
 
-t_color	add_diffuse_luminance(t_shape shape, t_color illuminance, \
+//t_color	add_diffuse_luminance(t_shape shape, t_color illuminance, \
+//		double normal_light_dir_dot)
+t_color	add_diffuse_luminance(t_shape shape, t_light light, \
 		double normal_light_dir_dot)
 {
 	t_color	color;
 
-	color.r = shape.material.diffuse_ref.r * illuminance.r \
-		* normal_light_dir_dot;
-	color.g = shape.material.diffuse_ref.g * illuminance.g \
-		* normal_light_dir_dot;
-	color.b = shape.material.diffuse_ref.b * illuminance.b \
-		* normal_light_dir_dot;
+	color.r = shape.material.diffuse_ref.r * light.illuminance.r \
+		* light.brightness_ratio * normal_light_dir_dot;
+	color.g = shape.material.diffuse_ref.g * light.illuminance.g \
+		* light.brightness_ratio * normal_light_dir_dot;
+	color.b = shape.material.diffuse_ref.b * light.illuminance.b \
+		* light.brightness_ratio * normal_light_dir_dot;
 	return (color);
 }
 
-t_color	add_specular_luminance(t_nearest nearest, t_color illuminance, \
+//t_color	add_specular_luminance(t_nearest nearest, t_color illuminance, \
+//		t_vec light_dir, t_ray camera_ray)
+t_color	add_specular_luminance(t_nearest nearest, t_light light, \
 		t_vec light_dir, t_ray camera_ray)
 {
 	t_vec	specular_dir;
@@ -45,12 +50,24 @@ t_color	add_specular_luminance(t_nearest nearest, t_color illuminance, \
 		= dot(specular_dir, rev_camera_to_screen_dir);
 	rev_camera_to_screen_specular_dot \
 		= rounding_num(rev_camera_to_screen_specular_dot, 0, 1);
-	color.r = nearest.shape.material.specular_ref.r * illuminance.r \
+	color.r = SPECULAR_REF * light.illuminance.r * light.brightness_ratio \
 		* pow(rev_camera_to_screen_specular_dot, SHININESS);
-	color.g = nearest.shape.material.specular_ref.g * illuminance.g \
+	color.g = SPECULAR_REF * light.illuminance.g * light.brightness_ratio \
 		* pow(rev_camera_to_screen_specular_dot, SHININESS);
-	color.b = nearest.shape.material.specular_ref.b * illuminance.b \
+	color.b = SPECULAR_REF * light.illuminance.b * light.brightness_ratio\
 		* pow(rev_camera_to_screen_specular_dot, SHININESS);
+//	color.r = SPECULAR_REF * illuminance.r \
+//		* pow(rev_camera_to_screen_specular_dot, SHININESS);
+//	color.g = SPECULAR_REF * illuminance.g \
+//		* pow(rev_camera_to_screen_specular_dot, SHININESS);
+//	color.b = SPECULAR_REF * illuminance.b \
+//		* pow(rev_camera_to_screen_specular_dot, SHININESS);
+//	color.r = nearest.shape.material.specular_ref.r * illuminance.r \
+//		* pow(rev_camera_to_screen_specular_dot, SHININESS);
+//	color.g = nearest.shape.material.specular_ref.g * illuminance.g \
+//		* pow(rev_camera_to_screen_specular_dot, SHININESS);
+//	color.b = nearest.shape.material.specular_ref.b * illuminance.b \
+//		* pow(rev_camera_to_screen_specular_dot, SHININESS);
 	return (color);
 }
 
@@ -69,11 +86,16 @@ t_color	get_luminance(t_config config, t_nearest nearest, t_ray ray)
 	normal_light_dir_dot = dot(nearest.i_point.normal, light_dir);
 	normal_light_dir_dot = rounding_num(normal_light_dir_dot, 0, 1);
 	color = add_color(color, add_diffuse_luminance(nearest.shape, \
-				config.light.illuminance, normal_light_dir_dot));
+				config.light, normal_light_dir_dot));
+//	color = add_color(color, add_diffuse_luminance(nearest.shape, \
+///				config.light.illuminance, normal_light_dir_dot));
 	if (normal_light_dir_dot > 0)
 	{
 		(void)ray;
-//		color = add_color(color, add_specular_luminance(nearest, config.light.illuminance, light_dir, ray));
+//		color = add_color(color, add_specular_luminance(nearest, \
+//					config.light.illuminance, light_dir, ray));
+//		color = add_color(color, add_specular_luminance(nearest, \
+					config.light, light_dir, ray));
 	}
 	return (color);
 }

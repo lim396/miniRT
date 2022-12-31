@@ -33,7 +33,7 @@ void	init_image(t_status *status)
 				&status->img.bpp, &status->img.size_line, &status->img.endian);
 }
 
-t_status	*mlx_run()
+t_status	*mlx_run(void)
 {
 	t_status	*status;
 

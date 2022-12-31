@@ -25,7 +25,7 @@ t_color	set_rgb(char *str, int *err_flag)
 		*err_flag |= INVALID_COLOR;
 	if (0 > color.g || 1.0 < color.g)
 		*err_flag |= INVALID_COLOR;
-	if (0 > color.b || 1.0< color.b)
+	if (0 > color.b || 1.0 < color.b)
 		*err_flag |= INVALID_COLOR;
 	return (color);
 }
