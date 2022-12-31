@@ -20,6 +20,23 @@
 # define HEIGHT 512
 # define WIDTH 512
 
+typedef struct s_err	t_err;
+struct s_err
+{
+	int err_flag;
+	int	scene_obj;
+} ;
+
+typedef enum e_scene_obj	t_scene_obj;
+enum e_scene_obj{
+	A = 1,
+	C = 2,
+	L = 4,
+	PL = 8,
+	SP = 16,
+	CY = 32,
+} ;
+
 typedef union s_my_double
 {
 	unsigned long long	ulnum;
@@ -179,6 +196,7 @@ enum e_error_type {
 	INVALID_FOV = 128,
 	INVALID_RATIO = 256,
 	INVALID_SIZE = 512,
+	INVALID_FILE = 1024,
 };
 
 /* --------------------------------
@@ -259,14 +277,14 @@ t_ray		get_camera_ray(double x, double y, t_camera camera);
 void		get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir);
 
 // set_scene.c
-void		set_ambient(char **strs, t_config *config, int *err_flag);
-void		set_light(char **strs, t_config *config, int *err_flag);
-void		set_camera(char **strs, t_config *config, int *err_flag);
+void		set_ambient(char **strs, t_config *config, int *err_flag, int *scene_obj);
+void		set_light(char **strs, t_config *config, int *err_flag, int *scene_obj);
+void		set_camera(char **strs, t_config *config, int *err_flag, int *scene_obj);
 
 // set_shapes.c
-void		set_sphere(char **strs, t_config *config, int *err_flag);
-void		set_cylinder(char **strs, t_config *config, int *err_flag);
-void		set_plane(char **strs, t_config *config, int *err_flag);
+void		set_sphere(char **strs, t_config *config, int *err_flag, int *scene_obj);
+void		set_cylinder(char **strs, t_config *config, int *err_flag, int *scene_obj);
+void		set_plane(char **strs, t_config *config, int *err_flag, int *scene_obj);
 //void	set_sphere(char **split_line, t_shape **shape_list, int *err_flag);
 //void	set_cylinder(char **split_line, t_shape **shape_list, int *err_flag);
 //void	set_plane(char **split_line, t_shape **shape_list, int *err_flag);
