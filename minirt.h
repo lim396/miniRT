@@ -197,6 +197,7 @@ enum e_error_type {
 	INVALID_RATIO = 256,
 	INVALID_SIZE = 512,
 	INVALID_FILE = 1024,
+	OPEN_ERROR = 2048,
 };
 
 /* --------------------------------

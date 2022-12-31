@@ -95,7 +95,7 @@ t_color	get_luminance(t_config config, t_nearest nearest, t_ray ray)
 //		color = add_color(color, add_specular_luminance(nearest, \
 //					config.light.illuminance, light_dir, ray));
 //		color = add_color(color, add_specular_luminance(nearest, \
-					config.light, light_dir, ray));
+//					config.light, light_dir, ray));
 	}
 	return (color);
 }

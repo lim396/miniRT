@@ -79,6 +79,8 @@ char	*remove_nl(char *str)
 
 void	display_error(int error_flag)
 {
+	if (error_flag & OPEN_ERROR)
+		printf("open error\n");
 	if (error_flag & MALLOC_ERROR)
 		printf("malloc error\n");
 	if (error_flag & IDENTIFIER_ERROR)
@@ -161,6 +163,28 @@ void	check_obj(int scene_objs)
 	exit(1);
 }
 
+void	before_set_config_err_handler(int err_flag)
+{
+	printf("ERROR\n");
+	display_error(err_flag);
+	exit(1);
+}
+
+void	pre_init(char *filename, int *fd, t_config *config, t_err *err)
+{
+	err->err_flag = 0;
+	*fd = open(filename, 0644);
+	if (*fd < 0)
+		err->err_flag |= OPEN_ERROR;
+	config->shape_list = (t_shape *)malloc(sizeof(t_shape));
+	if (config->shape_list == NULL)
+		err->err_flag |= MALLOC_ERROR;
+	if (err->err_flag)
+		before_set_config_err_handler(err->err_flag);
+	config->shape_list->next = NULL;
+	config->shape_list->type = ST_NONE;	
+}
+
 t_config	read_map(char *filename)
 {
 	char		*line;
@@ -171,10 +195,17 @@ t_config	read_map(char *filename)
 	t_err		err;
 
 	ext_check(filename);
-	fd = open(filename, 0644);
-	config.shape_list = (t_shape *)malloc(sizeof(t_shape));
-	config.shape_list->next = NULL;
-	config.shape_list->type = ST_NONE;
+	pre_init(filename, &fd, &config, &err);
+//	fd = open(filename, 0644);
+//	if (fd < 0)
+//		err.err_flag = OPEN_ERROR;
+//	config.shape_list = (t_shape *)malloc(sizeof(t_shape));
+//	if (config.shape_list == NULL)
+//		err.err_flag |= MALLOC_ERROR;
+//	if (err.err_flag)
+//		before_set_config_err_handler(err.err_flag);
+//	config.shape_list->next = NULL;
+//	config.shape_list->type = ST_NONE;
 	line_n = 1;
 	err.scene_obj = 0;
 	while (true)
@@ -191,7 +222,6 @@ t_config	read_map(char *filename)
 		if (err.err_flag)
 			error_handler(line, line_n, err.err_flag);
 		line_n++;
-
 	}
 	check_obj(err.scene_obj);
 	return (config);
