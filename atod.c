@@ -55,7 +55,7 @@ double	is_number(double num, int sign)
 
 	my_dbl.dnum = num;
 	valid_bit1 = ((1ull << 11) - 1ull) << 52;
-	valid_bit2 = (ULONG_MAX - 1)  >> 12;
+	valid_bit2 = (ULONG_MAX - 1) >> 12;
 	if ((valid_bit1 & my_dbl.ulnum) == valid_bit1)
 	{
 		if ((valid_bit2 & my_dbl.ulnum) != 0)

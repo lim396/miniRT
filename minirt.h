@@ -219,10 +219,14 @@ void		add_list_last(t_shape **shape_list, t_shape *node);
 // atod.c
 double		atod(char *str);
 // luminance.c
-t_color		add_specular_luminance(t_nearest nearest, t_color illuminance, \
+t_color		add_specular_luminance(t_nearest nearest, t_light light, \
 		t_vec light_dir, t_ray camera_ray);
-t_color		add_diffuse_luminance(t_shape shape, t_color illuminance, \
+//t_color		add_specular_luminance(t_nearest nearest, t_color illuminance, \
+//		t_vec light_dir, t_ray camera_ray);
+t_color		add_diffuse_luminance(t_shape shape, t_light light, \
 		double normal_light_dir_dot);
+//t_color		add_diffuse_luminance(t_shape shape, t_color illuminance, \
+//		double normal_light_dir_dot);
 t_color		add_ambient_luminance(t_config config);
 t_color		get_luminance(t_config config, t_nearest nearest, t_ray ray);
 
