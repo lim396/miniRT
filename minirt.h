@@ -179,6 +179,7 @@ enum e_error_type {
 	INVALID_FOV = 128,
 	INVALID_RATIO = 256,
 	INVALID_SIZE = 512,
+	INVALID_FILE = 1024,
 };
 
 /* --------------------------------

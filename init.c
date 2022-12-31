@@ -1,5 +1,15 @@
 #include "minirt.h"
 
+void	free_strs(char **strs)
+{
+	size_t	i;
+
+	i = 0;
+	while (strs[i] != NULL)
+		free(strs[i++]);
+	free(strs);
+}
+
 //bool	set_config(t_config *config, const char *line)
 int	set_config(t_config *config, const char *line)
 {
@@ -26,6 +36,7 @@ int	set_config(t_config *config, const char *line)
 		set_cylinder(split_line, config, &err_flag);
 	else
 		err_flag |= IDENTIFIER_ERROR;
+	free_strs(split_line);
 //	}
 //	free_split(split_line);
 	//printf("err_flag %d\n", err_flag);
@@ -77,11 +88,31 @@ void	error_handler(size_t line_n, int error_flag)
 		printf("ratio is incorrect\n");
 	if (error_flag & INVALID_SIZE)
 		printf("size is incorrect\n");
+	if (error_flag & INVALID_FILE)
+		printf("file ext is incorrect\n");
 		
 	// free_all();
 	exit(1);
 }
 
+void	ext_check(char *filename)
+{
+	char	**strs;
+
+	strs = ft_split(filename, '.');
+	if (strs == NULL || strs[0] == NULL)
+	{
+		free_strs(strs);
+		error_handler(-1, INVALID_FILE);
+	}
+	else if (strs[1] && !ft_strncmp(strs[1], "rt", ft_strlen(strs[1]) + 1))
+	{
+		free_strs(strs);
+		return ;
+	}
+	free_strs(strs);
+	error_handler(0, INVALID_FILE);
+}
 
 t_config	read_map(char *filename)
 {
@@ -91,6 +122,7 @@ t_config	read_map(char *filename)
 	size_t		line_n;
 	int			error_flag;
 
+	ext_check(filename);
 	fd = open(filename, 0644);
 	config.shape_list = (t_shape *)malloc(sizeof(t_shape));
 	config.shape_list->next = NULL;
@@ -102,15 +134,9 @@ t_config	read_map(char *filename)
 		if (line == NULL)
 			break ;
 		line = remove_nl(line);
-		//if (set_config(&config, line))
-		//	exit(1);
 		error_flag = set_config(&config, line);
 		if (error_flag)
 			error_handler(line_n, error_flag);
-//		if (set_config(&config, line))
-//			return (error_handler);
-
-
 		line_n++;
 
 	}
