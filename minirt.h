@@ -167,6 +167,20 @@ struct s_quadratic
 	double	sol;
 } ;
 
+typedef enum e_error_type	t_error_type;
+enum e_error_type {
+	MALLOC_ERROR = 1,
+	IDENTIFIER_ERROR = 2,
+	NUMBER_OF_ELEMENT_ERROR = 4,
+	NULL_STR = 8,
+	INVALID_COLOR = 16,
+	INVALID_VECTOR = 32,
+	INVALID_ORIENTATION = 64,
+	INVALID_FOV = 128,
+	INVALID_RATIO = 256,
+	INVALID_SIZE = 512,
+};
+
 /* --------------------------------
 config {
 	t_shape *shape_list;
@@ -174,7 +188,6 @@ config {
 	t_light	light;
 	t_color	ambient_illuminance;
 }
-
 ---------------------------------- */
 // init.c
 t_config	init_config(char **argv);
