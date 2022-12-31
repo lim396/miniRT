@@ -235,6 +235,8 @@ t_nearest	get_shadow_ray(t_config config, t_nearest nearest, \
 // utils.c
 void		print_vector(t_vec vec, char *msg);
 void		add_list_last(t_shape **shape_list, t_shape *node);
+char		*remove_nl(char *str);
+void		free_strs(char **strs);
 
 // atod.c
 double		atod(char *str);
@@ -294,16 +296,24 @@ void		set_plane(char **strs, t_config *config, int *err_flag, \
 //void	set_plane(char **split_line, t_shape **shape_list, int *err_flag);
 
 //set_utils.c
-double		set_size(char *str, int *err_flag);
-double		set_ratio(char *str, int *err_flag);
-double		set_fov(char *str, int *err_flag);
 t_vec		set_orientation(char *str, int *err_flag);
 t_vec		set_coordinates(char *str, int *err_flag);
 t_color		set_rgb(char *str, int *err_flag);
+
+//set_utils2.c
+double		set_size(char *str, int *err_flag);
+double		set_ratio(char *str, int *err_flag);
+double		set_fov(char *str, int *err_flag);
 
 //valid_utils.c
 bool		valid_color(char *str);
 bool		valid_digit(char *str);
 bool		valid_vector(char *str);
 bool		valid_float(char *str);
+
+//error.c
+void		check_obj(int scene_objs);
+void		before_set_config_err_handler(int err_flag);
+void		error_handler(char *line, size_t line_n, int error_flag);
+
 #endif

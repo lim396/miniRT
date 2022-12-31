@@ -11,6 +11,37 @@ double	rounding_num(double num, double min, double max)
 		n = max;
 	return (n);
 }
+
+void	free_strs(char **strs)
+{
+	size_t	i;
+
+	i = 0;
+	while (strs[i] != NULL)
+		free(strs[i++]);
+	free(strs);
+}
+
+char	*remove_nl(char *str)
+{
+	char	*s;
+	size_t	len;
+
+	if (str == NULL)
+		return (NULL);
+	len = ft_strlen(str);
+	if (str[len - 1] == '\n')
+		len -= 1;
+	s = (char *)malloc(sizeof(char) * (len + 1));
+	if (s == NULL)
+	{
+		free(str);
+		return (NULL);
+	}
+	ft_strlcpy(s, str, len + 1);
+	free(str);
+	return (s);
+}
 /*
 bool	is_overflow(double ret, int n, double base, bool dot_flag)
 {
