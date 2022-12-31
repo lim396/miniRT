@@ -202,7 +202,7 @@ void		draw(t_color color, int x, int y, t_image img);
 //void		draw(t_color color);
 
 // window_utils.c
-t_status	*mlx_run();
+t_status	*mlx_run(void);
 void		init_image(t_status *status);
 int			delete_window(t_status *status);
 int			key_hook(int key, t_status *status);

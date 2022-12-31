@@ -40,7 +40,7 @@ void	set_cylinder(char **strs, t_config *config, int *err_flag)
 		else if (i == 2)
 			shape_node->cylinder.normal = set_orientation(strs[i], err_flag);
 		else if (i == 3)
-			shape_node->cylinder.radius= set_size(strs[i], err_flag) / 2.0;
+			shape_node->cylinder.radius = set_size(strs[i], err_flag) / 2.0;
 		else if (i == 4)
 			shape_node->cylinder.height = set_size(strs[i], err_flag);
 		else if (i == 5)
