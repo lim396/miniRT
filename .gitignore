@@ -5,6 +5,5 @@ libft/libft.a
 minirt
 *.ppm
 *.txt
-*.rt
 *.webloc
 *.sh

@@ -1,9 +1,10 @@
 #include "minirt.h"
 
-void	set_ambient(char **strs, t_config *config, int *err_flag)
+void	set_ambient(char **strs, t_config *config, int *err_flag, int *scene_obj)
 {
 	size_t	i;
 
+	*scene_obj |= A;
 	i = 1;
 	while (strs[i])
 	{
@@ -22,11 +23,12 @@ void	set_ambient(char **strs, t_config *config, int *err_flag)
 	}
 }
 
-void	set_light(char **strs, t_config *config, int *err_flag)
+void	set_light(char **strs, t_config *config, int *err_flag, int *scene_obj)
 {
 	size_t	i;
 
 	i = 1;
+	*scene_obj |= L;
 	while (strs[i])
 	{
 		if (i == 1)
@@ -43,11 +45,12 @@ void	set_light(char **strs, t_config *config, int *err_flag)
 	}
 }
 
-void	set_camera(char **strs, t_config *config, int *err_flag)
+void	set_camera(char **strs, t_config *config, int *err_flag, int *scene_obj)
 {
 	size_t	i;
 
 	i = 1;
+	*scene_obj |= C;
 	while (strs[i])
 	{
 		if (i == 1)

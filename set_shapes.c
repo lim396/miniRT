@@ -1,10 +1,11 @@
 #include "minirt.h"
 
-void	set_sphere(char **strs, t_config *config, int *err_flag)
+void	set_sphere(char **strs, t_config *config, int *err_flag, int *scene_obj)
 {
 	size_t	i;
 	t_shape	*shape_node;
 
+	*scene_obj |= SP;
 	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
 	shape_node->type = ST_SPHERE;
 	shape_node->next = NULL;
@@ -24,11 +25,12 @@ void	set_sphere(char **strs, t_config *config, int *err_flag)
 	add_list_last(&config->shape_list, shape_node);
 }
 
-void	set_cylinder(char **strs, t_config *config, int *err_flag)
+void	set_cylinder(char **strs, t_config *config, int *err_flag, int *scene_obj)
 {	
 	size_t	i;
 	t_shape	*shape_node;
 
+	*scene_obj |= CY;
 	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
 	shape_node->type = ST_CYLINDER;
 	shape_node->next = NULL;
@@ -52,11 +54,12 @@ void	set_cylinder(char **strs, t_config *config, int *err_flag)
 	add_list_last(&config->shape_list, shape_node);
 }
 
-void	set_plane(char **strs, t_config *config, int *err_flag)
+void	set_plane(char **strs, t_config *config, int *err_flag, int *scene_obj)
 {	
 	size_t	i;
 	t_shape	*shape_node;
 
+	*scene_obj |= PL;
 	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
 	shape_node->type = ST_PLANE;
 	shape_node->next = NULL;
@@ -75,6 +78,7 @@ void	set_plane(char **strs, t_config *config, int *err_flag)
 	}
 	add_list_last(&config->shape_list, shape_node);
 }
+
 
 //void	set_sphere(char **split_line, t_shape **shape_list)
 //{
