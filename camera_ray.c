@@ -26,7 +26,7 @@ t_ray	get_camera_ray(double x, double y, t_camera camera)
 	t_vec	esx;
 	t_vec	esy;
 	double	distance;
-	t_vec	camera_to_screen_center;
+	t_vec	camera_to_screen_center; //cut?
 
 	distance = (WIDTH / 2.0) / tan(camera.fov / 2 * M_PI / 180.0);
 	camera_to_screen_center = mul(distance, camera.orientation);

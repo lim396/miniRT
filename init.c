@@ -15,45 +15,29 @@ void	free_strs(char **strs)
 void	set_config(t_config *config, const char *line, t_err *err)
 {
 	char	**split_line;
-	//int		err_flag;
-	//t_err	err;
 
-	//err_flag = 0;
 	err->err_flag = 0;
 	split_line = ft_split(line, ' ');
 	if (split_line == NULL || split_line[0] == NULL)
-	{
 		err->err_flag = NULL_STR;
-		//return (NULL_STR);
-	}
-	//if (split_line[0][0] == 'A')
 	else if (!ft_strncmp(split_line[0], "A", ft_strlen(split_line[0]) + 1))
 		set_ambient(split_line, config, &err->err_flag, &err->scene_obj);
-	//else if (split_line[0][0] == 'L')
 	else if (!ft_strncmp(split_line[0], "L", ft_strlen(split_line[0]) + 1))
 		set_light(split_line, config, &err->err_flag, &err->scene_obj);
-	//else if (split_line[0][0] == 'C')
 	else if (!ft_strncmp(split_line[0], "C", ft_strlen(split_line[0]) + 1))
 		set_camera(split_line, config, &err->err_flag, &err->scene_obj);
-	//else if (split_line[0][0] == 's' && split_line[0][1] == 'p')
 	else if (!ft_strncmp(split_line[0], "sp", ft_strlen(split_line[0]) + 1))
 		set_sphere(split_line, config, &err->err_flag, &err->scene_obj);
-	//else if (split_line[0][0] == 'p' && split_line[0][1] == 'l')
 	else if (!ft_strncmp(split_line[0], "pl", ft_strlen(split_line[0]) + 1))
 		set_plane(split_line, config, &err->err_flag, &err->scene_obj);
-	//else if (split_line[0][0] == 'c' && split_line[0][1] == 'y')
 	else if (!ft_strncmp(split_line[0], "cy", ft_strlen(split_line[0]) + 1))
 		set_cylinder(split_line, config, &err->err_flag, &err->scene_obj);
 	else
 		err->err_flag |= IDENTIFIER_ERROR;
 	//if (!(err_flag & IDENTIFIER_ERROR))
 	//{
-		
 	//}
 	free_strs(split_line);
-//	}
-	//return (err_flag);
-	//return (err);
 }
 
 char	*remove_nl(char *str)
@@ -154,7 +138,7 @@ void	ext_check(char *filename)
 
 void	check_obj(int scene_objs)
 {
-	printf("%d\n",scene_objs);
+	printf("%d\n", scene_objs);
 	if ((scene_objs & C) && (scene_objs & A) && (scene_objs & L) \
 		&& ((scene_objs & SP) || (scene_objs & PL) || (scene_objs & CY)))
 		return ;
@@ -182,7 +166,7 @@ void	pre_init(char *filename, int *fd, t_config *config, t_err *err)
 	if (err->err_flag)
 		before_set_config_err_handler(err->err_flag);
 	config->shape_list->next = NULL;
-	config->shape_list->type = ST_NONE;	
+	config->shape_list->type = ST_NONE;
 }
 
 t_config	read_map(char *filename)
@@ -191,21 +175,10 @@ t_config	read_map(char *filename)
 	t_config	config;
 	int			fd;
 	size_t		line_n;
-	//int			error_flag;
 	t_err		err;
 
 	ext_check(filename);
 	pre_init(filename, &fd, &config, &err);
-//	fd = open(filename, 0644);
-//	if (fd < 0)
-//		err.err_flag = OPEN_ERROR;
-//	config.shape_list = (t_shape *)malloc(sizeof(t_shape));
-//	if (config.shape_list == NULL)
-//		err.err_flag |= MALLOC_ERROR;
-//	if (err.err_flag)
-//		before_set_config_err_handler(err.err_flag);
-//	config.shape_list->next = NULL;
-//	config.shape_list->type = ST_NONE;
 	line_n = 1;
 	err.scene_obj = 0;
 	while (true)
@@ -214,11 +187,7 @@ t_config	read_map(char *filename)
 		if (line == NULL)
 			break ;
 		line = remove_nl(line);
-		//error_flag = set_config(&config, line);
-		//err = set_config(&config, line, scene_objs);
 		set_config(&config, line, &err);
-		//if (error_flag)
-		//if (err.error_flag)
 		if (err.err_flag)
 			error_handler(line, line_n, err.err_flag);
 		line_n++;

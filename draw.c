@@ -21,5 +21,4 @@ void	draw(t_color color, int x, int y, t_image img)
 	b = 255 * rounding_num(color.b, 0, 1);
 	rgb = (r << 16 | g << 8 | b);
 	ft_mlx_put_pixel(img, x, y, rgb);
-//	printf("%d %d %d\n", r, g, b);
 }

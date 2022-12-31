@@ -1,6 +1,7 @@
 #include "minirt.h"
 
-void	set_ambient(char **strs, t_config *config, int *err_flag, int *scene_obj)
+void	set_ambient(char **strs, t_config *config, int *err_flag, \
+		int *scene_obj)
 {
 	size_t	i;
 
@@ -17,7 +18,6 @@ void	set_ambient(char **strs, t_config *config, int *err_flag, int *scene_obj)
 		else if (i == 2)
 			config->ambient.ambient_illuminance = set_rgb(strs[i], err_flag);
 		else
-			//printf("ERROR\n");
 			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}
@@ -38,10 +38,8 @@ void	set_light(char **strs, t_config *config, int *err_flag, int *scene_obj)
 		else if (i == 3)
 			config->light.illuminance = set_rgb(strs[i], err_flag);
 		else
-			//printf("ERROR\n");
 			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
-		//printf("err_flag %d\n", *err_flag);
 	}
 }
 
@@ -60,7 +58,6 @@ void	set_camera(char **strs, t_config *config, int *err_flag, int *scene_obj)
 		else if (i == 3)
 			config->camera.fov = set_fov(strs[i], err_flag);
 		else
-			//printf("ERROR\n");
 			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}

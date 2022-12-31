@@ -100,7 +100,8 @@ double atod(char *str)
 //	if (valid_len == cnt)
 //		ret = sign * (double)n1;
 //	else
-//		ret = sign * (double)n1 + sign * ((double)n2 / pow(10,(valid_len - cnt)));
+//		ret = sign * (double)n1 + sign * ((double)n2
+//		/ pow(10,(valid_len - cnt)));
 //	return (ret);
 //}
 

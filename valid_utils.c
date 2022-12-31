@@ -38,12 +38,12 @@ bool	valid_vector(char *str)
 	{
 		if (!valid_float(split_str[i]))
 		{
-//			free_split(split_str);
+			free_strs(split_str);
 			return (false);
 		}
 		i++;
 	}
-//	free_split(split_str);
+	free_strs(split_str);
 	if (i == 3)
 		return (true);
 	return (false);
@@ -78,12 +78,12 @@ bool	valid_color(char *str)
 	{
 		if (!valid_digit(split_str[i]))
 		{
-//			free_split(split_str);
+			free_strs(split_str);
 			return (false);
 		}
 		i++;
 	}
-//	free_split(split_str);
+	free_strs(split_str);
 	if (i == 3)
 		return (true);
 	return (false);
