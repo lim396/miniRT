@@ -64,10 +64,8 @@ char	*remove_nl(char *str)
 	return (s);
 }
 
-void	error_handler(size_t line_n, int error_flag)
+void	display_error(int error_flag)
 {
-	printf("ERROR\n");
-	printf("line %zu: ", line_n);
 	if (error_flag & MALLOC_ERROR)
 		printf("malloc error\n");
 	if (error_flag & IDENTIFIER_ERROR)
@@ -90,8 +88,33 @@ void	error_handler(size_t line_n, int error_flag)
 		printf("size is incorrect\n");
 	if (error_flag & INVALID_FILE)
 		printf("file ext is incorrect\n");
-		
-	// free_all();
+}
+
+void	display_usage(void)
+{
+	printf("Identifier [A] ambient lighting ratio [0.0,1.0] \
+			RGB [0,255],[0,255],[0,255]\n");
+	printf("Identifier [C] x,y,z coordinates [x],[y],[z]\
+			3d normalized orientation vector [-1,1],[-1,1],[-1,1] \
+			FOV [0,180]\n");
+	printf("Identifier [L] x,y,z coordinates [x],[y],[z]\
+			light brightness ratio[0.6], RGB [0,255],[0,255],[0,255]\n");
+	printf("Identifier [sp] x,y,z coordinates [x],[y],[z]\
+			shape diameter [d], RGB [0,255],[0,255],[0,255]\n");
+	printf("Identifier [pl] x,y,z coordinates [x],[y],[z]\
+			normalized orientation vector [-1,1], \
+			RGB [0,255],[0,255],[0,255]\n");
+	printf("Identifier [cy] x,y,z coordinates [x],[y],[z]\
+			normalized orientation vector [-1,1], cylinder diameter [d],\
+			cylinder height [h], RGB [0,255],[0,255],[0,255]\n");
+}
+
+void	error_handler(char *line, size_t line_n, int error_flag)
+{
+	printf("ERROR\n");
+	printf("line %zu: %s\n", line_n, line);
+	display_error(error_flag);
+	display_usage();
 	exit(1);
 }
 
@@ -103,7 +126,7 @@ void	ext_check(char *filename)
 	if (strs == NULL || strs[0] == NULL)
 	{
 		free_strs(strs);
-		error_handler(-1, INVALID_FILE);
+		error_handler("", 0, INVALID_FILE);
 	}
 	else if (strs[1] && !ft_strncmp(strs[1], "rt", ft_strlen(strs[1]) + 1))
 	{
@@ -111,7 +134,7 @@ void	ext_check(char *filename)
 		return ;
 	}
 	free_strs(strs);
-	error_handler(0, INVALID_FILE);
+	error_handler("", 0, INVALID_FILE);
 }
 
 t_config	read_map(char *filename)
@@ -136,7 +159,7 @@ t_config	read_map(char *filename)
 		line = remove_nl(line);
 		error_flag = set_config(&config, line);
 		if (error_flag)
-			error_handler(line_n, error_flag);
+			error_handler(line, line_n, error_flag);
 		line_n++;
 
 	}
