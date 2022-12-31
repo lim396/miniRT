@@ -1,20 +1,20 @@
 #include "minirt.h"
 
-void	set_ambient(char **split_line, t_config *config, int *err_flag)
+void	set_ambient(char **strs, t_config *config, int *err_flag)
 {
 	size_t	i;
 
 	i = 1;
-	while (split_line[i])
+	while (strs[i])
 	{
 		if (i == 1)
 		{
-			config->ambient.ambient_ref.r = set_ratio(split_line[i], err_flag);
-			config->ambient.ambient_ref.g = set_ratio(split_line[i], err_flag);
-			config->ambient.ambient_ref.b = set_ratio(split_line[i], err_flag);
+			config->ambient.ambient_ref.r = set_ratio(strs[i], err_flag);
+			config->ambient.ambient_ref.g = set_ratio(strs[i], err_flag);
+			config->ambient.ambient_ref.b = set_ratio(strs[i], err_flag);
 		}
 		else if (i == 2)
-			config->ambient.ambient_illuminance = set_rgb(split_line[i], err_flag);
+			config->ambient.ambient_illuminance = set_rgb(strs[i], err_flag);
 		else
 			//printf("ERROR\n");
 			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
@@ -22,19 +22,19 @@ void	set_ambient(char **split_line, t_config *config, int *err_flag)
 	}
 }
 
-void	set_light(char **split_line, t_config *config, int *err_flag)
+void	set_light(char **strs, t_config *config, int *err_flag)
 {
 	size_t	i;
-	
+
 	i = 1;
-	while (split_line[i])
+	while (strs[i])
 	{
 		if (i == 1)
-			config->light.vec = set_coordinates(split_line[i], err_flag);
+			config->light.vec = set_coordinates(strs[i], err_flag);
 		else if (i == 2)
-			config->light.brightness_ratio = set_ratio(split_line[i], err_flag);
+			config->light.brightness_ratio = set_ratio(strs[i], err_flag);
 		else if (i == 3)
-			config->light.illuminance = set_rgb(split_line[i], err_flag);
+			config->light.illuminance = set_rgb(strs[i], err_flag);
 		else
 			//printf("ERROR\n");
 			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
@@ -43,19 +43,19 @@ void	set_light(char **split_line, t_config *config, int *err_flag)
 	}
 }
 
-void	set_camera(char **split_line, t_config *config, int *err_flag)
+void	set_camera(char **strs, t_config *config, int *err_flag)
 {
 	size_t	i;
 
 	i = 1;
-	while (split_line[i])
+	while (strs[i])
 	{
 		if (i == 1)
-			config->camera.pos = set_coordinates(split_line[i], err_flag);
+			config->camera.pos = set_coordinates(strs[i], err_flag);
 		else if (i == 2)
-			config->camera.orientation = set_orientation(split_line[i], err_flag);
+			config->camera.orientation = set_orientation(strs[i], err_flag);
 		else if (i == 3)
-			config->camera.fov = set_fov(split_line[i], err_flag);
+			config->camera.fov = set_fov(strs[i], err_flag);
 		else
 			//printf("ERROR\n");
 			*err_flag |= NUMBER_OF_ELEMENT_ERROR;

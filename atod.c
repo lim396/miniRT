@@ -7,7 +7,7 @@
 //#define __GNU_SOURCE 1
 #include "minirt.h"
 
-double my_atod(char *str)
+double	my_atod(char *str)
 {
 	double	ret;
 	double	base;
@@ -51,15 +51,13 @@ double	is_number(double num, int sign)
 {
 	unsigned long long	valid_bit1;
 	unsigned long long	valid_bit2;
-	t_my_double	my_dbl;
+	t_my_double			my_dbl;
 
 	my_dbl.dnum = num;
 	valid_bit1 = ((1ull << 11) - 1ull) << 52;
 	valid_bit2 = (ULONG_MAX - 1)  >> 12;
 	if ((valid_bit1 & my_dbl.ulnum) == valid_bit1)
 	{
-		//printb(valid_bit2);
-		//printb(my_dbl.ulnum);
 		if ((valid_bit2 & my_dbl.ulnum) != 0)
 			return (NAN);
 		return (sign * INFINITY);
@@ -77,7 +75,6 @@ double	atod(char *str)
 		sign = 44 - *str++;
 	num = my_atod(str);
 	num = is_number(num, sign);
-	//printf("atod\n%s: %lf(sign %d)\n",str, num, sign);
 	return (num);
 }
 

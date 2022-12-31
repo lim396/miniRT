@@ -9,7 +9,9 @@ int	set_config(t_config *config, const char *line)
 	err_flag = 0;
 	split_line = ft_split(line, ' ');
 	if (split_line == NULL || split_line[0] == NULL)
+
 		return (NULL_STR);
+
 	if (split_line[0][0] == 'A')
 		set_ambient(split_line, config, &err_flag);
 	else if (split_line[0][0] == 'L')
@@ -28,8 +30,8 @@ int	set_config(t_config *config, const char *line)
 //	free_split(split_line);
 	//printf("err_flag %d\n", err_flag);
 	return (err_flag);
-//	return (true);
 }
+
 char	*remove_nl(char *str)
 {
 	char	*s;
@@ -80,6 +82,7 @@ void	error_handler(size_t line_n, int error_flag)
 	exit(1);
 }
 
+
 t_config	read_map(char *filename)
 {
 	char		*line;
@@ -98,7 +101,6 @@ t_config	read_map(char *filename)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		//line[ft_strlen(line) - 1] = '\0';
 		line = remove_nl(line);
 		//if (set_config(&config, line))
 		//	exit(1);
@@ -108,7 +110,9 @@ t_config	read_map(char *filename)
 //		if (set_config(&config, line))
 //			return (error_handler);
 
+
 		line_n++;
+
 	}
 	return (config);
 }

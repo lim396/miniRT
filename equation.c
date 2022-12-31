@@ -11,7 +11,8 @@ double	discriminant(t_sphere sph, t_ray ray)
 	sph_center_to_camera = sub(ray.start, sph.center);
 	a = dot(ray.direction, ray.direction);
 	b = 2.0 * dot(ray.direction, sph_center_to_camera);
-	c = dot(sph_center_to_camera, sph_center_to_camera) - sph.radius * sph.radius;
+	c = dot(sph_center_to_camera, sph_center_to_camera) \
+		- sph.radius * sph.radius;
 	d = (b * b) - 4.0 * a * c;
 	return (d);
 }
@@ -46,8 +47,10 @@ double	cy_discriminant(t_cylinder cyl, t_ray ray, t_quadratic *quad)
 	double	d;
 
 	quad->a = pow(norm(cross(ray.direction, cyl.normal)), 2);
-	quad->b = 2 * dot(cross(ray.direction, cyl.normal), cross(sub(ray.start, cyl.pos), cyl.normal));
-	quad->c = pow(norm(cross(sub(ray.start, cyl.pos), cyl.normal)), 2) - pow(cyl.radius, 2);
+	quad->b = 2 * dot(cross(ray.direction, cyl.normal), \
+			cross(sub(ray.start, cyl.pos), cyl.normal));
+	quad->c = pow(norm(cross(sub(ray.start, cyl.pos), cyl.normal)), 2) \
+			- pow(cyl.radius, 2);
 	d = (quad->b * quad->b) - 4 * quad->a * quad->c;
 	return (d);
 }

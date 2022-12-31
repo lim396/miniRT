@@ -9,12 +9,7 @@ t_color	set_rgb(char *str, int *err_flag)
 	color.b = 0;
 	if (!valid_color(str))
 	{
-<<<<<<< Updated upstream
-//		printf("ko\n");
-		*err_flag = 1;
-=======
 		*err_flag |= INVALID_COLOR;
->>>>>>> Stashed changes
 		return (color);
 	}
 	color = set_color(str);

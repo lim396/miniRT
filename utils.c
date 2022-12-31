@@ -104,8 +104,6 @@ double atod(char *str)
 //	return (ret);
 //}
 
-
-
 t_shape	*list_last(t_shape *list)
 {		
 	if (list == NULL)
@@ -120,7 +118,7 @@ t_shape	*list_last(t_shape *list)
 void	add_list_last(t_shape **shape_list, t_shape *node)
 {
 	t_shape	*last;
-	t_shape *head;
+	t_shape	*head;
 
 	if (shape_list == NULL)
 		return ;

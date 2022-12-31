@@ -12,4 +12,3 @@ t_nearest	get_shadow_ray(t_config config, t_nearest nearest, t_vec light_dir)
 	i_point_near = get_nearest(config, shadow_ray, distance, 1);
 	return (i_point_near);
 }
-
