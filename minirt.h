@@ -10,10 +10,12 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <float.h>
-//# include "mlx_int.h"
-//# include "mlx.h"
+# include "mlx_int.h"
+# include "mlx.h"
 # define SHININESS 8.0
 # define __GNU_SOURCE 1
+
+# define EXPOSE 12
 
 # define HEIGHT 512
 # define WIDTH 512
@@ -24,10 +26,22 @@ typedef union s_my_double
 	double				dnum;
 }	t_my_double;
 
+typedef struct s_image		t_image;
+struct s_image
+{
+	void	*img_ptr;
+	char	*addr;
+	int		size_line;
+	int		bpp;
+	int		endian;	
+} ;
+
 typedef struct s_status		t_status;
-struct s_status {
+struct s_status
+{
 	void	*mlx;
 	void	*mlx_win;
+	t_image	img;
 };
 
 typedef struct s_color
@@ -166,14 +180,20 @@ config {
 t_config	init_config(char **argv);
 
 // ray_trace.c
-void		ray_trace(t_config config);
+void		ray_trace(t_config config, t_status *status);
+//void		ray_trace(t_config config);
 t_color		trace(t_config config, t_ray ray);
 
 // draw.c
-void		draw(t_color color);
+void		draw(t_color color, int x, int y, t_image img);
+//void		draw(t_color color);
 
 // window_utils.c
 t_status	*mlx_run();
+void		init_image(t_status *status);
+int			delete_window(t_status *status);
+int			key_hook(int key, t_status *status);
+int			rendering(t_status *status);
 
 // get_shadow_ray.c
 t_nearest	get_shadow_ray(t_config config, t_nearest nearest, \

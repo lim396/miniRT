@@ -1,6 +1,8 @@
-CC = gcc
+CC = gcc 
+CFLAGS = -Wall -Wextra -Werror -g -I /usr/X11/include
 NAME = minirt
-
+LIBFT = ./libft/libft.a
+MINILIBX = ./minilibx-linux
 SRCS = main.c \
 		init.c \
 		vector_utils.c \
@@ -20,44 +22,43 @@ SRCS = main.c \
 		dot_cross_vec.c \
 		atod.c \
 		set_utils.c \
-		valid_utils.c
-		#window_utils.c \
-
+		valid_utils.c \
+		window_utils.c
 OBJS = $(SRCS:.c=.o)
-CFLAGS = -g -Werror -Wextra -Wall
 INCLUDE = -I includes -I ./libft/includes
-LIBFT = libft/libft.a
-COPTS = -I /opt/X11/include -L /usr/X11/include/../lib -I minilibx-linux -L minilibx-linux -lm -l Xext -l X11 
 
-UNAME = $(shell uname)
-ifeq ($(UNAME), Darwin)
-	MLX = minilibx-linux/libmlx_Darwin.a
-else ifeq ($(UNAME), Linux)
-	MLX = minilibx-linux/libmlx.a
+
+ifeq ($(shell uname), Linux)
+	LDFLAGS := -Wl,-start-group -I/usr/X11/include -L/usr/X11/include/../lib -lXext -lX11 -I minilibx-linux -L minilibx-linux -lmlx_Linux
+	MINILIBX = ./minilibx-linux/libmlx_Linux.a -Wl,-end-group
+else
+	LDFLAGS := -I/usr/X11/include -L/usr/X11/include/../lib -lXext -lX11 -I minilibx-linux -L minilibx-linux -lmlx_Darwin
+	MINILIBX = ./minilibx-linux/libmlx_Darwin.a
 endif
+
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS)  $(INCLUDE) -o $(NAME) $(OBJS) $(LIBFT) $(MLX) $(COPTS)
-
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ -I minilibx-linux -I /opt/X11/include
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ -I minilibx-linux
 
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJS) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT) $(MINILIBX)
+	$(CC) $(LDFLAGS) $(INCLUDE) -o $(NAME) $(OBJS) $(LIBFT) $(MINILIBX) 
 
 $(LIBFT):
 	$(MAKE) -C ./libft
-$(MLX):
-	make -C minilibx-linux
+
+$(MINILIBX):
+	$(MAKE) -C ./minilibx-linux
 
 clean:
-	$(RM) $(OBJS)
 	$(MAKE) clean -C ./libft
+	$(MAKE) clean -C ./minilibx-linux
+	$(RM) *.o
 
-fclean:
+fclean: clean
 	$(MAKE) fclean -C ./libft
+	$(RM) $(NAME)
 
 re: fclean all
 
