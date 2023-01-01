@@ -18,15 +18,15 @@ t_color	set_color(char *rgb)
 	split_rgb = ft_split(rgb, ',');
 	if (split_rgb[0])
 		color.r = atod(split_rgb[0]) / 255.0;
-	//else
-		//printf("ERROR\n");
+	else
+		printf("ERROR\n");
 	if (split_rgb[1])
 		color.g = atod(split_rgb[1]) / 255.0;
-	//else
-		//printf("ERROR\n");
+	else
+		printf("ERROR\n");
 	if (split_rgb[2])
 		color.b = atod(split_rgb[2]) / 255.0;
-	//else
-		//printf("ERROR\n");
+	else
+		printf("ERROR\n");
 	return (color);
 }

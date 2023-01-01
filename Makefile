@@ -21,9 +21,11 @@ SRCS = main.c \
 		vec_operator.c \
 		dot_cross_vec.c \
 		atod.c \
-		set_utils.c \
+		set_utils1.c \
+		set_utils2.c \
 		valid_utils.c \
-		window_utils.c
+		window_utils.c \
+		error.c
 OBJS = $(SRCS:.c=.o)
 INCLUDE = -I includes -I ./libft/includes
 

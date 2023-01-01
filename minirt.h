@@ -20,10 +20,10 @@
 # define HEIGHT 512
 # define WIDTH 512
 
-typedef struct s_err	t_err;
+typedef struct s_err		t_err;
 struct s_err
 {
-	int err_flag;
+	int	err_flag;
 	int	scene_obj;
 } ;
 
@@ -146,7 +146,7 @@ typedef struct s_light
 	t_light_type	type;
 	t_vec			vec;
 	t_color			illuminance;
-	double			brightness_ratio; // ?????????????
+	double			brightness_ratio;
 }	t_light;
 
 typedef struct s_ambient
@@ -185,7 +185,8 @@ struct s_quadratic
 } ;
 
 typedef enum e_error_type	t_error_type;
-enum e_error_type {
+enum e_error_type
+{
 	MALLOC_ERROR = 1,
 	IDENTIFIER_ERROR = 2,
 	NUMBER_OF_ELEMENT_ERROR = 4,
@@ -234,18 +235,16 @@ t_nearest	get_shadow_ray(t_config config, t_nearest nearest, \
 // utils.c
 void		print_vector(t_vec vec, char *msg);
 void		add_list_last(t_shape **shape_list, t_shape *node);
+char		*remove_nl(char *str);
+void		free_strs(char **strs);
 
 // atod.c
 double		atod(char *str);
 // luminance.c
 t_color		add_specular_luminance(t_nearest nearest, t_light light, \
 		t_vec light_dir, t_ray camera_ray);
-//t_color		add_specular_luminance(t_nearest nearest, t_color illuminance, \
-//		t_vec light_dir, t_ray camera_ray);
 t_color		add_diffuse_luminance(t_shape shape, t_light light, \
 		double normal_light_dir_dot);
-//t_color		add_diffuse_luminance(t_shape shape, t_color illuminance, \
-//		double normal_light_dir_dot);
 t_color		add_ambient_luminance(t_config config);
 t_color		get_luminance(t_config config, t_nearest nearest, t_ray ray);
 
@@ -278,29 +277,43 @@ t_ray		get_camera_ray(double x, double y, t_camera camera);
 void		get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir);
 
 // set_scene.c
-void		set_ambient(char **strs, t_config *config, int *err_flag, int *scene_obj);
-void		set_light(char **strs, t_config *config, int *err_flag, int *scene_obj);
-void		set_camera(char **strs, t_config *config, int *err_flag, int *scene_obj);
+void		set_ambient(char **strs, t_config *config, int *err_flag, \
+		int *scene_obj);
+void		set_light(char **strs, t_config *config, int *err_flag, \
+		int *scene_obj);
+void		set_camera(char **strs, t_config *config, int *err_flag, \
+		int *scene_obj);
 
 // set_shapes.c
-void		set_sphere(char **strs, t_config *config, int *err_flag, int *scene_obj);
-void		set_cylinder(char **strs, t_config *config, int *err_flag, int *scene_obj);
-void		set_plane(char **strs, t_config *config, int *err_flag, int *scene_obj);
+void		set_sphere(char **strs, t_config *config, int *err_flag, \
+		int *scene_obj);
+void		set_cylinder(char **strs, t_config *config, int *err_flag, \
+		int *scene_obj);
+void		set_plane(char **strs, t_config *config, int *err_flag, \
+		int *scene_obj);
 //void	set_sphere(char **split_line, t_shape **shape_list, int *err_flag);
 //void	set_cylinder(char **split_line, t_shape **shape_list, int *err_flag);
 //void	set_plane(char **split_line, t_shape **shape_list, int *err_flag);
 
 //set_utils.c
-double		set_size(char *str, int *err_flag);
-double		set_ratio(char *str, int *err_flag);
-double		set_fov(char *str, int *err_flag);
 t_vec		set_orientation(char *str, int *err_flag);
 t_vec		set_coordinates(char *str, int *err_flag);
 t_color		set_rgb(char *str, int *err_flag);
+
+//set_utils2.c
+double		set_size(char *str, int *err_flag);
+double		set_ratio(char *str, int *err_flag);
+double		set_fov(char *str, int *err_flag);
 
 //valid_utils.c
 bool		valid_color(char *str);
 bool		valid_digit(char *str);
 bool		valid_vector(char *str);
 bool		valid_float(char *str);
+
+//error.c
+void		check_obj(int scene_objs);
+void		before_set_config_err_handler(int err_flag);
+void		error_handler(char *line, size_t line_n, int error_flag);
+
 #endif

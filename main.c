@@ -7,11 +7,6 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (1);
-	//tmp
-//	printf("P3\n");
-//	printf("%d %d\n", WIDTH, HEIGHT);
-//	printf("255\n");
-	//////
 	config = init_config(argv);
 	status = mlx_run();
 	init_image(status);

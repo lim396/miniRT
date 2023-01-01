@@ -21,7 +21,6 @@ int	key_hook(int key, t_status *status)
 //	mlx_clear_window(status->mlx, status->mlx_win);
 	mlx_put_image_to_window(status->mlx, status->mlx_win, \
 			status->img.img_ptr, 0, 0);
-	//draw(status);
 	return (0);
 }
 

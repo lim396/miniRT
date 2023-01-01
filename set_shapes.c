@@ -25,7 +25,8 @@ void	set_sphere(char **strs, t_config *config, int *err_flag, int *scene_obj)
 	add_list_last(&config->shape_list, shape_node);
 }
 
-void	set_cylinder(char **strs, t_config *config, int *err_flag, int *scene_obj)
+void	set_cylinder(char **strs, t_config *config, int *err_flag, \
+		int *scene_obj)
 {	
 	size_t	i;
 	t_shape	*shape_node;
@@ -78,7 +79,6 @@ void	set_plane(char **strs, t_config *config, int *err_flag, int *scene_obj)
 	}
 	add_list_last(&config->shape_list, shape_node);
 }
-
 
 //void	set_sphere(char **split_line, t_shape **shape_list)
 //{
