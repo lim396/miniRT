@@ -53,13 +53,14 @@ struct s_image
 	int		endian;	
 } ;
 
-typedef struct s_status		t_status;
-struct s_status
-{
-	void	*mlx;
-	void	*mlx_win;
-	t_image	img;
-};
+//typedef struct s_status		t_status;
+//struct s_status
+//{
+//	void		*mlx;
+//	void		*mlx_win;
+//	t_image		img;
+//	t_config	config;
+//};
 
 typedef struct s_color
 {
@@ -172,6 +173,15 @@ typedef struct s_config
 	t_camera	camera;
 }	t_config;
 
+typedef struct s_status		t_status;
+struct s_status
+{
+	void		*mlx;
+	void		*mlx_win;
+	t_image		img;
+	t_config	config;
+};
+
 typedef struct s_quadratic	t_quadratic;
 struct s_quadratic
 {
@@ -222,7 +232,8 @@ void		draw(t_color color, int x, int y, t_image img);
 //void		draw(t_color color);
 
 // window_utils.c
-t_status	*mlx_run(void);
+t_status	*mlx_run(t_config config);
+//t_status	*mlx_run(void);
 void		init_image(t_status *status);
 int			delete_window(t_status *status);
 int			key_hook(int key, t_status *status);

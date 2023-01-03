@@ -34,6 +34,8 @@ void	ray_trace(t_config config, t_status *status)
 		}
 		y++;
 	}
+//	mlx_key_hook(status->mlx_win, key_hook, config);
+	status->config = config;
 	mlx_key_hook(status->mlx_win, key_hook, status);
 	mlx_hook(status->mlx_win, EXPOSE, 1L << 15, &rendering, status);
 	mlx_hook(status->mlx_win, 33, 1 << 17, delete_window, status);
