@@ -2,9 +2,9 @@
 
 t_shape	*new_node(int type, int *err_flag)
 {
-	t_shape *node;
+	t_shape	*node;
 
-	node = (t_shape *)malloc(sizeof(t_shape) * (+ 1));
+	node = (t_shape *)malloc(sizeof(t_shape) * 1);
 	if (node == NULL)
 	{
 		*err_flag = MALLOC_ERROR;
@@ -24,9 +24,6 @@ void	set_sphere(char **strs, t_config *config, int *err_flag, int *scene_obj)
 	shape_node = new_node(ST_SPHERE, err_flag);
 	if (shape_node == NULL)
 		return ;
-//	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
-//	shape_node->type = ST_SPHERE;
-//	shape_node->next = NULL;
 	i = 1;
 	while (strs[i])
 	{
@@ -53,9 +50,6 @@ void	set_cylinder(char **strs, t_config *config, int *err_flag, \
 	shape_node = new_node(ST_CYLINDER, err_flag);
 	if (shape_node == NULL)
 		return ;
-//	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
-//	shape_node->type = ST_CYLINDER;
-//	shape_node->next = NULL;
 	i = 1;
 	while (strs[i])
 	{
@@ -83,9 +77,6 @@ void	set_plane(char **strs, t_config *config, int *err_flag, int *scene_obj)
 
 	*scene_obj |= PL;
 	shape_node = new_node(ST_PLANE, err_flag);
-//	shape_node = (t_shape *)malloc(sizeof(t_shape) * 1);
-//	shape_node->type = ST_PLANE;
-//	shape_node->next = NULL;
 	i = 1;
 	while (strs[i])
 	{

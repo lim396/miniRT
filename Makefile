@@ -25,7 +25,8 @@ SRCS = main.c \
 		set_utils2.c \
 		valid_utils.c \
 		window_utils.c \
-		error.c
+		error.c \
+		mlx_error.c
 OBJS = $(SRCS:.c=.o)
 INCLUDE = -I includes -I ./libft/includes
 
