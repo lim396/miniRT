@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_shapes.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shongou <shongou@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 23:34:28 by shongou           #+#    #+#             */
+/*   Updated: 2023/01/04 23:34:29 by shongou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_shape	*new_node(int type, int *err_flag)
@@ -42,7 +54,7 @@ void	set_sphere(char **strs, t_config *config, int *err_flag, int *scene_obj)
 
 void	set_cylinder(char **strs, t_config *config, int *err_flag, \
 		int *scene_obj)
-{	
+{
 	size_t	i;
 	t_shape	*shape_node;
 
@@ -71,7 +83,7 @@ void	set_cylinder(char **strs, t_config *config, int *err_flag, \
 }
 
 void	set_plane(char **strs, t_config *config, int *err_flag, int *scene_obj)
-{	
+{
 	size_t	i;
 	t_shape	*shape_node;
 
@@ -118,7 +130,7 @@ void	set_plane(char **strs, t_config *config, int *err_flag, int *scene_obj)
 //}
 //
 //void	set_cylinder(char **split_line, t_shape **shape_list)
-//{	
+//{
 //	size_t	i;
 //	t_shape	*shape_node;
 //
@@ -146,7 +158,7 @@ void	set_plane(char **strs, t_config *config, int *err_flag, int *scene_obj)
 //}
 //
 //void	set_plane(char **split_line, t_shape **shape_list)
-//{	
+//{
 //	size_t	i;
 //	t_shape	*shape_node;
 //

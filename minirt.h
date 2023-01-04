@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shongou <shongou@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 23:34:10 by shongou           #+#    #+#             */
+/*   Updated: 2023/01/04 23:34:12 by shongou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
@@ -55,7 +67,7 @@ struct s_image
 	char	*addr;
 	int		size_line;
 	int		bpp;
-	int		endian;	
+	int		endian;
 } ;
 
 //typedef struct s_status		t_status;
