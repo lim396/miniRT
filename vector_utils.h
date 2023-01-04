@@ -10,7 +10,8 @@ typedef struct s_vec
 	double	z;
 }	t_vec;
 
-t_vec	set_vec(char *xyz);
+//t_vec	set_vec(char *xyz);
+t_vec	set_vec(char *xyz, int *err_flag);
 t_vec	init(double x, double y, double z);
 t_vec	add(t_vec a, t_vec b);
 t_vec	sub(t_vec a, t_vec b);

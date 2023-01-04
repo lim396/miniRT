@@ -51,6 +51,7 @@ void	error_handler(char *line, size_t line_n, int error_flag)
 {
 	printf("ERROR\n");
 	printf("line %zu: %s\n", line_n, line);
+	free(line);
 	display_error(error_flag);
 	display_usage();
 	exit(1);

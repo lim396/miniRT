@@ -261,7 +261,8 @@ t_color		get_luminance(t_config config, t_nearest nearest, t_ray ray);
 
 // color_utils.c
 t_color		add_color(t_color n, t_color m);
-t_color		set_color(char *rgb);
+t_color		set_color(char *rgb, int *err_flag);
+//t_color		set_color(char *rgb);
 
 // get_nearest.c
 t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow);

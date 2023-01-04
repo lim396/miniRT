@@ -45,7 +45,7 @@ all: $(NAME)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ -I minilibx-linux
 
 $(NAME): $(OBJS) $(LIBFT) $(MINILIBX)
-	$(CC) $(LDFLAGS) $(INCLUDE) -o $(NAME) $(OBJS) $(LIBFT) $(MINILIBX) 
+	$(CC) $(LDFLAGS) $(INCLUDE) -o $(NAME) $(OBJS) $(LIBFT) $(MINILIBX) -lm
 
 $(LIBFT):
 	$(MAKE) -C ./libft
