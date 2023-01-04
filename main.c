@@ -9,8 +9,6 @@ int	main(int argc, char **argv)
 		return (1);
 	config = init_config(argv);
 	status = mlx_run(config);
-//	init_image(status);
 	ray_trace(config, status);
-//	destroy();
 	return (0);
 }

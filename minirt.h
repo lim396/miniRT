@@ -20,10 +20,10 @@
 # define HEIGHT 512
 # define WIDTH 512
 
-#define NO_ERROR 0
-#define MLX_INIT_ERR 1
-#define NEW_WINDOW_ERR 2
-#define NEW_IMAGE_ERR 4
+# define NO_ERROR 0
+# define MLX_INIT_ERR 1
+# define NEW_WINDOW_ERR 2
+# define NEW_IMAGE_ERR 4
 
 typedef struct s_err		t_err;
 struct s_err

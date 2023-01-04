@@ -26,13 +26,12 @@ t_ray	get_camera_ray(double x, double y, t_camera camera)
 	t_vec	esx;
 	t_vec	esy;
 	double	distance;
-	t_vec	camera_to_screen_center; //cut?
 
 	distance = (WIDTH / 2.0) / tan(camera.fov / 2 * M_PI / 180.0);
-	camera_to_screen_center = mul(distance, camera.orientation);
 	get_basis_vector(&esx, &esy, camera.orientation);
 	screen_pos = add(mul(x - (WIDTH / 2), esx), mul((HEIGHT / 2 - y), esy));
 	ray.start = camera.pos;
-	ray.direction = normalize(add(screen_pos, camera_to_screen_center));
+	ray.direction \
+		= normalize(add(screen_pos, mul(distance, camera.orientation)));
 	return (ray);
 }

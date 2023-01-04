@@ -22,9 +22,6 @@ void	set_config(t_config *config, const char *line, t_err *err)
 		set_cylinder(split_line, config, &err->err_flag, &err->scene_obj);
 	else
 		err->err_flag |= IDENTIFIER_ERROR;
-	//if (!(err_flag & IDENTIFIER_ERROR))
-	//{
-	//}
 	free_strs(split_line);
 }
 

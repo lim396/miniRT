@@ -34,21 +34,10 @@ int	key_hook(int key, t_status *status)
 		free_list(status->config);
 		delete_window(status);
 	}
-//	mlx_clear_window(status->mlx, status->mlx_win);
 	mlx_put_image_to_window(status->mlx, status->mlx_win, \
 			status->img.img_ptr, 0, 0);
 	return (0);
 }
-
-//void	init_image(t_status *status)
-//{
-//	status->img.img_ptr = mlx_new_image(status->mlx, WIDTH, HEIGHT);
-//	if (status->img.img_ptr == NULL)
-//		mlx_error(status, config, NEW_IMAGE_ERR);
-//	status->img.addr = \
-//		mlx_get_data_addr(status->img.img_ptr, \
-//				&status->img.bpp, &status->img.size_line, &status->img.endian);
-//}
 
 t_status	*mlx_run(t_config config)
 {
@@ -57,11 +46,9 @@ t_status	*mlx_run(t_config config)
 	status = (t_status *)malloc(sizeof(t_status) * 1);
 	if (status == NULL)
 		mlx_error(status, config, MALLOC_ERROR);
-//		printf("ERROR\n");
 	status->mlx = mlx_init();
 	if (status->mlx == NULL)
 		mlx_error(status, config, MLX_INIT_ERR);
-//		printf("ERROR\n");
 	status->mlx_win = mlx_new_window(status->mlx, WIDTH, HEIGHT, "miniRT");
 	if (status->mlx_win == NULL)
 		mlx_error(status, config, NEW_WINDOW_ERR);
@@ -71,6 +58,5 @@ t_status	*mlx_run(t_config config)
 	status->img.addr = \
 		mlx_get_data_addr(status->img.img_ptr, \
 				&status->img.bpp, &status->img.size_line, &status->img.endian);
-//		printf("ERROR\n");
 	return (status);
 }

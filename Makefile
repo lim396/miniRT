@@ -57,7 +57,7 @@ $(MINILIBX):
 clean:
 	$(MAKE) clean -C ./libft
 	$(MAKE) clean -C ./minilibx-linux
-	$(RM) *.o
+	$(RM) $(OBJS)
 
 fclean: clean
 	$(MAKE) fclean -C ./libft
