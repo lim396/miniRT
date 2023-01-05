@@ -17,6 +17,8 @@ void	display_usage(void)
 	ft_putstr_fd("\e[1;33m===Usage===\e[0m\n", 2);
 	ft_putstr_fd("Please specify only one .rt file\n", 2);
 	ft_putstr_fd("The following is the format\n", 2);
+	ft_putstr_fd("Elements which are defined by a capital letter ", 2);
+	ft_putstr_fd("can only be declared once\n", 2);
 	ft_putstr_fd("Identifier [A] ambient lighting ratio [0.0,1.0] ", 2);
 	ft_putstr_fd("RGB [0,255],[0,255],[0,255]\n", 2);
 	ft_putstr_fd("Identifier [C] x,y,z coordinates [x],[y],[z] ", 2);
@@ -45,7 +47,7 @@ void	display_error(int error_flag)
 	if (error_flag & IDENTIFIER_ERROR)
 		ft_putstr_fd("identifier error\n", 2);
 	if (error_flag & NUMBER_OF_ELEMENT_ERROR)
-		ft_putstr_fd("number of elements is incorrect\n", 2);
+		ft_putstr_fd("number of elements is incorrect or duplicate\n", 2);
 	if (error_flag & NULL_STR)
 		ft_putstr_fd("str is null\n", 2);
 	if (error_flag & INVALID_COLOR)

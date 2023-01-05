@@ -17,6 +17,8 @@ void	set_ambient(char **strs, t_config *config, int *err_flag, \
 {
 	size_t	i;
 
+	if (*scene_obj & A)
+		*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 	*scene_obj |= A;
 	i = 1;
 	while (strs[i])
@@ -39,8 +41,10 @@ void	set_light(char **strs, t_config *config, int *err_flag, int *scene_obj)
 {
 	size_t	i;
 
-	i = 1;
+	if (*scene_obj & L)
+		*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 	*scene_obj |= L;
+	i = 1;
 	while (strs[i])
 	{
 		if (i == 1)
@@ -59,8 +63,10 @@ void	set_camera(char **strs, t_config *config, int *err_flag, int *scene_obj)
 {
 	size_t	i;
 
-	i = 1;
+	if (*scene_obj & C)
+		*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 	*scene_obj |= C;
+	i = 1;
 	while (strs[i])
 	{
 		if (i == 1)
