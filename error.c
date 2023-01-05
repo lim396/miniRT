@@ -15,6 +15,8 @@
 void	display_usage(void)
 {
 	ft_putstr_fd("\e[1;33m===Usage===\e[0m\n", 2);
+	ft_putstr_fd("Please specify only one .rt file\n", 2);
+	ft_putstr_fd("The following is the format\n", 2);
 	ft_putstr_fd("Identifier [A] ambient lighting ratio [0.0,1.0] ", 2);
 	ft_putstr_fd("RGB [0,255],[0,255],[0,255]\n", 2);
 	ft_putstr_fd("Identifier [C] x,y,z coordinates [x],[y],[z] ", 2);

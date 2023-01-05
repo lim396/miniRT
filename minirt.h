@@ -345,6 +345,7 @@ bool		valid_float(char *str);
 //error.c
 void		check_obj(int scene_objs);
 void		before_set_config_err_handler(int err_flag);
+void		display_usage(void);
 void		error_handler(int fd, char *line, size_t line_n, int error_flag);
 
 //mlx_error.c

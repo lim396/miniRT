@@ -81,7 +81,6 @@ t_config	read_map(char *filename)
 	t_err		err;
 
 	pre_init(filename, &fd, &config, &err);
-//	err.scene_obj = 0;
 	line_n = 1;
 	while (true)
 	{
