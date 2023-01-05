@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector_utils.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shongou <shongou@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 23:35:04 by shongou           #+#    #+#             */
+/*   Updated: 2023/01/04 23:35:06 by shongou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VECTOR_UTILS_H
 # define VECTOR_UTILS_H
 
@@ -10,7 +22,8 @@ typedef struct s_vec
 	double	z;
 }	t_vec;
 
-t_vec	set_vec(char *xyz);
+//t_vec	set_vec(char *xyz);
+t_vec	set_vec(char *xyz, int *err_flag);
 t_vec	init(double x, double y, double z);
 t_vec	add(t_vec a, t_vec b);
 t_vec	sub(t_vec a, t_vec b);

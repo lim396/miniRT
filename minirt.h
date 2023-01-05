@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shongou <shongou@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 23:34:10 by shongou           #+#    #+#             */
+/*   Updated: 2023/01/04 23:34:12 by shongou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
@@ -19,6 +31,11 @@
 
 # define HEIGHT 512
 # define WIDTH 512
+
+# define NO_ERROR 0
+# define MLX_INIT_ERR 1
+# define NEW_WINDOW_ERR 2
+# define NEW_IMAGE_ERR 4
 
 typedef struct s_err		t_err;
 struct s_err
@@ -50,16 +67,17 @@ struct s_image
 	char	*addr;
 	int		size_line;
 	int		bpp;
-	int		endian;	
+	int		endian;
 } ;
 
-typedef struct s_status		t_status;
-struct s_status
-{
-	void	*mlx;
-	void	*mlx_win;
-	t_image	img;
-};
+//typedef struct s_status		t_status;
+//struct s_status
+//{
+//	void		*mlx;
+//	void		*mlx_win;
+//	t_image		img;
+//	t_config	config;
+//};
 
 typedef struct s_color
 {
@@ -172,6 +190,15 @@ typedef struct s_config
 	t_camera	camera;
 }	t_config;
 
+typedef struct s_status		t_status;
+struct s_status
+{
+	void		*mlx;
+	void		*mlx_win;
+	t_image		img;
+	t_config	config;
+};
+
 typedef struct s_quadratic	t_quadratic;
 struct s_quadratic
 {
@@ -222,11 +249,13 @@ void		draw(t_color color, int x, int y, t_image img);
 //void		draw(t_color color);
 
 // window_utils.c
-t_status	*mlx_run(void);
+t_status	*mlx_run(t_config config);
+//t_status	*mlx_run(void);
 void		init_image(t_status *status);
 int			delete_window(t_status *status);
 int			key_hook(int key, t_status *status);
 int			rendering(t_status *status);
+void		free_list(t_config config);
 
 // get_shadow_ray.c
 t_nearest	get_shadow_ray(t_config config, t_nearest nearest, \
@@ -250,7 +279,8 @@ t_color		get_luminance(t_config config, t_nearest nearest, t_ray ray);
 
 // color_utils.c
 t_color		add_color(t_color n, t_color m);
-t_color		set_color(char *rgb);
+t_color		set_color(char *rgb, int *err_flag);
+//t_color		set_color(char *rgb);
 
 // get_nearest.c
 t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow);
@@ -315,5 +345,9 @@ bool		valid_float(char *str);
 void		check_obj(int scene_objs);
 void		before_set_config_err_handler(int err_flag);
 void		error_handler(char *line, size_t line_n, int error_flag);
+
+//mlx_error.c
+void		print_mlx_error(int flag);
+void		mlx_error(t_status *status, t_config config, int flag);
 
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shongou <shongou@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 23:34:43 by shongou           #+#    #+#             */
+/*   Updated: 2023/01/04 23:34:45 by shongou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 double	rounding_num(double num, double min, double max)
@@ -137,7 +149,7 @@ double atod(char *str)
 //}
 
 t_shape	*list_last(t_shape *list)
-{		
+{
 	if (list == NULL)
 		return (NULL);
 	while (list->next != NULL)

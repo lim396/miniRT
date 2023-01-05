@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_scene.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shongou <shongou@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 23:34:24 by shongou           #+#    #+#             */
+/*   Updated: 2023/01/04 23:34:25 by shongou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 void	set_ambient(char **strs, t_config *config, int *err_flag, \
@@ -88,7 +100,7 @@ void	set_camera(char **strs, t_config *config, int *err_flag, int *scene_obj)
 //void	set_light(char **split_line, t_config *config)
 //{
 //	size_t	i;
-//	
+//
 //	i = 1;
 //	while (split_line[i])
 //	{

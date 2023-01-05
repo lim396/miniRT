@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shongou <shongou@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 23:33:47 by shongou           #+#    #+#             */
+/*   Updated: 2023/01/04 23:33:49 by shongou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 void	set_config(t_config *config, const char *line, t_err *err)
@@ -22,9 +34,6 @@ void	set_config(t_config *config, const char *line, t_err *err)
 		set_cylinder(split_line, config, &err->err_flag, &err->scene_obj);
 	else
 		err->err_flag |= IDENTIFIER_ERROR;
-	//if (!(err_flag & IDENTIFIER_ERROR))
-	//{
-	//}
 	free_strs(split_line);
 }
 
@@ -83,6 +92,7 @@ t_config	read_map(char *filename)
 		set_config(&config, line, &err);
 		if (err.err_flag)
 			error_handler(line, line_n, err.err_flag);
+		free(line);
 		line_n++;
 	}
 	check_obj(err.scene_obj);

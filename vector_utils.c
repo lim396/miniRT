@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shongou <shongou@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 23:34:56 by shongou           #+#    #+#             */
+/*   Updated: 2023/01/04 23:34:57 by shongou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 void	print_vector(t_vec vec, char *msg)
@@ -8,24 +20,28 @@ void	print_vector(t_vec vec, char *msg)
 	printf("z: %lf\n", vec.z);
 }
 
-t_vec	set_vec(char *xyz)
+//t_vec	set_vec(char *xyz)
+t_vec	set_vec(char *xyz, int *err_flag)
 {
 	char	**split_xyz;
 	t_vec	vec;
 
+	vec.x = 0;
+	vec.y = 0;
+	vec.z = 0;
 	split_xyz = ft_split(xyz, ',');
+	if (split_xyz == NULL)
+	{
+		*err_flag = MALLOC_ERROR;
+		return (vec);
+	}
 	if (split_xyz[0])
 		vec.x = atod(split_xyz[0]);
-	else
-		printf("ERROR\n");
 	if (split_xyz[1])
 		vec.y = atod(split_xyz[1]);
-	else
-		printf("ERROR\n");
 	if (split_xyz[2])
 		vec.z = atod(split_xyz[2]);
-	else
-		printf("ERROR\n");
+	free_strs(split_xyz);
 	return (vec);
 }
 

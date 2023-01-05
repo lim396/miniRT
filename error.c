@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shongou <shongou@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 23:33:27 by shongou           #+#    #+#             */
+/*   Updated: 2023/01/04 23:33:30 by shongou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 void	display_usage(void)
@@ -51,6 +63,7 @@ void	error_handler(char *line, size_t line_n, int error_flag)
 {
 	printf("ERROR\n");
 	printf("line %zu: %s\n", line_n, line);
+	free(line);
 	display_error(error_flag);
 	display_usage();
 	exit(1);

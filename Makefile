@@ -25,7 +25,8 @@ SRCS = main.c \
 		set_utils2.c \
 		valid_utils.c \
 		window_utils.c \
-		error.c
+		error.c \
+		mlx_error.c
 OBJS = $(SRCS:.c=.o)
 INCLUDE = -I includes -I ./libft/includes
 
@@ -45,7 +46,7 @@ all: $(NAME)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ -I minilibx-linux
 
 $(NAME): $(OBJS) $(LIBFT) $(MINILIBX)
-	$(CC) $(LDFLAGS) $(INCLUDE) -o $(NAME) $(OBJS) $(LIBFT) $(MINILIBX) 
+	$(CC) $(LDFLAGS) $(INCLUDE) -o $(NAME) $(OBJS) $(LIBFT) $(MINILIBX) -lm
 
 $(LIBFT):
 	$(MAKE) -C ./libft
@@ -56,7 +57,7 @@ $(MINILIBX):
 clean:
 	$(MAKE) clean -C ./libft
 	$(MAKE) clean -C ./minilibx-linux
-	$(RM) *.o
+	$(RM) $(OBJS)
 
 fclean: clean
 	$(MAKE) fclean -C ./libft

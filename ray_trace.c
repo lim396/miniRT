@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_trace.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shongou <shongou@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 23:34:20 by shongou           #+#    #+#             */
+/*   Updated: 2023/01/04 23:34:22 by shongou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_color	trace(t_config config, t_ray ray)
@@ -34,6 +46,7 @@ void	ray_trace(t_config config, t_status *status)
 		}
 		y++;
 	}
+	status->config = config;
 	mlx_key_hook(status->mlx_win, key_hook, status);
 	mlx_hook(status->mlx_win, EXPOSE, 1L << 15, &rendering, status);
 	mlx_hook(status->mlx_win, 33, 1 << 17, delete_window, status);
