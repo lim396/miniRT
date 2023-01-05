@@ -46,7 +46,7 @@ void	set_sphere(char **strs, t_config *config, int *err_flag, int *scene_obj)
 		else if (i == 3)
 			shape_node->material.diffuse_ref = set_rgb(strs[i], err_flag);
 		else
-			printf("ERROR\n");
+			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}
 	add_list_last(&config->shape_list, shape_node);
@@ -76,7 +76,7 @@ void	set_cylinder(char **strs, t_config *config, int *err_flag, \
 		else if (i == 5)
 			shape_node->material.diffuse_ref = set_rgb(strs[i], err_flag);
 		else
-			printf("ERROR\n");
+			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}
 	add_list_last(&config->shape_list, shape_node);
@@ -99,7 +99,7 @@ void	set_plane(char **strs, t_config *config, int *err_flag, int *scene_obj)
 		else if (i == 3)
 			shape_node->material.diffuse_ref = set_rgb(strs[i], err_flag);
 		else
-			printf("ERROR\n");
+			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}
 	add_list_last(&config->shape_list, shape_node);

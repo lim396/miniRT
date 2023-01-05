@@ -24,8 +24,9 @@
 # include <float.h>
 # include "mlx_int.h"
 # include "mlx.h"
+
 # define SHININESS 8.0
-#define SPECULAR_REF 0.3
+# define SPECULAR_REF 0.3
 # define __GNU_SOURCE 1
 
 # define EXPOSE 12
@@ -206,7 +207,6 @@ struct s_quadratic
 	double	a;
 	double	b;
 	double	c;
-//	double	d;
 	double	sol1;
 	double	sol2;
 	double	sol;
