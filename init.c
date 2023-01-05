@@ -45,7 +45,7 @@ void	ext_check(char *filename)
 	if (strs == NULL || strs[0] == NULL)
 	{
 		free_strs(strs);
-		error_handler("", 0, INVALID_FILE);
+		error_handler(ft_strdup(""), 0, INVALID_FILE);
 	}
 	else if (strs[1] && !ft_strncmp(strs[1], "rt", ft_strlen(strs[1]) + 1))
 	{
@@ -53,7 +53,7 @@ void	ext_check(char *filename)
 		return ;
 	}
 	free_strs(strs);
-	error_handler("", 0, INVALID_FILE);
+	error_handler(ft_strdup(""), 0, INVALID_FILE);
 }
 
 void	pre_init(char *filename, int *fd, t_config *config, t_err *err)
@@ -79,16 +79,17 @@ t_config	read_map(char *filename)
 	size_t		line_n;
 	t_err		err;
 
-	ext_check(filename);
 	pre_init(filename, &fd, &config, &err);
-	line_n = 1;
 	err.scene_obj = 0;
+	line_n = 1;
 	while (true)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		line = remove_nl(line);
+		line = remove_nl(line, &err);
+		if (line != NULL && line[0] == '\0')
+			continue ;
 		set_config(&config, line, &err);
 		if (err.err_flag)
 			error_handler(line, line_n, err.err_flag);
@@ -102,7 +103,10 @@ t_config	read_map(char *filename)
 t_config	init_config(char **argv)
 {
 	t_config	config;
+	char		*filename;
 
-	config = read_map(argv[1]);
+	filename = argv[1];
+	ext_check(filename);
+	config = read_map(filename);
 	return (config);
 }

@@ -34,7 +34,7 @@ void	free_strs(char **strs)
 	free(strs);
 }
 
-char	*remove_nl(char *str)
+char	*remove_nl(char *str, t_err *err)
 {
 	char	*s;
 	size_t	len;
@@ -47,6 +47,7 @@ char	*remove_nl(char *str)
 	s = (char *)malloc(sizeof(char) * (len + 1));
 	if (s == NULL)
 	{
+		err->err_flag = MALLOC_ERROR;
 		free(str);
 		return (NULL);
 	}

@@ -25,6 +25,7 @@
 # include "mlx_int.h"
 # include "mlx.h"
 # define SHININESS 8.0
+#define SPECULAR_REF 0.3
 # define __GNU_SOURCE 1
 
 # define EXPOSE 12
@@ -205,7 +206,7 @@ struct s_quadratic
 	double	a;
 	double	b;
 	double	c;
-	double	d;
+//	double	d;
 	double	sol1;
 	double	sol2;
 	double	sol;
@@ -264,7 +265,7 @@ t_nearest	get_shadow_ray(t_config config, t_nearest nearest, \
 // utils.c
 void		print_vector(t_vec vec, char *msg);
 void		add_list_last(t_shape **shape_list, t_shape *node);
-char		*remove_nl(char *str);
+char		*remove_nl(char *str, t_err *err);
 void		free_strs(char **strs);
 
 // atod.c

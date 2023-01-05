@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#define SPECULAR_REF 0.3
 
 t_color	add_ambient_luminance(t_config config)
 {

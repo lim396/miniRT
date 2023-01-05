@@ -62,7 +62,8 @@ void	display_error(int error_flag)
 void	error_handler(char *line, size_t line_n, int error_flag)
 {
 	printf("ERROR\n");
-	printf("line %zu: %s\n", line_n, line);
+	if (line_n > 0)
+		printf("line %zu: %s\n", line_n, line);
 	free(line);
 	display_error(error_flag);
 	display_usage();
@@ -78,11 +79,11 @@ void	before_set_config_err_handler(int err_flag)
 
 void	check_obj(int scene_objs)
 {
-	printf("%d\n", scene_objs);
 	if ((scene_objs & C) && (scene_objs & A) && (scene_objs & L) \
 		&& ((scene_objs & SP) || (scene_objs & PL) || (scene_objs & CY)))
 		return ;
 	printf("ERROR\n");
 	printf("not enough objects\n");
+	display_usage();
 	exit(1);
 }
