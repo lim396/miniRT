@@ -31,8 +31,8 @@
 
 # define EXPOSE 12
 
-# define HEIGHT 512
-# define WIDTH 512
+# define HEIGHT 600
+# define WIDTH 800
 
 # define NO_ERROR 0
 # define MLX_INIT_ERR 1
@@ -345,7 +345,7 @@ bool		valid_float(char *str);
 //error.c
 void		check_obj(int scene_objs);
 void		before_set_config_err_handler(int err_flag);
-void		error_handler(char *line, size_t line_n, int error_flag);
+void		error_handler(int fd, char *line, size_t line_n, int error_flag);
 
 //mlx_error.c
 void		print_mlx_error(int flag);

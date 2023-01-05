@@ -45,8 +45,6 @@ void	set_sphere(char **strs, t_config *config, int *err_flag, int *scene_obj)
 			shape_node->sphere.radius = set_size(strs[i], err_flag) / 2.0;
 		else if (i == 3)
 			shape_node->material.diffuse_ref = set_rgb(strs[i], err_flag);
-//		else
-//			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}
 	if (i != 4)
@@ -77,8 +75,6 @@ void	set_cylinder(char **strs, t_config *config, int *err_flag, \
 			shape_node->cylinder.height = set_size(strs[i], err_flag);
 		else if (i == 5)
 			shape_node->material.diffuse_ref = set_rgb(strs[i], err_flag);
-//		else
-//			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}
 	if (i != 6)
@@ -102,8 +98,6 @@ void	set_plane(char **strs, t_config *config, int *err_flag, int *scene_obj)
 			shape_node->plane.normal = set_orientation(strs[i], err_flag);
 		else if (i == 3)
 			shape_node->material.diffuse_ref = set_rgb(strs[i], err_flag);
-//		else
-//			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}
 	if (i != 4)

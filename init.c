@@ -45,7 +45,7 @@ void	ext_check(char *filename)
 	if (strs == NULL || strs[0] == NULL)
 	{
 		free_strs(strs);
-		error_handler(ft_strdup(""), 0, INVALID_FILE);
+		error_handler(-1, ft_strdup(""), 0, INVALID_FILE);
 	}
 	else if (strs[1] && !ft_strncmp(strs[1], "rt", ft_strlen(strs[1]) + 1))
 	{
@@ -53,13 +53,14 @@ void	ext_check(char *filename)
 		return ;
 	}
 	free_strs(strs);
-	error_handler(ft_strdup(""), 0, INVALID_FILE);
+	error_handler(-1, ft_strdup(""), 0, INVALID_FILE);
 }
 
 void	pre_init(char *filename, int *fd, t_config *config, t_err *err)
 {
 	err->err_flag = 0;
-	*fd = open(filename, 0644);
+	err->scene_obj = 0;
+	*fd = open(filename, O_RDONLY);
 	if (*fd < 0)
 		err->err_flag |= OPEN_ERROR;
 	config->shape_list = (t_shape *)malloc(sizeof(t_shape));
@@ -80,7 +81,7 @@ t_config	read_map(char *filename)
 	t_err		err;
 
 	pre_init(filename, &fd, &config, &err);
-	err.scene_obj = 0;
+//	err.scene_obj = 0;
 	line_n = 1;
 	while (true)
 	{
@@ -92,10 +93,11 @@ t_config	read_map(char *filename)
 			continue ;
 		set_config(&config, line, &err);
 		if (err.err_flag)
-			error_handler(line, line_n, err.err_flag);
+			error_handler(fd, line, line_n, err.err_flag);
 		free(line);
 		line_n++;
 	}
+	close(fd);
 	check_obj(err.scene_obj);
 	return (config);
 }

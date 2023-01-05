@@ -21,11 +21,12 @@ void	display_usage(void)
 	ft_putstr_fd("3d normalized orientation vector [-1,1],[-1,1],[-1,1] ", 2);
 	ft_putstr_fd("FOV [0,180]\n", 2);
 	ft_putstr_fd("Identifier [L] x,y,z coordinates [x],[y],[z] ", 2);
-	ft_putstr_fd("light brightness ratio[0.6], RGB [0,255],[0,255],[0,255]\n", 2);
+	ft_putstr_fd("light brightness ratio[0.6], ", 2);
+	ft_putstr_fd("RGB [0,255],[0,255],[0,255]\n", 2);
 	ft_putstr_fd("Identifier [sp] x,y,z coordinates [x],[y],[z] ", 2);
 	ft_putstr_fd("shape diameter [d], RGB [0,255],[0,255],[0,255]\n", 2);
 	ft_putstr_fd("Identifier [pl] x,y,z coordinates [x],[y],[z] ", 2);
-	ft_putstr_fd("normalized orientation vector [-1,1], ",2);
+	ft_putstr_fd("normalized orientation vector [-1,1], ", 2);
 	ft_putstr_fd("RGB [0,255],[0,255],[0,255]\n", 2);
 	ft_putstr_fd("Identifier [cy] x,y,z coordinates [x],[y],[z] ", 2);
 	ft_putstr_fd("normalized orientation vector [-1,1], ", 2);
@@ -61,8 +62,10 @@ void	display_error(int error_flag)
 		ft_putstr_fd("file ext is incorrect\n", 2);
 }
 
-void	error_handler(char *line, size_t line_n, int error_flag)
+void	error_handler(int fd, char *line, size_t line_n, int error_flag)
 {
+	if (fd >= 0)
+		close(fd);
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd("\e[1;31m===Error===\e[0m\n", 2);
 	if (line_n > 0)
@@ -75,7 +78,6 @@ void	error_handler(char *line, size_t line_n, int error_flag)
 		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(line, 2);
 	}
-//		printf("line %zu: %s\n", line_n, line);
 	free(line);
 	display_error(error_flag);
 	display_usage();

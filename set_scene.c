@@ -29,8 +29,6 @@ void	set_ambient(char **strs, t_config *config, int *err_flag, \
 		}
 		else if (i == 2)
 			config->ambient.ambient_illuminance = set_rgb(strs[i], err_flag);
-//		else
-//			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}
 	if (i != 3)
@@ -51,8 +49,6 @@ void	set_light(char **strs, t_config *config, int *err_flag, int *scene_obj)
 			config->light.brightness_ratio = set_ratio(strs[i], err_flag);
 		else if (i == 3)
 			config->light.illuminance = set_rgb(strs[i], err_flag);
-//		else
-//			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}
 	if (i != 4)
@@ -73,8 +69,6 @@ void	set_camera(char **strs, t_config *config, int *err_flag, int *scene_obj)
 			config->camera.orientation = set_orientation(strs[i], err_flag);
 		else if (i == 3)
 			config->camera.fov = set_fov(strs[i], err_flag);
-//		else
-//			*err_flag |= NUMBER_OF_ELEMENT_ERROR;
 		i++;
 	}
 	if (i != 4)
