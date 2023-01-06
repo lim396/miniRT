@@ -41,7 +41,7 @@ void	free_list(t_config config)
 
 int	key_hook(int key, t_status *status)
 {
-	if (key == 65307)
+	if (key == ESC_KEY)
 	{
 		free_list(status->config);
 		delete_window(status);

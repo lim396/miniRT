@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-t_color	trace(t_config config, t_ray ray)
+static t_color	trace(t_config config, t_ray ray)
 {
 	t_nearest		nearest;
 	t_color			color;

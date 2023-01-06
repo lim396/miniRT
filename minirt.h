@@ -30,6 +30,7 @@
 # define __GNU_SOURCE 1
 
 # define EXPOSE 12
+# define ESC_KEY 65307
 
 # define HEIGHT 600
 # define WIDTH 800
@@ -242,16 +243,12 @@ t_config	init_config(char **argv);
 
 // ray_trace.c
 void		ray_trace(t_config config, t_status *status);
-//void		ray_trace(t_config config);
-t_color		trace(t_config config, t_ray ray);
 
 // draw.c
 void		draw(t_color color, int x, int y, t_image img);
-//void		draw(t_color color);
 
 // window_utils.c
 t_status	*mlx_run(t_config config);
-//t_status	*mlx_run(void);
 void		init_image(t_status *status);
 int			delete_window(t_status *status);
 int			key_hook(int key, t_status *status);
@@ -270,31 +267,19 @@ void		free_strs(char **strs);
 
 // atod.c
 double		atod(char *str);
+
 // luminance.c
-t_color		add_specular_luminance(t_nearest nearest, t_light light, \
-		t_vec light_dir, t_ray camera_ray);
-t_color		add_diffuse_luminance(t_shape shape, t_light light, \
-		double normal_light_dir_dot);
-t_color		add_ambient_luminance(t_config config);
 t_color		get_luminance(t_config config, t_nearest nearest, t_ray ray);
 
 // color_utils.c
 t_color		add_color(t_color n, t_color m);
 t_color		set_color(char *rgb, int *err_flag);
-//t_color		set_color(char *rgb);
 
 // get_nearest.c
 t_nearest	get_nearest(t_config config, t_ray ray, double max_d, bool shadow);
 
 // is_hittable.c
-bool		get_intersection(t_cylinder cyl, t_ray ray, t_quadratic quad, \
-		t_intersection *i_point);
 bool		is_hittable(t_shape shape, t_ray ray, t_intersection *i_point);
-bool		is_hittable_plane(t_plane pln, t_ray ray, t_intersection *i_point);
-bool		is_hittable_sphere(t_sphere sph, t_ray ray, \
-		t_intersection *i_point);
-bool		is_hittable_cylinder(t_cylinder cyl, t_ray ray, \
-		t_intersection *i_point);
 
 // equation.c
 double		get_solution_of_quadratic_equation(t_sphere sph, t_ray ray, \
@@ -305,7 +290,7 @@ double		cy_discriminant(t_cylinder cyl, t_ray ray, t_quadratic *quad);
 
 // camera_ray.c
 t_ray		get_camera_ray(double x, double y, t_camera camera);
-void		get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir);
+//void		get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir);
 
 // set_scene.c
 void		set_ambient(char **strs, t_config *config, int *err_flag, \
@@ -322,9 +307,6 @@ void		set_cylinder(char **strs, t_config *config, int *err_flag, \
 		int *scene_obj);
 void		set_plane(char **strs, t_config *config, int *err_flag, \
 		int *scene_obj);
-//void	set_sphere(char **split_line, t_shape **shape_list, int *err_flag);
-//void	set_cylinder(char **split_line, t_shape **shape_list, int *err_flag);
-//void	set_plane(char **split_line, t_shape **shape_list, int *err_flag);
 
 //set_utils.c
 t_vec		set_orientation(char *str, int *err_flag);

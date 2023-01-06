@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-t_color	add_ambient_luminance(t_config config)
+static t_color	add_ambient_luminance(t_config config)
 {
 	t_color	color;
 
@@ -25,7 +25,7 @@ t_color	add_ambient_luminance(t_config config)
 	return (color);
 }
 
-t_color	add_diffuse_luminance(t_shape shape, t_light light, \
+static t_color	add_diffuse_luminance(t_shape shape, t_light light, \
 		double normal_light_dir_dot)
 {
 	t_color	color;
@@ -39,7 +39,7 @@ t_color	add_diffuse_luminance(t_shape shape, t_light light, \
 	return (color);
 }
 
-t_color	add_specular_luminance(t_nearest nearest, t_light light, \
+static t_color	add_specular_luminance(t_nearest nearest, t_light light, \
 		t_vec light_dir, t_ray camera_ray)
 {
 	t_vec	specular_dir;

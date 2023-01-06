@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-bool	get_intersection(t_cylinder cyl, t_ray ray, t_quadratic quad, \
+static bool	get_intersection(t_cylinder cyl, t_ray ray, t_quadratic quad, \
 		t_intersection *i_point)
 {
 	double	pos_to_i_n_dot1;
@@ -41,7 +41,7 @@ bool	get_intersection(t_cylinder cyl, t_ray ray, t_quadratic quad, \
 	return (true);
 }
 
-bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point)
+static bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point)
 {
 	double	d;
 	double	t;
@@ -58,7 +58,7 @@ bool	is_hittable_sphere(t_sphere sph, t_ray ray, t_intersection *i_point)
 	return (false);
 }
 
-bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection *i_point)
+static bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection *i_point)
 {
 	t_vec	pln_to_ray;
 	double	dot_ray_dir_pln_normal;
@@ -80,7 +80,8 @@ bool	is_hittable_plane(t_plane pln, t_ray ray, t_intersection *i_point)
 	return (false);
 }
 
-bool	is_hittable_cylinder(t_cylinder cyl, t_ray ray, t_intersection *i_point)
+static bool	is_hittable_cylinder(t_cylinder cyl, t_ray ray, \
+		t_intersection *i_point)
 {
 	double		d;
 	double		t;

@@ -19,7 +19,7 @@
 //#define __GNU_SOURCE 1
 #include "minirt.h"
 
-double	my_atod(char *str)
+static double	my_atod(char *str)
 {
 	double	ret;
 	double	base;
@@ -59,7 +59,7 @@ void printb(unsigned long long v) {
 	printf("put %zu\n", cnt);
 }*/
 
-double	is_number(double num, int sign)
+static double	is_number(double num, int sign)
 {
 	unsigned long long	valid_bit1;
 	unsigned long long	valid_bit2;

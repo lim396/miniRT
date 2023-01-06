@@ -16,7 +16,7 @@ double	set_fov(char *str, int *err_flag)
 {
 	double	fov;
 
-	if (!valid_digit(str))
+	if (!valid_float(str))
 	{
 		*err_flag |= INVALID_FOV;
 		return (0);

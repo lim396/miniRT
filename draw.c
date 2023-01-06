@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-void	ft_mlx_put_pixel(t_image img, int x, int y, int rgb)
+static void	ft_mlx_put_pixel(t_image img, int x, int y, int rgb)
 {
 	char	*dst;
 

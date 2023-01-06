@@ -88,7 +88,7 @@ bool	valid_color(char *str)
 	i = 0;
 	while (split_str[i])
 	{
-		if (!valid_digit(split_str[i]))
+		if (!valid_float(split_str[i]))
 		{
 			free_strs(split_str);
 			return (false);

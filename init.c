@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-void	set_config(t_config *config, const char *line, t_err *err)
+static void	set_config(t_config *config, const char *line, t_err *err)
 {
 	char	**split_line;
 
@@ -37,7 +37,7 @@ void	set_config(t_config *config, const char *line, t_err *err)
 	free_strs(split_line);
 }
 
-void	ext_check(char *filename)
+static void	ext_check(char *filename)
 {
 	char	**strs;
 
@@ -56,7 +56,7 @@ void	ext_check(char *filename)
 	error_handler(-1, ft_strdup(""), 0, INVALID_FILE);
 }
 
-void	pre_init(char *filename, int *fd, t_config *config, t_err *err)
+static void	pre_init(char *filename, int *fd, t_config *config, t_err *err)
 {
 	err->err_flag = 0;
 	err->scene_obj = 0;
@@ -72,7 +72,7 @@ void	pre_init(char *filename, int *fd, t_config *config, t_err *err)
 	config->shape_list->type = ST_NONE;
 }
 
-t_config	read_map(char *filename)
+static t_config	read_map(char *filename)
 {
 	char		*line;
 	t_config	config;

@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-void	get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir)
+static void	get_basis_vector(t_vec *esx, t_vec *esy, t_vec cam_dir)
 {
 	if (cam_dir.x == 0 && cam_dir.z == 0 && cam_dir.y)
 	{
