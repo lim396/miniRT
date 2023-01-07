@@ -1,6 +1,6 @@
 CC = gcc 
 CFLAGS = -Wall -Wextra -Werror -g -I /usr/X11/include
-NAME = minirt
+NAME = miniRT
 LIBFT = ./libft/libft.a
 MINILIBX = ./minilibx-linux
 SRCS = main.c \

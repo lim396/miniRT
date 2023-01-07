@@ -14,6 +14,8 @@
 
 void	print_mlx_error(int flag)
 {
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd("\e[1;31m===Error===\e[0m\n", 2);
 	if (flag & MLX_INIT_ERR)
 		printf("mlx_init_error\n");
 	if (flag & NEW_WINDOW_ERR)
